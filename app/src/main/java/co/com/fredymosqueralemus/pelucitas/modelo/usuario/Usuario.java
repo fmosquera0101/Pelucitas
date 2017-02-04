@@ -1,5 +1,8 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.usuario;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 
 /**
@@ -7,13 +10,23 @@ import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
  * Created by fredymosqueralemus on 3/02/17.
  */
 
-public class Usuario {
+public class Usuario implements Serializable {
+    private String keyuid;
     private String cedulaIdentificacion;
     private String nombre;
     private String apellidos;
     private String telefono;
     private String perfil;
     private Direccion direccion;
+    private Date fechaNacimiento;
+
+    public String getKeyuid() {
+        return keyuid;
+    }
+
+    public void setKeyuid(String keyuid) {
+        this.keyuid = keyuid;
+    }
 
     public String getCedulaIdentificacion() {
         return cedulaIdentificacion;
@@ -61,5 +74,13 @@ public class Usuario {
 
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

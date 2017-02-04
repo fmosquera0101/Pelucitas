@@ -15,9 +15,29 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="co.com.fredymosqueralemus.pelucitas.RegistrarDireccionActivity">
+
+    <EditText
+        android:id="@+id/pais_etxt_registrardireccionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_pais"/>
+
+    <EditText
+        android:id="@+id/departamento_etxt_registrardireccionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_departamento"/>
+
+    <EditText
+        android:id="@+id/ciudad_etxt_registrardireccionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_ciudad"/>
+
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/str_domicilio" />
 
     <GridLayout

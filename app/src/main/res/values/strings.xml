@@ -24,6 +24,16 @@
     <string name="str_datosadicionales">Datos adicionales</string>
     <string name="str_ej_datosadicionales">Ej: Piso 2, Dpto, 3, Timbre 5</string>
     <string name="str_barrio">Barrio</string>
+    <string name="str_pais">País</string>
+    <string name="str_departamento">Departamento</string>
+    <string name="str_ciudad">Ciudad</string>
+
+    <string name="str_autenticacion_exitosa">Autenticación exitosa</string>
+    <string name="str_autenticacion_fallida">Autenticación fallida</string>
+    <string name="str_creacionusuario_exitosa">Usuario creado exitosamente</string>
+    <string name="str_creacionusuario_fallida">No se pudo crear el usuario</string>
+
+
 
 
 </resources>
