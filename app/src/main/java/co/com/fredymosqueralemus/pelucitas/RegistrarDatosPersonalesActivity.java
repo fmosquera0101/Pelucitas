@@ -14,6 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
+/**
+ * Created by Fredy Mosquera Lemus on 2/02/17.
+ */
+
 public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
     private EditText etxtCedulaIdentificacion;

@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Esta clase representa el negocio, entidad o local ( peluqueria, barberia, salon de belleza)
- * Created by fredymosqueralemus on 2/02/17.
+ * Created by Fredy Mosquera Lemus on 2/02/17.
  */
 
 public class MiNegocio implements Serializable {

@@ -2,7 +2,7 @@ package co.com.fredymosqueralemus.pelucitas.modelo.minegocio;
 
 /**
  * Esta clase representa los tipos de negocios (peluqueria, barberia, salon de belleza)
- * Created by fredymosqueralemus on 2/02/17.
+ * Created by Fredy Mosquera Lemus on 2/02/17.
  */
 public class TipoNegocio {
     private String tipoNegocio;

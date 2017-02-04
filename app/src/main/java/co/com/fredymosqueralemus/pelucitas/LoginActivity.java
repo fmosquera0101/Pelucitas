@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Created by Fredy Mosquera Lemus on 2/02/17.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override

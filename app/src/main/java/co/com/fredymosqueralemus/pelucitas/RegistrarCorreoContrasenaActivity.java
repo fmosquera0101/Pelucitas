@@ -13,6 +13,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Created by Fredy Mosquera Lemus on 2/02/17.
+ */
 public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
