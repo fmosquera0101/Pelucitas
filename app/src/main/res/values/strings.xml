@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">Pelucitas</string>
+    <string name="login_activity_name">Iniciar sesión</string>
+    <string name="activity_registrar_correo_contrasena">Registrar</string>
+    <string name="activity_registrar_datos_personales">Datos personales</string>
+
+
+    <string name="str_correo">Correo</string>
+    <string name="str_contrasena">Contraseña</string>
+    <string name="str_siguiente">Siguiente</string>
+    <string name="str_iniciarsesion">Iniciar</string>
+    <string name="str_crearcuenta">Crear cuenta</string>
+    <string name="str_cedula">Cedula/Identificación</string>
+    <string name="str_nombre">Nombre</string>
+    <string name="str_telefono">Teléfono (Opcional)</string>
+    <string name="str_apellidos">Apellidos</string>
+    <string name="activity_registrar_direccion">Dirección</string>
+    <string name="str_domicilio">Domicilio</string>
+    <string name="str_carreracalle">Ej:calle 123</string>
+    <string name="str_numeral">#</string>
+    <string name="str_separador">-</string>
+    <string name="str_numero1">45</string>
+    <string name="str_numero2">23</string>
+    <string name="str_datosadicionales">Datos adicionales</string>
+    <string name="str_ej_datosadicionales">Ej: Piso 2, Dpto, 3, Timbre 5</string>
+    <string name="str_barrio">Barrio</string>
+
+
 </resources>
