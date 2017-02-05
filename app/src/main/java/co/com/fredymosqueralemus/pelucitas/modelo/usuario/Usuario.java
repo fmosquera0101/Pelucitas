@@ -11,21 +11,24 @@ import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
  */
 
 public class Usuario implements Serializable {
-    private String keyuid;
+    private String keyUid;
     private String cedulaIdentificacion;
     private String nombre;
     private String apellidos;
     private String telefono;
     private String perfil;
     private Direccion direccion;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
 
-    public String getKeyuid() {
-        return keyuid;
+    private String fechaInsercion;
+    private String fechaModificacion;
+
+    public String getKeyUid() {
+        return keyUid;
     }
 
-    public void setKeyuid(String keyuid) {
-        this.keyuid = keyuid;
+    public void setKeyUid(String keyUid) {
+        this.keyUid = keyUid;
     }
 
     public String getCedulaIdentificacion() {
@@ -60,10 +63,6 @@ public class Usuario implements Serializable {
         this.telefono = telefono;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
-
     public String getPerfil() {
         return perfil;
     }
@@ -72,15 +71,35 @@ public class Usuario implements Serializable {
         this.perfil = perfil;
     }
 
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getFechaInsercion() {
+        return fechaInsercion;
+    }
+
+    public void setFechaInsercion(String fechaInsercion) {
+        this.fechaInsercion = fechaInsercion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 }

@@ -12,7 +12,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
@@ -49,14 +54,17 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
     public void registrarDatosPersonales(View view){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Usuarios/"+firebaseUser.getUid());
 
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
         Usuario mUsuario = new Usuario();
-        mUsuario.setKeyuid(firebaseUser.getUid());
+        mUsuario.setKeyUid(firebaseUser.getUid());
         mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString());
-        mUsuario.setNombre(etxtNombre.getText().toString());
-        mUsuario.setApellidos(etxtApellidos.getText().toString());
-        mUsuario.setTelefono(etxtTelefono.getText() != null?etxtTelefono.getText().toString():"none");
+        mUsuario.setNombre(etxtNombre.getText().toString().trim());
+        mUsuario.setApellidos(etxtApellidos.getText().toString().trim());
+        mUsuario.setTelefono(etxtTelefono.getText() != null?etxtTelefono.getText().toString().trim():"-");
+        mUsuario.setFechaNacimiento(UtilidadesFecha.convertirDateAString(new Date()));
+        mUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+        mUsuario.setFechaModificacion(null);
 
         databaseReference.setValue(mUsuario);
 

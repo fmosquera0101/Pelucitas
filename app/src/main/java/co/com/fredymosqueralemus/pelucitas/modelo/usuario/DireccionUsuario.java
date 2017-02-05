@@ -1,4 +1,4 @@
-package co.com.fredymosqueralemus.pelucitas.modelo.minegocio;
+package co.com.fredymosqueralemus.pelucitas.modelo.usuario;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,20 +6,20 @@ import java.util.Date;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 
 /**
- * Created by Fredy Mosquera Lemus on 2/02/17.
+ * Created by Fredy Mosquera Lemus on 4/02/17.
  */
-public class DireccionNegocio extends Direccion implements Serializable {
 
-    private String nitIdentificacionNegocio;
+public class DireccionUsuario extends Direccion implements Serializable {
+    private String keyUidUsuario;
     private Date fechaInsercion;
     private Date fechaModificacion;
 
-    public String getNitIdentificacionNegocio() {
-        return nitIdentificacionNegocio;
+    public String getKeyUidUsuario() {
+        return keyUidUsuario;
     }
 
-    public void setNitIdentificacionNegocio(String nitIdentificacionNegocio) {
-        this.nitIdentificacionNegocio = nitIdentificacionNegocio;
+    public void setKeyUidUsuario(String keyUidUsuario) {
+        this.keyUidUsuario = keyUidUsuario;
     }
 
     @Override

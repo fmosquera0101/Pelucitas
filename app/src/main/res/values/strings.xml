@@ -32,8 +32,12 @@
     <string name="str_autenticacion_fallida">Autenticación fallida</string>
     <string name="str_creacionusuario_exitosa">Usuario creado exitosamente</string>
     <string name="str_creacionusuario_fallida">No se pudo crear el usuario</string>
-
-
+    <string name="str_fechanacimiento">Fecha de nacimiento</string>
+    <string name="activity_registrar_perfil_usuario">Elegir perfil</string>
+    <string name="str_msjelegirperfil">Debes elegir un perfil para usar la aplicación, si no eliges ninguno el registro se hará con el perfil cliente por defecto</string>
+    <string name="srt_perfilcliente">Cliente</string>
+    <string name="srt_perfilempleado">Empleado</string>
+    <string name="srt_perfiladministrador">Administrador</string>
 
 
 </resources>

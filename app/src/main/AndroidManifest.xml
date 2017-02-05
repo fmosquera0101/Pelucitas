@@ -28,9 +28,12 @@
             android:label="@string/activity_registrar_correo_contrasena" />
         <activity
             android:name=".RegistrarDatosPersonalesActivity"
-            android:label="@string/activity_registrar_datos_personales"></activity>
-        <activity android:name=".RegistrarDireccionActivity"
-            android:label="@string/activity_registrar_direccion">
+            android:label="@string/activity_registrar_datos_personales" />
+        <activity
+            android:name=".RegistrarDireccionActivity"
+            android:label="@string/activity_registrar_direccion"></activity>
+        <activity android:name=".RegistrarPerfilUsuarioActivity"
+            android:label="@string/activity_registrar_perfil_usuario">
 
         </activity>
     </application>
