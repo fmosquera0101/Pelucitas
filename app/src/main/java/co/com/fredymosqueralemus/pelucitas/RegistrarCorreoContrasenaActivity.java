@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
@@ -33,9 +39,12 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
 
     }
     public void registrarCorreoContrasena(View view){
+
         String correo = etxtCorreo.getText().toString();
         String contrasena = etxtContrasena.getText().toString();
-        crearUsuarioConCorreoContrasena(correo, contrasena);
+        if(isCorreoValido(correo) && isContrasenaValida(contrasena)){
+            crearUsuarioConCorreoContrasena(correo.trim(), contrasena.trim());
+        }
 
     }
     public void crearUsuarioConCorreoContrasena(String correo, String contrasena){
@@ -59,4 +68,37 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         Intent mIntent = new Intent(this, RegistrarDatosPersonalesActivity.class);
         startActivity(mIntent);
     }
+    private boolean isCorreoValido(String correo){
+        boolean isCorreoValido = true;
+        if(TextUtils.isEmpty(correo)){
+            etxtCorreo.requestFocus();
+            etxtCorreo.setError(getString(R.string.error_campo_requerido));
+            isCorreoValido = false;
+        }else if(!isDireccionCorreoValida(correo.trim())){
+            etxtCorreo.requestFocus();
+            etxtCorreo.setError(getString(R.string.error_msj_correonovalido));
+            isCorreoValido = false;
+        }
+        return isCorreoValido;
+
+    }
+    private boolean isDireccionCorreoValida(String correo){
+        Pattern pattern = Pattern.compile(Constantes.PETTERN_VALIDA_CORREO);
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
+    }
+    private boolean isContrasenaValida(String contrasena){
+        if(TextUtils.isEmpty(contrasena)){
+            etxtContrasena.requestFocus();
+            etxtContrasena.setError(getString(R.string.error_msj_correonovalido));
+            return false;
+        } else if(contrasena.trim().length() < 6){
+            etxtContrasena.requestFocus();
+            etxtContrasena.setError(getString(R.string.error_msj_contrasenadebil));
+            return false;
+        }
+
+        return true;
+    }
+
 }

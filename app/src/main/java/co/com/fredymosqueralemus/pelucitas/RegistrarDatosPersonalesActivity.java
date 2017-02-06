@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -56,19 +57,21 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
-        Usuario mUsuario = new Usuario();
-        mUsuario.setKeyUid(firebaseUser.getUid());
-        mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString());
-        mUsuario.setNombre(etxtNombre.getText().toString().trim());
-        mUsuario.setApellidos(etxtApellidos.getText().toString().trim());
-        mUsuario.setTelefono(etxtTelefono.getText() != null?etxtTelefono.getText().toString().trim():"-");
-        mUsuario.setFechaNacimiento(UtilidadesFecha.convertirDateAString(new Date()));
-        mUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-        mUsuario.setFechaModificacion(null);
+        if(!isAlgunCampoDatosPersonalesVacio()) {
+            Usuario mUsuario = new Usuario();
+            mUsuario.setKeyUid(firebaseUser.getUid());
+            mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString());
+            mUsuario.setNombre(etxtNombre.getText().toString().trim());
+            mUsuario.setApellidos(etxtApellidos.getText().toString().trim());
+            mUsuario.setTelefono(etxtTelefono.getText() != null ? etxtTelefono.getText().toString().trim() : "-");
+            mUsuario.setFechaNacimiento(UtilidadesFecha.convertirDateAString(new Date()));
+            mUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            mUsuario.setFechaModificacion(null);
 
-        databaseReference.setValue(mUsuario);
+            databaseReference.setValue(mUsuario);
 
-        abrirActivityRegistrarDireccion();
+            abrirActivityRegistrarDireccion();
+        }
 
     }
     public void abrirActivityRegistrarDireccion(){
@@ -87,5 +90,28 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
         if(mAuthStateListener != null){
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
+    }
+
+    private boolean isAlgunCampoDatosPersonalesVacio(){
+        boolean isCamposVacio = false;
+        if(TextUtils.isEmpty(etxtCedulaIdentificacion.getText())){
+            etxtCedulaIdentificacion.requestFocus();
+            etxtCedulaIdentificacion.setError(getString(R.string.error_campo_requerido));
+            isCamposVacio = true;
+        }else if(TextUtils.isEmpty(etxtNombre.getText())){
+            etxtNombre.requestFocus();
+            etxtNombre.setError(getString(R.string.error_campo_requerido));
+            isCamposVacio = true;
+        }else if(TextUtils.isEmpty(etxtApellidos.getText())){
+            etxtApellidos.requestFocus();
+            etxtApellidos.setError(getString(R.string.error_campo_requerido));
+            isCamposVacio = true;
+        }else if(TextUtils.isEmpty(etxtTelefono.getText())){
+            etxtTelefono.requestFocus();
+            etxtTelefono.setError(getString(R.string.error_campo_requerido));
+            isCamposVacio = true;
+        }
+
+        return isCamposVacio;
     }
 }

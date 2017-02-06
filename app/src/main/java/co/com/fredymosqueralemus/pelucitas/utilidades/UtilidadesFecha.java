@@ -12,7 +12,7 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 public class UtilidadesFecha {
 
     public static String convertirDateAString(Date dateFecha){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constantes.formatoFechayyymmdd);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constantes.FORMATO_FECHAYYYMMDD);
         return simpleDateFormat.format(dateFecha);
     }
 }

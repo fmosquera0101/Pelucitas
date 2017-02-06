@@ -10,7 +10,7 @@ public class UtilidadesFirebaseBD {
 
     public static String getUrlInserccionUsuario(String usuarioUid){
         StringBuilder strbNodoInserUsuario = new StringBuilder();
-        strbNodoInserUsuario.append(Constantes.usuarioFirebaseBD);
+        strbNodoInserUsuario.append(Constantes.USUARIO_FIREBASE_BD);
         strbNodoInserUsuario.append("/");
         strbNodoInserUsuario.append(usuarioUid);
 
