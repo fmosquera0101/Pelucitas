@@ -42,6 +42,7 @@
     <string name="error_campo_requerido">Este campo es requerido</string>
     <string name="error_msj_correonovalido">Dirección de correo no válida</string>
     <string name="error_msj_contrasenadebil">Debes elegir una contraseña de almenos 6 caracteres</string>
+    <string name="error_fechanacimiento_novalida">Fecha de nacimiento no valida</string>
 
 
 </resources>
