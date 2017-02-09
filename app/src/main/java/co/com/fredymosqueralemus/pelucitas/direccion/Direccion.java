@@ -16,8 +16,8 @@ public class Direccion {
     private String barrio;
     private String datosAdicionales;
 
-    private Date fechaInsercion;
-    private Date fechaModificacion;
+    private String fechaInsercion;
+    private String fechaModificacion;
 
     public String getPais() {
         return pais;
@@ -83,19 +83,19 @@ public class Direccion {
         this.datosAdicionales = datosAdicionales;
     }
 
-    public Date getFechaInsercion() {
+    public String getFechaInsercion() {
         return fechaInsercion;
     }
 
-    public void setFechaInsercion(Date fechaInsercion) {
+    public void setFechaInsercion(String fechaInsercion) {
         this.fechaInsercion = fechaInsercion;
     }
 
-    public Date getFechaModificacion() {
+    public String getFechaModificacion() {
         return fechaModificacion;
     }
 
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 }

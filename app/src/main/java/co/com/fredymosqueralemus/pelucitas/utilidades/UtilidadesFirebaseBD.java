@@ -3,7 +3,7 @@ package co.com.fredymosqueralemus.pelucitas.utilidades;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 
 /**
- * Created by fredymosqueralemus on 4/02/17.
+ * Created by Fredy Mosquera Lemus on 4/02/17.
  */
 
 public class UtilidadesFirebaseBD {
@@ -15,5 +15,14 @@ public class UtilidadesFirebaseBD {
         strbNodoInserUsuario.append(usuarioUid);
 
         return strbNodoInserUsuario.toString();
+    }
+
+    public static String getUrlInserccionDireccionesXUsuario(String usuarioUid){
+        StringBuilder strbNodoInserccionesDireccionXUsuario = new StringBuilder();
+        strbNodoInserccionesDireccionXUsuario.append(Constantes.DIRECCIONES_X_USUARIO_FIREBASE_BD);
+        strbNodoInserccionesDireccionXUsuario.append("/");
+        strbNodoInserccionesDireccionXUsuario.append(usuarioUid);
+
+        return strbNodoInserccionesDireccionXUsuario.toString();
     }
 }

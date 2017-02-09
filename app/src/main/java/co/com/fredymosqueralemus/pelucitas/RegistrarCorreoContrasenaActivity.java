@@ -69,17 +69,16 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         startActivity(mIntent);
     }
     private boolean isCorreoValido(String correo){
-        boolean isCorreoValido = true;
         if(TextUtils.isEmpty(correo)){
             etxtCorreo.requestFocus();
             etxtCorreo.setError(getString(R.string.error_campo_requerido));
-            isCorreoValido = false;
+            return false;
         }else if(!isDireccionCorreoValida(correo.trim())){
             etxtCorreo.requestFocus();
             etxtCorreo.setError(getString(R.string.error_msj_correonovalido));
-            isCorreoValido = false;
+            return false;
         }
-        return isCorreoValido;
+        return true;
 
     }
     private boolean isDireccionCorreoValida(String correo){
@@ -90,7 +89,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
     private boolean isContrasenaValida(String contrasena){
         if(TextUtils.isEmpty(contrasena)){
             etxtContrasena.requestFocus();
-            etxtContrasena.setError(getString(R.string.error_msj_correonovalido));
+            etxtContrasena.setError(getString(R.string.error_campo_requerido));
             return false;
         } else if(contrasena.trim().length() < 6){
             etxtContrasena.requestFocus();

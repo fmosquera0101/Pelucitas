@@ -26,13 +26,13 @@
     <string name="str_barrio">Barrio</string>
     <string name="str_pais">País</string>
     <string name="str_departamento">Departamento</string>
-    <string name="str_ciudad">Ciudad</string>
+    <string name="str_ciudad">Ciudad/Municipio</string>
 
     <string name="str_autenticacion_exitosa">Autenticación exitosa</string>
     <string name="str_autenticacion_fallida">Autenticación fallida</string>
     <string name="str_creacionusuario_exitosa">Usuario creado exitosamente</string>
     <string name="str_creacionusuario_fallida">No se pudo crear el usuario</string>
-    <string name="str_fechanacimiento">Fecha de nacimiento</string>
+    <string name="str_fechanacimiento">Fecha de nacimiento (dd/mm/yyyy)</string>
     <string name="activity_registrar_perfil_usuario">Elegir perfil</string>
     <string name="str_msjelegirperfil">Debes elegir un perfil para usar la aplicación, si no eliges ninguno el registro se hará con el perfil cliente por defecto</string>
     <string name="srt_perfilcliente">Cliente</string>
@@ -43,6 +43,7 @@
     <string name="error_msj_correonovalido">Dirección de correo no válida</string>
     <string name="error_msj_contrasenadebil">Debes elegir una contraseña de almenos 6 caracteres</string>
     <string name="error_fechanacimiento_novalida">Fecha de nacimiento no valida</string>
+    <string name="error_numerotelefononovalido">Número de teléfono no valido</string>
 
 
 </resources>

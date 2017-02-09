@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,10 +60,11 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
     }
 
     public void registrarDatosPersonales(View view){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
         if(!isAlgunCampoDatosPersonalesVacio()) {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+
             Usuario mUsuario = new Usuario();
             mUsuario.setKeyUid(firebaseUser.getUid());
             mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString());
@@ -97,33 +100,53 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
     }
 
     private boolean isAlgunCampoDatosPersonalesVacio(){
-        boolean isCamposVacio = false;
+
         if(TextUtils.isEmpty(etxtCedulaIdentificacion.getText())){
             etxtCedulaIdentificacion.requestFocus();
             etxtCedulaIdentificacion.setError(getString(R.string.error_campo_requerido));
-            isCamposVacio = true;
-        }else if(TextUtils.isEmpty(etxtNombre.getText())){
-            etxtNombre.requestFocus();
-            etxtNombre.setError(getString(R.string.error_campo_requerido));
-            isCamposVacio = true;
-        }else if(TextUtils.isEmpty(etxtApellidos.getText())){
-            etxtApellidos.requestFocus();
-            etxtApellidos.setError(getString(R.string.error_campo_requerido));
-            isCamposVacio = true;
-        }else if(TextUtils.isEmpty(etxtTelefono.getText())){
-            etxtTelefono.requestFocus();
-            etxtTelefono.setError(getString(R.string.error_campo_requerido));
-            isCamposVacio = true;
-        }
-        if(TextUtils.isEmpty(etxtFechaNacimiento.getText()) ){
-            etxtFechaNacimiento.setError(getString(R.string.error_campo_requerido));
-            isCamposVacio = true;
-        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString()))){
-            etxtFechaNacimiento.setError(getString(R.string.error_fechanacimiento_novalida));
-            isCamposVacio = true;
+            return true;
         }
 
-        return isCamposVacio;
+        if(TextUtils.isEmpty(etxtNombre.getText())){
+            etxtNombre.requestFocus();
+            etxtNombre.setError(getString(R.string.error_campo_requerido));
+            return true;
+        }
+
+        if(TextUtils.isEmpty(etxtApellidos.getText())){
+            etxtApellidos.requestFocus();
+            etxtApellidos.setError(getString(R.string.error_campo_requerido));
+            return true;
+        }
+        if(!TextUtils.isEmpty(etxtTelefono.getText())){
+            int tamanoTelefono = etxtTelefono.getText().length();
+            if(tamanoTelefono < Constantes.NUMERO6 || tamanoTelefono > Constantes.NUMERO10){
+                etxtTelefono.setError(getString(R.string.error_numerotelefononovalido));
+                return true;
+            }
+        }
+
+        if(TextUtils.isEmpty(etxtFechaNacimiento.getText()) ){
+            etxtFechaNacimiento.requestFocus();
+            etxtFechaNacimiento.setError(getString(R.string.error_campo_requerido));
+            return true;
+        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString()))){
+            etxtFechaNacimiento.requestFocus();
+            etxtFechaNacimiento.setError(getString(R.string.error_fechanacimiento_novalida));
+            return true;
+        }
+        /*
+        else if(!UtilidadesFecha.isFechaddmmyyyy(etxtFechaNacimiento.getText().toString())){
+            etxtFechaNacimiento.requestFocus();
+            etxtFechaNacimiento.setError(getString(R.string.error_fechanacimiento_novalida));
+            return true;
+        }
+         */
+
+
+
+
+        return false;
     }
 
     /**
@@ -141,12 +164,17 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
                 actualizarEditTextFechaNacimiento(calendar);
             }
         };
-        etxtFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+
+        etxtFechaNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                new DatePickerDialog(RegistrarDatosPersonalesActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    new DatePickerDialog(RegistrarDatosPersonalesActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    etxtFechaNacimiento.clearFocus();
+                }
             }
         });
+
     }
     private void actualizarEditTextFechaNacimiento(Calendar calendar) {
         etxtFechaNacimiento.setText(UtilidadesFecha.convertirDateAString(calendar.getTime()));
@@ -162,8 +190,8 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
      */
     private boolean esfechaNacimientoValida(Date fechaNacimiento){
         boolean isFechaValida = true;
-        Date fechaHoy = new Date();
-        if (fechaNacimiento.equals(UtilidadesFecha.formatearDate(fechaHoy)) || fechaNacimiento.after(fechaHoy)){
+        Date fechaHoy = UtilidadesFecha.formatearDate(new Date());
+        if (fechaNacimiento.equals(fechaHoy) || fechaNacimiento.after(fechaHoy)){
             return false;
         }
         return isFechaValida;

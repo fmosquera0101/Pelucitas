@@ -40,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/str_telefono"
+        android:inputType="number"
+        android:digits="0123456789"
         />
     <EditText
         android:id="@+id/fechanacimiento_ext_registrardatospersonaleslayout"
@@ -47,6 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/str_fechanacimiento"
+        android:inputType="none"
+
         />
     <Button
         android:id="@+id/siguiente_btn_registrardatospersonaleslayout"

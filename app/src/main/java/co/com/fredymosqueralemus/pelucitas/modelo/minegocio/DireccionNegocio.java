@@ -11,8 +11,8 @@ import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 public class DireccionNegocio extends Direccion implements Serializable {
 
     private String nitIdentificacionNegocio;
-    private Date fechaInsercion;
-    private Date fechaModificacion;
+    private String fechaInsercion;
+    private String fechaModificacion;
 
     public String getNitIdentificacionNegocio() {
         return nitIdentificacionNegocio;
@@ -23,22 +23,22 @@ public class DireccionNegocio extends Direccion implements Serializable {
     }
 
     @Override
-    public Date getFechaInsercion() {
+    public String getFechaInsercion() {
         return fechaInsercion;
     }
 
     @Override
-    public void setFechaInsercion(Date fechaInsercion) {
+    public void setFechaInsercion(String fechaInsercion) {
         this.fechaInsercion = fechaInsercion;
     }
 
     @Override
-    public Date getFechaModificacion() {
+    public String getFechaModificacion() {
         return fechaModificacion;
     }
 
     @Override
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 }
