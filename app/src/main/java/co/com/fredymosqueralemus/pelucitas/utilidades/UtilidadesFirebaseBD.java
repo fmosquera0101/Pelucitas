@@ -25,4 +25,26 @@ public class UtilidadesFirebaseBD {
 
         return strbNodoInserccionesDireccionXUsuario.toString();
     }
+    public static String getUrlInsercionPerfilCliente(String usuarioUid){
+        return getUrlInsertPerfiles(Constantes.PERFIL_CLIENTE_FIREBASE_BD, usuarioUid);
+    }
+    public static String getUrlInserccionPerfilEmpleado(String usuarioUid){
+        return getUrlInsertPerfiles(Constantes.PERFIL_EMPLEADO_FIREBASE_BD, usuarioUid);
+    }
+    public static String getUrlInserccionPerfilAdministrador(String usuarioUid){
+
+        return getUrlInsertPerfiles(Constantes.PERFIL_ADMINISTRADOR_FIREBASE_BD, usuarioUid);
+    }
+    private static String getUrlInsertPerfiles(String strPerfil, String usuarioUid){
+        StringBuilder strbNodoInserPerfilAdministrador = new StringBuilder();
+        strbNodoInserPerfilAdministrador.append(Constantes.PERFILESX_USUARIO_FIREBASE_BD);
+        strbNodoInserPerfilAdministrador.append("/");
+        strbNodoInserPerfilAdministrador.append(strPerfil);
+        strbNodoInserPerfilAdministrador.append("/");
+        strbNodoInserPerfilAdministrador.append(usuarioUid);
+        strbNodoInserPerfilAdministrador.append("/");
+
+        return strbNodoInserPerfilAdministrador.toString();
+
+    }
 }

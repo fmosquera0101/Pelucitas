@@ -1,0 +1,35 @@
+package co.com.fredymosqueralemus.pelucitas.modelo.usuario;
+
+/**
+ * Created by Fredy Mosquera Lemus on 9/02/17.
+ */
+
+public class PerfilesXUsuario {
+    private String keyUsuarioId;
+    private String fechaInsercion;
+    private String fechaModificacion;
+
+    public String getKeyUsuarioId() {
+        return keyUsuarioId;
+    }
+
+    public void setKeyUsuarioId(String keyUsuarioId) {
+        this.keyUsuarioId = keyUsuarioId;
+    }
+
+    public String getFechaInsercion() {
+        return fechaInsercion;
+    }
+
+    public void setFechaInsercion(String fechaInsercion) {
+        this.fechaInsercion = fechaInsercion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+}

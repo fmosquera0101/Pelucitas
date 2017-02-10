@@ -37,43 +37,6 @@
                 android:padding="16dp"
                 android:rowCount="2">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/icono_perfil_cliente"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/usuario"
-                        />
-
-                    <TextView
-                        android:id="@+id/perfilcliente_textv_registrarperfillayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toRightOf="@+id/icono_perfil_cliente"
-                        android:text="@string/srt_perfilcliente"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <CheckBox
-                        android:id="@+id/perfilcliente_chkbx_registrarperfillayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:enabled="false"
-                        />
-
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -108,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:enabled="false"
+                        android:enabled="true"
                         />
 
                 </RelativeLayout>
@@ -146,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:enabled="false"
+                        android:enabled="true"
                         />
 
                 </RelativeLayout>
@@ -159,7 +122,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/str_siguiente"/>
+            android:text="@string/str_siguiente"
+            android:onClick="registrarPerfilesXUsuario"/>
 
     </LinearLayout>
 </ScrollView>

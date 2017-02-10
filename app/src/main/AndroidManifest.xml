@@ -31,11 +31,13 @@
             android:label="@string/activity_registrar_datos_personales" />
         <activity
             android:name=".RegistrarDireccionActivity"
-            android:label="@string/activity_registrar_direccion"></activity>
-        <activity android:name=".RegistrarPerfilUsuarioActivity"
-            android:label="@string/activity_registrar_perfil_usuario">
-
-        </activity>
+            android:label="@string/activity_registrar_direccion" />
+        <activity
+            android:name=".RegistrarPerfilUsuarioActivity"
+            android:label="@string/activity_registrar_perfil_usuario" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".RegistrarMiNegocioActivity" />
+        <activity android:name=".RegistrarHorarioActivity"></activity>
     </application>
 
 </manifest>

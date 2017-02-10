@@ -130,10 +130,10 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
             direccionUsuario.setFechaModificacion(null);
             databaseReference.setValue(direccionUsuario);
-            abrirActivityHome();
+            abrirActivityRegistrarPerfil();
         }
     }
-    private void abrirActivityHome(){
+    private void abrirActivityRegistrarPerfil(){
         Intent intent = new Intent(this, RegistrarPerfilUsuarioActivity.class);
         startActivity(intent);
 

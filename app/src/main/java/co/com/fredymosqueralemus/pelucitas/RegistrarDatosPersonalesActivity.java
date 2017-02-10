@@ -67,7 +67,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
             Usuario mUsuario = new Usuario();
             mUsuario.setKeyUid(firebaseUser.getUid());
-            mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString());
+            mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString().trim());
             mUsuario.setNombre(etxtNombre.getText().toString().trim());
             mUsuario.setApellidos(etxtApellidos.getText().toString().trim());
             mUsuario.setTelefono(etxtTelefono.getText() != null ? etxtTelefono.getText().toString().trim() : "-");
