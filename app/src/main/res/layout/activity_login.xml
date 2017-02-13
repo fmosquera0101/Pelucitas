@@ -36,14 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/str_iniciarsesion"/>
-    <Button
-        android:id="@+id/crearcuenta_btn_loginlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/str_crearcuenta"
-        android:onClick="abrirActivityRegistrarCorreoContrasena"/>
+        android:text="@string/str_iniciarsesion"
+        android:onClick="iniciarSesion"/>
 
 </LinearLayout>
 </ScrollView>

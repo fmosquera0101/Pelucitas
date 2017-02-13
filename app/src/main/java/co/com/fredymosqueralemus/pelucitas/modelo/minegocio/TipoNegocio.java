@@ -1,10 +1,12 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.minegocio;
 
+import java.io.Serializable;
+
 /**
  * Esta clase representa los tipos de negocios (peluqueria, barberia, salon de belleza)
  * Created by Fredy Mosquera Lemus on 2/02/17.
  */
-public class TipoNegocio {
+public class TipoNegocio implements Serializable{
     private String tipoNegocio;
     private int imagenTipoNegocio;
 

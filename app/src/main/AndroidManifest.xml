@@ -17,11 +17,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/login_activity_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RegistrarCorreoContrasenaActivity"
@@ -35,9 +30,19 @@
         <activity
             android:name=".RegistrarPerfilUsuarioActivity"
             android:label="@string/activity_registrar_perfil_usuario" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".RegistrarMiNegocioActivity" />
-        <activity android:name=".RegistrarHorarioActivity"></activity>
+        <activity android:name=".HomeActivity"
+            android:label="@string/activity_home"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegistrarMiNegocioActivity"
+            android:label="@string/activity_registrar_minegocio"/>
+        <activity android:name=".RegistrarHorarioActivity">
+
+        </activity>
     </application>
 
 </manifest>

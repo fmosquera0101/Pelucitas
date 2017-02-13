@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item
+        android:id="@+id/menuitem_administrarcuenta"
+        android:title="@string/title_menu_micuenta"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_crearcuenta"
+                    android:title="@string/title_menu_crearcuenta"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_iniciarsesion"
+                    android:title="@string/title_menu_iniciarsesion"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_cerrarsesion"
+                    android:title="@string/title_menu_cerrarsesion"
+                    >
+                </item>
+            </group>
+
+        </menu>
+    </item>
+
+
+    <item
+        android:id="@+id/menuitem_administrarnegocio"
+        android:title="@string/title_menu_administrar"
+        >
+      <menu xmlns:android="http://schemas.android.com/apk/res/android">
+          <group android:checkableBehavior="single">
+              <item
+                  android:id="@+id/menuitem_registrarminegocio"
+                  android:title="@string/title_menu_administrar_registrarnegocio">
+
+              </item>
+          </group>
+
+      </menu>
+    </item>
+
+
+
+</menu>

@@ -12,7 +12,8 @@
     <string name="str_crearcuenta">Crear cuenta</string>
     <string name="str_cedula">Cedula/Identificación</string>
     <string name="str_nombre">Nombre</string>
-    <string name="str_telefono">Teléfono (Opcional)</string>
+    <string name="str_telefono_noopcional">Teléfono</string>
+    <string name="str_telefono_opcional">Teléfono (Opcional)</string>
     <string name="str_apellidos">Apellidos</string>
     <string name="activity_registrar_direccion">Dirección</string>
     <string name="str_domicilio">Domicilio</string>
@@ -44,6 +45,30 @@
     <string name="error_msj_contrasenadebil">Debes elegir una contraseña de almenos 6 caracteres</string>
     <string name="error_fechanacimiento_novalida">Fecha de nacimiento no valida</string>
     <string name="error_numerotelefononovalido">Número de teléfono no valido</string>
+    <string name="activity_home">Inicio</string>
+    <string name="title_menu_administrar">Administrar</string>
+    <string name="title_menu_administrar_registrarnegocio">Registar Negocio</string>
+    <string name="drawer_abrir">Abrir</string>
+    <string name="drawer_cerrar">Cerrar</string>
+    <string name="etiqueta_info_entidad">Información Entidad</string>
+    <string name="nit_negocio">Nit/Cedula responsable</string>
+    <string name="nombre_negocio">Nombre Negocio</string>
+    <string name="activity_registrar_minegocio">Registrar mi Negocio</string>
+    <string name="title_menu_crearcuenta">Crear cuenta</string>
+    <string name="str_hasiniciadosesion">Ya has iniciado sesión</string>
+    <string name="str_nohasiniciadosesion">No se ha podido iniciar sesión</string>
+    <string name="title_menu_micuenta">Mi cuenta</string>
+    <string name="title_menu_cerrarsesion">Cerrar sesión</string>
+    <string name="str_hascerradosesion">Has cerrado sesión</string>
+    <string name="str_debesiniciarsesion">Debes iniciar sesión para utilizar esta opción</string>
+    <string name="title_menu_iniciarsesion">Iniciar sesión</string>
 
+
+    <string-array name="arraystr_tiposnegocio">
+        <item>Tipo Negocio</item>
+        <item>Barberia</item>
+        <item>Peluqueria</item>
+        <item>Salon de Belleza</item>
+    </string-array>
 
 </resources>

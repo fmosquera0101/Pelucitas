@@ -18,19 +18,20 @@ public class MiNegocio implements Serializable {
     private String telefonoNegocio;
     private TipoNegocio tipoNegocio;
     private HorarioNegocio horarioNegocio;
-    private Date fechaInsercion;
-    private Date fechaModificacion;
+    private String fechaInsercion;
+    private String fechaModificacion;
+    private String uidAdministrador;
 
     public MiNegocio(){
 
     }
 
-    public Date getFechaModificacion() {
-        return fechaModificacion;
+    public String getUidAdministrador() {
+        return uidAdministrador;
     }
 
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setUidAdministrador(String uidAdministrador) {
+        this.uidAdministrador = uidAdministrador;
     }
 
     public String getNitNegocio() {
@@ -81,11 +82,19 @@ public class MiNegocio implements Serializable {
         this.horarioNegocio = horarioNegocio;
     }
 
-    public Date getFechaInsercion() {
+    public String getFechaInsercion() {
         return fechaInsercion;
     }
 
-    public void setFechaInsercion(Date fechaInsercion) {
+    public void setFechaInsercion(String fechaInsercion) {
         this.fechaInsercion = fechaInsercion;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 }

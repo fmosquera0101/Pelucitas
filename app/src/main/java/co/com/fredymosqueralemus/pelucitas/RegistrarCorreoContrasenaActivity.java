@@ -18,6 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
@@ -26,12 +28,14 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    EditText etxtCorreo;
-    EditText etxtContrasena;
+    private EditText etxtCorreo;
+    private EditText etxtContrasena;
+    SharedPreferencesSeguro sharedPreferencesSeguro;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_correo_contrasena);
+        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         mAuth = FirebaseAuth.getInstance();
 
         etxtCorreo = (EditText) findViewById(R.id.correo_etxt_registrarcorreocontrasenalayout);
@@ -47,7 +51,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         }
 
     }
-    public void crearUsuarioConCorreoContrasena(String correo, String contrasena){
+    public void crearUsuarioConCorreoContrasena(final String correo, final String contrasena){
         mAuth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(this,
                 new OnCompleteListener<AuthResult>() {
                     @Override
@@ -55,6 +59,10 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(RegistrarCorreoContrasenaActivity.this, R.string.str_creacionusuario_exitosa,
                                     Toast.LENGTH_SHORT ).show();
+                            sharedPreferencesSeguro.put(Constantes.CORREO, correo);
+                            sharedPreferencesSeguro.put(Constantes.CONTRASENA, contrasena);
+                            sharedPreferencesSeguro.put(Constantes.ISLOGGED, Constantes.SI);
+
                             abrirActivityRegistrarDatosPersonales();
                         }else{
                             Toast.makeText(RegistrarCorreoContrasenaActivity.this, R.string.str_creacionusuario_fallida,

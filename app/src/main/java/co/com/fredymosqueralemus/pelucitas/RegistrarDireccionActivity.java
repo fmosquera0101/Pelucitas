@@ -16,6 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.DireccionNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.DireccionUsuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -34,15 +38,17 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private EditText etxtBarrio;
     private EditText etxtDatosAdicionales;
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
 
-
+    Intent mIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_direccion);
+
+        mIntent = getIntent();
 
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
         etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
@@ -60,6 +66,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 firebaseUser = firebaseAuth.getCurrentUser();
             }
         };
+
     }
     private boolean isAlgunCampoFormularioDireccionVacio(){
         if(TextUtils.isEmpty(etxtPais.getText())){
@@ -115,26 +122,65 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     public void registrarDireccion(View view){
         if(!isAlgunCampoFormularioDireccionVacio()){
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
+            DatabaseReference databaseReference;
+            if(RegistrarMiNegocioActivity.class.getName().equals(mIntent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))){
+                String nitMiMegocio = mIntent.getStringExtra(Constantes.NIT_MINEGOCIO);
+                DireccionNegocio direccionNegocio = getDireccionNegocio();
+                direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
+                direccionNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+                direccionNegocio.setFechaModificacion(null);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
+                databaseReference.setValue(direccionNegocio);
+                abrirActivityRegistrarHorario();
+            }else{
+                DireccionUsuario direccionUsuario = getDireccionUsuario();
+                direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
+                direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+                direccionUsuario.setFechaModificacion(null);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
+                databaseReference.setValue(direccionUsuario);
+                abrirActivityRegistrarPerfil();
+            }
 
-            DireccionUsuario direccionUsuario = new DireccionUsuario();
-            direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
-            direccionUsuario.setPais(etxtPais.getText().toString().trim());
-            direccionUsuario.setDepartamento(etxtDepartamento.getText().toString().trim());
-            direccionUsuario.setCiudad(etxtCiudadMunicipio.getText().toString().trim());
-            direccionUsuario.setCarreraCalle(etxtCarreraCalle.getText().toString().trim());
-            direccionUsuario.setNumero1(etxtNumero1.getText().toString().trim());
-            direccionUsuario.setNumero2(etxtNumero2.getText().toString().trim());
-            direccionUsuario.setDatosAdicionales(etxtDatosAdicionales.getText().toString().trim());
-            direccionUsuario.setBarrio(etxtBarrio.getText().toString());
-            direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-            direccionUsuario.setFechaModificacion(null);
-            databaseReference.setValue(direccionUsuario);
-            abrirActivityRegistrarPerfil();
         }
+    }
+    private DireccionNegocio getDireccionNegocio(){
+        DireccionNegocio direccion = new DireccionNegocio();
+        direccion.setPais(etxtPais.getText().toString().trim());
+        direccion.setDepartamento(etxtDepartamento.getText().toString().trim());
+        direccion.setCiudad(etxtCiudadMunicipio.getText().toString().trim());
+        direccion.setCarreraCalle(etxtCarreraCalle.getText().toString().trim());
+        direccion.setNumero1(etxtNumero1.getText().toString().trim());
+        direccion.setNumero2(etxtNumero2.getText().toString().trim());
+        direccion.setDatosAdicionales(etxtDatosAdicionales.getText().toString().trim());
+        direccion.setBarrio(etxtBarrio.getText().toString());
+        direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+        direccion.setFechaModificacion(null);
+
+        return direccion;
+    }
+    private DireccionUsuario getDireccionUsuario(){
+        DireccionUsuario direccion = new DireccionUsuario();
+        direccion.setPais(etxtPais.getText().toString().trim());
+        direccion.setDepartamento(etxtDepartamento.getText().toString().trim());
+        direccion.setCiudad(etxtCiudadMunicipio.getText().toString().trim());
+        direccion.setCarreraCalle(etxtCarreraCalle.getText().toString().trim());
+        direccion.setNumero1(etxtNumero1.getText().toString().trim());
+        direccion.setNumero2(etxtNumero2.getText().toString().trim());
+        direccion.setDatosAdicionales(etxtDatosAdicionales.getText().toString().trim());
+        direccion.setBarrio(etxtBarrio.getText().toString());
+        direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+        direccion.setFechaModificacion(null);
+
+        return direccion;
     }
     private void abrirActivityRegistrarPerfil(){
         Intent intent = new Intent(this, RegistrarPerfilUsuarioActivity.class);
+        startActivity(intent);
+
+    }
+    private void abrirActivityRegistrarHorario(){
+        Intent intent = new Intent(this, RegistrarHorarioActivity.class);
         startActivity(intent);
 
     }

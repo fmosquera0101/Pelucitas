@@ -1,11 +1,12 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.minegocio;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
  */
-public class HorarioNegocio {
+public class HorarioNegocio implements Serializable {
     private String diasLaborales;
     private String horaInicial;
     private String horaFinal;

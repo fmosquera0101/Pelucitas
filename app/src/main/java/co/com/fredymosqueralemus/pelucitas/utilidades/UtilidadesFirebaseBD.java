@@ -25,6 +25,14 @@ public class UtilidadesFirebaseBD {
 
         return strbNodoInserccionesDireccionXUsuario.toString();
     }
+    public static String getUrlInserccionDireccionesXNegocio(String nitNegocio){
+        StringBuilder strbNodoInserccionesDireccionXUsuario = new StringBuilder();
+        strbNodoInserccionesDireccionXUsuario.append(Constantes.DIRECCIONES_X_NEGOCIO_FIREBASE_BD);
+        strbNodoInserccionesDireccionXUsuario.append("/");
+        strbNodoInserccionesDireccionXUsuario.append(nitNegocio);
+
+        return strbNodoInserccionesDireccionXUsuario.toString();
+    }
     public static String getUrlInsercionPerfilCliente(String usuarioUid){
         return getUrlInsertPerfiles(Constantes.PERFIL_CLIENTE_FIREBASE_BD, usuarioUid);
     }
@@ -45,6 +53,21 @@ public class UtilidadesFirebaseBD {
         strbNodoInserPerfilAdministrador.append("/");
 
         return strbNodoInserPerfilAdministrador.toString();
+
+    }
+    public static String getUrlInsercionMiNegocio(String nitMiNegocio){
+        StringBuilder strbNodoInsercionMiNegocio = new StringBuilder();
+        strbNodoInsercionMiNegocio.append(Constantes.MINEGOCIO_FIREBASE_BD);
+        strbNodoInsercionMiNegocio.append("/");
+        strbNodoInsercionMiNegocio.append(nitMiNegocio);
+        return strbNodoInsercionMiNegocio.toString();
+    }
+    public static String getUrlInsercionTiposNegocio(String tipoNegocio){
+        StringBuilder strbNodoInserccionTiposNegocios = new StringBuilder();
+        strbNodoInserccionTiposNegocios.append(Constantes.TIPOS_NEGOCIOS_FIREBASE_BD);
+        strbNodoInserccionTiposNegocios.append("/");
+        strbNodoInserccionTiposNegocios.append(tipoNegocio);
+        return strbNodoInserccionTiposNegocios.toString();
 
     }
 }
