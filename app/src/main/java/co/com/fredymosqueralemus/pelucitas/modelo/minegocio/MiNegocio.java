@@ -1,7 +1,9 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.minegocio;
 
 import java.io.Serializable;
-import java.util.Date;
+
+import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 
 /**
  * Esta clase representa el negocio, entidad o local ( peluqueria, barberia, salon de belleza)
@@ -14,24 +16,16 @@ public class MiNegocio implements Serializable {
 
     private String nitNegocio;
     private String nombreNegocio;
-    private DireccionNegocio direccion;
+    private Direccion direccion;
     private String telefonoNegocio;
     private TipoNegocio tipoNegocio;
-    private HorarioNegocio horarioNegocio;
+    private Horario horarioNegocio;
     private String fechaInsercion;
     private String fechaModificacion;
     private String uidAdministrador;
 
     public MiNegocio(){
 
-    }
-
-    public String getUidAdministrador() {
-        return uidAdministrador;
-    }
-
-    public void setUidAdministrador(String uidAdministrador) {
-        this.uidAdministrador = uidAdministrador;
     }
 
     public String getNitNegocio() {
@@ -50,11 +44,11 @@ public class MiNegocio implements Serializable {
         this.nombreNegocio = nombreNegocio;
     }
 
-    public DireccionNegocio getDireccion() {
+    public Direccion getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(DireccionNegocio direccion) {
+    public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
 
@@ -74,11 +68,11 @@ public class MiNegocio implements Serializable {
         this.tipoNegocio = tipoNegocio;
     }
 
-    public HorarioNegocio getHorarioNegocio() {
+    public Horario getHorarioNegocio() {
         return horarioNegocio;
     }
 
-    public void setHorarioNegocio(HorarioNegocio horarioNegocio) {
+    public void setHorarioNegocio(Horario horarioNegocio) {
         this.horarioNegocio = horarioNegocio;
     }
 
@@ -96,5 +90,13 @@ public class MiNegocio implements Serializable {
 
     public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getUidAdministrador() {
+        return uidAdministrador;
+    }
+
+    public void setUidAdministrador(String uidAdministrador) {
+        this.uidAdministrador = uidAdministrador;
     }
 }

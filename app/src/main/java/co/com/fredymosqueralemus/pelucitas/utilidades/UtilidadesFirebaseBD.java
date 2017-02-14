@@ -62,11 +62,15 @@ public class UtilidadesFirebaseBD {
         strbNodoInsercionMiNegocio.append(nitMiNegocio);
         return strbNodoInsercionMiNegocio.toString();
     }
-    public static String getUrlInsercionTiposNegocio(String tipoNegocio){
+
+    public static String getUrlInsercionTiposNegocio(String tipoNegocio, String nitNegocio){
         StringBuilder strbNodoInserccionTiposNegocios = new StringBuilder();
         strbNodoInserccionTiposNegocios.append(Constantes.TIPOS_NEGOCIOS_FIREBASE_BD);
         strbNodoInserccionTiposNegocios.append("/");
         strbNodoInserccionTiposNegocios.append(tipoNegocio);
+        strbNodoInserccionTiposNegocios.append("/");
+        strbNodoInserccionTiposNegocios.append(nitNegocio);
+        strbNodoInserccionTiposNegocios.append("/");
         return strbNodoInserccionTiposNegocios.toString();
 
     }

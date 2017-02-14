@@ -71,21 +71,24 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             miNegocio.setTelefonoNegocio(etxtTelefono.getText().toString().trim());
             TipoNegocio tipoNegocio = new TipoNegocio();
             tipoNegocio.setTipoNegocio(spnTipoNegocio.getSelectedItem().toString());
+            tipoNegocio.setNitNegocio(miNegocio.getNitNegocio());
+            tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            tipoNegocio.setFechaModificacion(null);
             miNegocio.setTipoNegocio(tipoNegocio);
             miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
             miNegocio.setFechaModificacion(null);
             miNegocio.setUidAdministrador(mFirebaseUser.getUid());
             mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
             mDatabaseReference.setValue(miNegocio);
-            if(miNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD));
-                mDatabaseReference.setValue(miNegocio.getNitNegocio());
-            }else  if(miNegocio.getTipoNegocio().equals(arrayTiposNegocios[2])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD));
-                mDatabaseReference.setValue(miNegocio.getNitNegocio());
-            }else  if(miNegocio.getTipoNegocio().equals(arrayTiposNegocios[3])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD));
-                mDatabaseReference.setValue(miNegocio.getNitNegocio());
+            if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])){
+                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                mDatabaseReference.setValue(tipoNegocio);
+            }else  if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[2])){
+                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                mDatabaseReference.setValue(tipoNegocio);
+            }else  if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[3])){
+                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                mDatabaseReference.setValue(tipoNegocio);
             }
             abrirActivityRegistrarDireccionMiNegocio(miNegocio);
         }
@@ -115,7 +118,6 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             return  true;
         }
         if(spnTipoNegocio.getSelectedItem().equals(arrayTiposNegocios[0])){
-            ((TextView) spnTipoNegocio.getSelectedView()).requestFocus();
             ((TextView) spnTipoNegocio.getSelectedView()).setError(getString(R.string.error_campo_requerido));
             return true;
         }

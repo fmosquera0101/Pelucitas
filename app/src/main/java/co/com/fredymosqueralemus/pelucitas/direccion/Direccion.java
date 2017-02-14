@@ -19,6 +19,9 @@ public class Direccion {
     private String fechaInsercion;
     private String fechaModificacion;
 
+    private String keyUidUsuario;
+    private String nitIdentificacionNegocio;
+
     public String getPais() {
         return pais;
     }
@@ -97,5 +100,21 @@ public class Direccion {
 
     public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getKeyUidUsuario() {
+        return keyUidUsuario;
+    }
+
+    public void setKeyUidUsuario(String keyUidUsuario) {
+        this.keyUidUsuario = keyUidUsuario;
+    }
+
+    public String getNitIdentificacionNegocio() {
+        return nitIdentificacionNegocio;
+    }
+
+    public void setNitIdentificacionNegocio(String nitIdentificacionNegocio) {
+        this.nitIdentificacionNegocio = nitIdentificacionNegocio;
     }
 }

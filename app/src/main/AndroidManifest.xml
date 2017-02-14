@@ -30,6 +30,7 @@
         <activity
             android:name=".RegistrarPerfilUsuarioActivity"
             android:label="@string/activity_registrar_perfil_usuario" />
+
         <activity android:name=".HomeActivity"
             android:label="@string/activity_home"
             >
@@ -40,7 +41,9 @@
         </activity>
         <activity android:name=".RegistrarMiNegocioActivity"
             android:label="@string/activity_registrar_minegocio"/>
-        <activity android:name=".RegistrarHorarioActivity">
+
+        <activity android:name=".RegistrarHorarioActivity"
+            android:label="@string/activity_registrar_horario">
 
         </activity>
     </application>

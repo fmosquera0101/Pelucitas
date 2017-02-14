@@ -62,6 +62,18 @@
     <string name="str_hascerradosesion">Has cerrado sesión</string>
     <string name="str_debesiniciarsesion">Debes iniciar sesión para utilizar esta opción</string>
     <string name="title_menu_iniciarsesion">Iniciar sesión</string>
+    <string name="activity_registrar_horario">Registrar horario</string>
+    <string name="label_seleccionarhorario">Seleccionar Dias</string>
+    <string name="label_lunes">Lunes</string>
+    <string name="label_martes">Martes</string>
+    <string name="label_miercoles">Miércoles</string>
+    <string name="label_jueves">Jueves</string>
+    <string name="label_viernes">Viernes</string>
+    <string name="label_sabado">Sábado</string>
+    <string name="label_domingo">Domingo</string>
+    <string name="hora_inicio">Hora Inicio:</string>
+    <string name="hint_hora">00:00</string>
+    <string name="hora_fin">Hora cierre:</string>
 
 
     <string-array name="arraystr_tiposnegocio">
