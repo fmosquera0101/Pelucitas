@@ -14,6 +14,7 @@ public interface Constantes {
     public static final String PERFIL_CLIENTE_FIREBASE_BD = "cliente";
     public static final String DIRECCIONES_X_USUARIO_FIREBASE_BD = "direccionesXUsuario";
     public static final String DIRECCIONES_X_NEGOCIO_FIREBASE_BD = "direccionesXNegocio";
+    public static final String HORARIOS_X_NEGOCIO_FIREBASE_BD = "horariosXNegocio";
 
     public static final String MINEGOCIO_FIREBASE_BD = "negocios";
     public static final String TIPOS_NEGOCIOS_FIREBASE_BD = "tiposnegocios";

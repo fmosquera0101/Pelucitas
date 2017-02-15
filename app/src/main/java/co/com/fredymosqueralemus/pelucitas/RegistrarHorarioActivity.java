@@ -1,59 +1,50 @@
 package co.com.fredymosqueralemus.pelucitas;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.horario.FormularioRegistrarHorario;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class RegistrarHorarioActivity extends AppCompatActivity {
 
     Intent mItent;
-    private EditText etHoraInicio;
-    private EditText etHoraFin;
-    private Context context;
 
-    private CheckBox chkbLunes;
-    private CheckBox chkbMartes;
-    private CheckBox chkbMiercoles;
-    private CheckBox chkbJueves;
-    private CheckBox chkbViernes;
-    private CheckBox chkbSabado;
-    private CheckBox chkbDomingo;
-
-    private String strLunes = "";
-    private String strMartes = "";
-    private String strMiercoles = "";
-    private String strJueves = "";
-    private String strViernes = "";
-    private String strSabado = "";
-    private String strDomingo = "";
-
-    private Horario horarioNegocio;
-
+    private FormularioRegistrarHorario formularioRegistrarHorario;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_horario);
         mItent = getIntent();
-        inicializarViesCheckBoxDias();
+        mAuth = FirebaseAuth.getInstance();
+
+        formularioRegistrarHorario = new FormularioRegistrarHorario(this, RegistrarHorarioActivity.this);
+        formularioRegistrarHorario.addClickListenerCheckBoxesDias();
 
     }
     public void registrarHorario(View view){
-
+        if(formularioRegistrarHorario.isHaSeleccionadoCampos()){
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            String nitNegocio = mItent.getStringExtra(Constantes.NIT_MINEGOCIO);
+            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(nitNegocio));
+            Horario horario = formularioRegistrarHorario.getHorario();
+            databaseReference.setValue(horario);
+            iraHome();
+        }
     }
-    private void inicializarViesCheckBoxDias(){
-        chkbLunes = (CheckBox) findViewById(R.id.chkb_dia_lunes);
-        chkbMartes = (CheckBox) findViewById(R.id.chkb_dia_martes);
-        chkbMiercoles = (CheckBox) findViewById(R.id.chkb_dia_miercoles);
-        chkbJueves = (CheckBox) findViewById(R.id.chkb_dia_jueves);
-        chkbViernes = (CheckBox) findViewById(R.id.chkb_dia_viernes);
-        chkbSabado = (CheckBox) findViewById(R.id.chkb_dia_sabado);
-        chkbDomingo = (CheckBox) findViewById(R.id.chkb_dia_domingo);
+    private void iraHome(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

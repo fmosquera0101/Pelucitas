@@ -11,8 +11,12 @@ public class Horario implements Serializable {
     private String horaInicial;
     private String horaFinal;
 
-    private Date fechaRegistro;
-    private Date fechaModificacion;
+    private String fechaInsercion;
+    private String fechaModificacion;
+
+    public Horario(){
+
+    }
 
     public String getDiasLaborales() {
         return diasLaborales;
@@ -38,19 +42,19 @@ public class Horario implements Serializable {
         this.horaFinal = horaFinal;
     }
 
-    public Date getFechaRegistro() {
-        return fechaRegistro;
+    public String getFechaInsercion() {
+        return fechaInsercion;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFechaInsercion(String fechaInsercion) {
+        this.fechaInsercion = fechaInsercion;
     }
 
-    public Date getFechaModificacion() {
+    public String getFechaModificacion() {
         return fechaModificacion;
     }
 
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 }

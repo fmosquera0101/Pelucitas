@@ -1,9 +1,9 @@
 package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -162,6 +162,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     }
     private void abrirActivityRegistrarHorario(){
         Intent intent = new Intent(this, RegistrarHorarioActivity.class);
+        intent.putExtra(Constantes.NIT_MINEGOCIO, mIntent.getStringExtra(Constantes.NIT_MINEGOCIO));
         startActivity(intent);
 
     }

@@ -58,4 +58,13 @@ public class UtilidadesFecha {
         return  false;
 
     }
+    public static String agregarCeroMinutosTimePicker(int fecha){
+        if(fecha < 10){
+            return "0"+String.valueOf(fecha);
+
+
+        }else{
+            return String.valueOf(fecha);
+        }
+    }
 }

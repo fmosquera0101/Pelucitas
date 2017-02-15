@@ -74,4 +74,12 @@ public class UtilidadesFirebaseBD {
         return strbNodoInserccionTiposNegocios.toString();
 
     }
+    public static String getUrlInsercionHorariosXNegocios(String nitNegocio){
+        StringBuilder strbHorariosXnegocio = new StringBuilder();
+        strbHorariosXnegocio.append(Constantes.HORARIOS_X_NEGOCIO_FIREBASE_BD);
+        strbHorariosXnegocio.append("/");
+        strbHorariosXnegocio.append(nitNegocio);
+        strbHorariosXnegocio.append("/");
+        return strbHorariosXnegocio.toString();
+    }
 }

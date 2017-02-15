@@ -83,4 +83,6 @@
         <item>Salon de Belleza</item>
     </string-array>
 
+    <string name="titulo_horarioPicker">Seleccionar Hora</string>
+    <string name="str_debeseleccionaralgundia">Debes seleccionar almenos un dia de la lista</string>
 </resources>
