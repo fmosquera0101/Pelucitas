@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_correo_contrasena);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,7 +49,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         String correo = etxtCorreo.getText().toString();
         String contrasena = etxtContrasena.getText().toString();
         if(isCorreoValido(correo) && isContrasenaValida(contrasena)){
-            crearUsuarioConCorreoContrasena(correo.trim(), contrasena.trim());
+            crearUsuarioConCorreoContrasena(correo.trim().toLowerCase(), contrasena.trim());
         }
 
     }
@@ -106,6 +108,14 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(item == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
 }

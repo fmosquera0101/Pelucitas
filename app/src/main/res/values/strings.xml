@@ -85,4 +85,8 @@
 
     <string name="titulo_horarioPicker">Seleccionar Hora</string>
     <string name="str_debeseleccionaralgundia">Debes seleccionar almenos un dia de la lista</string>
+    <string name="title_menu_administrar_negocios">Admnistrar Negocio</string>
+    <string name="title_menu_configuracion">Configuración</string>
+    <string name="str_cerrarsesion">Cerrar sesión</string>
+    <string name="str_activity_configuracion">Configuración</string>
 </resources>

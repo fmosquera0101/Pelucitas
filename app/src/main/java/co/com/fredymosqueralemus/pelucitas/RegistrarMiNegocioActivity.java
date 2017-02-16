@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -40,7 +41,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_mi_negocio);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         etxtNitNegocio = (EditText) findViewById(R.id.nit_negocio_etxt_registrarminegocio);
         etxtNombreNegocio = (EditText) findViewById(R.id.nombre_negocio_etxt_registrarminegocio);
         etxtTelefono = (EditText) findViewById(R.id.telefono_etxt_registrarminegocio);
@@ -57,8 +58,6 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
                 mFirebaseUser = firebaseAuth.getCurrentUser();
             }
         };
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     public void registrarInformacionMiNegocio(View view){
@@ -98,6 +97,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO, RegistrarMiNegocioActivity.class.getName());
         intent.putExtra(Constantes.NIT_MINEGOCIO, miNegocio.getNitNegocio());
         startActivity(intent);
+        finish();
 
     }
 
@@ -134,5 +134,14 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
         if(null != mAuthStateListener){
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(item == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

@@ -16,8 +16,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/login_activity_name">
-        </activity>
+            android:label="@string/login_activity_name"></activity>
         <activity
             android:name=".RegistrarCorreoContrasenaActivity"
             android:label="@string/activity_registrar_correo_contrasena" />
@@ -30,22 +29,23 @@
         <activity
             android:name=".RegistrarPerfilUsuarioActivity"
             android:label="@string/activity_registrar_perfil_usuario" />
-
-        <activity android:name=".HomeActivity"
-            android:label="@string/activity_home"
-            >
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/activity_home">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrarMiNegocioActivity"
-            android:label="@string/activity_registrar_minegocio"/>
-
-        <activity android:name=".RegistrarHorarioActivity"
-            android:label="@string/activity_registrar_horario">
-
-        </activity>
+        <activity
+            android:name=".RegistrarMiNegocioActivity"
+            android:label="@string/activity_registrar_minegocio" />
+        <activity
+            android:name=".RegistrarHorarioActivity"
+            android:label="@string/activity_registrar_horario"></activity>
+        <activity android:name=".ConfiguracionActivity"
+            android:label="@string/str_activity_configuracion"></activity>
     </application>
 
 </manifest>

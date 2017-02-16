@@ -84,6 +84,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
     public void abrirActivityRegistrarDireccion(){
         Intent mIntent = new Intent(this, RegistrarDireccionActivity.class);
         startActivity(mIntent);
+        finish();
     }
     @Override
     public void onStart(){

@@ -76,8 +76,9 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
 
     }
     private void abrirActivityHome(){
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);*/
+        finish();
     }
     @Override
     public void onStart(){

@@ -42,8 +42,8 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
         }
     }
     private void iraHome(){
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);*/
         finish();
     }
 

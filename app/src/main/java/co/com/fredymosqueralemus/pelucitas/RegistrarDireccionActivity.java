@@ -158,12 +158,14 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private void abrirActivityRegistrarPerfil(){
         Intent intent = new Intent(this, RegistrarPerfilUsuarioActivity.class);
         startActivity(intent);
+        finish();
 
     }
     private void abrirActivityRegistrarHorario(){
         Intent intent = new Intent(this, RegistrarHorarioActivity.class);
         intent.putExtra(Constantes.NIT_MINEGOCIO, mIntent.getStringExtra(Constantes.NIT_MINEGOCIO));
         startActivity(intent);
+        finish();
 
     }
     @Override

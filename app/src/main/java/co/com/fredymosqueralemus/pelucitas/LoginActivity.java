@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
 
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         final String correo = etxtCorreo.getText().toString();
         final String contrasena = etxtContrasena.getText().toString();
         if(isCorreoValido(correo) && isContrasenaValida(contrasena)){
-           mAuth.signInWithEmailAndPassword(correo.trim(), contrasena).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+           mAuth.signInWithEmailAndPassword(correo.trim().toLowerCase(), contrasena).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                @Override
                public void onComplete(@NonNull Task<AuthResult> task) {
                    if(task.isSuccessful()){
@@ -64,16 +66,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     public void abrirHomeActivity(){
-        Intent mIntent = new Intent(this, HomeActivity.class);
+        /*Intent mIntent = new Intent(this, HomeActivity.class);
         mIntent.putExtra(Constantes.CALL_FROM_LOGINACTIVITY, LoginActivity.class.getName());
-        startActivity(mIntent);
+        startActivity(mIntent);*/
+        finish();
     }
     private boolean isCorreoValido(String correo){
         if(TextUtils.isEmpty(correo)){
             etxtCorreo.requestFocus();
             etxtCorreo.setError(getString(R.string.error_campo_requerido));
             return false;
-        }else if(!isDireccionCorreoValida(correo.trim())){
+        }
+        if(!isDireccionCorreoValida(correo.trim())){
             etxtCorreo.requestFocus();
             etxtCorreo.setError(getString(R.string.error_msj_correonovalido));
             return false;
@@ -98,5 +102,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(item == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

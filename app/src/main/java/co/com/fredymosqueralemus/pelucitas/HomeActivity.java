@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
         int item = menuItem.getItemId();
         Intent mIntent;
         switch (item){
-            case R.id.menuitem_registrarminegocio:
+            case R.id.menuitem_perfiladministrador_registrarminegocio:
                 if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
                     Toast.makeText(HomeActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
@@ -120,17 +120,11 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(mIntent);
                 }
                 break;
-            case R.id.menuitem_crearcuenta:
+            case R.id.menuitem_perfiladministrador_crearcuenta:
                 mIntent = new Intent(this, RegistrarCorreoContrasenaActivity.class);
                 startActivity(mIntent);
                 break;
-            case R.id.menuitem_cerrarsesion:
-                sharedPreferencesSeguro.clear();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(HomeActivity.this, R.string.str_hascerradosesion,
-                        Toast.LENGTH_SHORT ).show();
-                break;
-            case R.id.menuitem_iniciarsesion:
+            case R.id.menuitem_perfiladministrador_iniciarsesion:
                 if(!Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
                     mIntent = new Intent(this, LoginActivity.class);
                     startActivity(mIntent);
@@ -138,6 +132,10 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(HomeActivity.this, R.string.str_hasiniciadosesion,
                             Toast.LENGTH_SHORT ).show();
                 }
+                break;
+            case R.id.menuitem_perfiladministrador_configuracion:
+                mIntent = new Intent(this, ConfiguracionActivity.class);
+                startActivity(mIntent);
                 break;
 
         }

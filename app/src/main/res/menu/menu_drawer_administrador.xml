@@ -10,18 +10,21 @@
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menuitem_crearcuenta"
+                    android:id="@+id/menuitem_perfiladministrador_micuenta"
+                    android:icon="@drawable/ic_person_outline_black_24dp"
+                    android:title="@string/title_menu_micuenta"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_perfiladministrador_crearcuenta"
+                    android:icon="@drawable/ic_person_add_black_24dp"
                     android:title="@string/title_menu_crearcuenta"
                     >
                 </item>
                 <item
-                    android:id="@+id/menuitem_iniciarsesion"
+                    android:id="@+id/menuitem_perfiladministrador_iniciarsesion"
+                    android:icon="@drawable/ic_arrow_forward_black_24dp"
                     android:title="@string/title_menu_iniciarsesion"
-                    >
-                </item>
-                <item
-                    android:id="@+id/menuitem_cerrarsesion"
-                    android:title="@string/title_menu_cerrarsesion"
                     >
                 </item>
             </group>
@@ -31,21 +34,42 @@
 
 
     <item
-        android:id="@+id/menuitem_administrarnegocio"
+        android:id="@+id/menuitem_perfiladministrador_etiquetaadministrarnegocio"
         android:title="@string/title_menu_administrar"
         >
       <menu xmlns:android="http://schemas.android.com/apk/res/android">
           <group android:checkableBehavior="single">
               <item
-                  android:id="@+id/menuitem_registrarminegocio"
+                  android:id="@+id/menuitem_perfiladministrador_registrarminegocio"
+                  android:icon="@drawable/ic_store_add_black_24dp"
                   android:title="@string/title_menu_administrar_registrarnegocio">
-
+              </item>
+              <item
+                  android:id="@+id/menuitem_perfiladministrador_administrarnegocios"
+                  android:icon="@drawable/ic_store_mall_directory_black_24dp"
+                  android:title="@string/title_menu_administrar_negocios">
               </item>
           </group>
 
       </menu>
     </item>
 
+    <item
+        android:id="@+id/menuitem_perfiladministrador_etiquetaconfiguracion"
+        android:title="@string/title_menu_configuracion"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_perfiladministrador_configuracion"
+                    android:icon="@drawable/ic_settings_black_24dp"
+                    android:title="@string/title_menu_configuracion">
+                </item>
+
+            </group>
+
+        </menu>
+    </item>
 
 
 </menu>

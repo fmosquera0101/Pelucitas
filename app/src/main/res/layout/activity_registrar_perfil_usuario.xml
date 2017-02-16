@@ -52,7 +52,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:layout_marginRight="8dp"
-                        android:src="@drawable/usuario"
+                        android:src="@drawable/ic_person_outline_black_24dp"
                         />
 
                     <TextView
@@ -90,7 +90,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:layout_marginRight="8dp"
-                        android:src="@drawable/usuario"
+                        android:src="@drawable/ic_person_outline_black_24dp"
                         />
 
                     <TextView
