@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="1"
+            android:columnCount="2">
+            <ImageView
+                android:id="@+id/imagennegocio_layout_listview_misnegocios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_store_mall_directory_black_24dp"
+                />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rowCount="4"
+                android:columnCount="1">
+                <TextView
+                    android:id="@+id/nombrenegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Mi Negocio"
+                    />
+                <TextView
+                    android:id="@+id/direccionnegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Direccion"
+                    />
+                <TextView
+                    android:id="@+id/horarionegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Horario"
+                    />
+                <TextView
+                    android:id="@+id/tiponegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Tipo negocio"
+                    />
+
+            </GridLayout>
+        </GridLayout>
+        <ImageView
+            android:id="@+id/icono_indicadorderecho_layout_listview_misnegocios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_right_black_24dp"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

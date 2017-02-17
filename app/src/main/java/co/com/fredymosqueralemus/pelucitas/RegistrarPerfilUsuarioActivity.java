@@ -58,9 +58,6 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         perfilesXUsuario.setKeyUsuarioId(firebaseUser.getUid());
         perfilesXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
         perfilesXUsuario.setFechaModificacion(null);
-        //Setteamos por defecto el perfil Usuario o cliente
-        databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(firebaseUser.getUid()));
-        databaseReference.setValue(perfilesXUsuario);
 
         if(ckbxPerfilEmpleado.isChecked()){
             databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(firebaseUser.getUid()));

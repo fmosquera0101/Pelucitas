@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -108,6 +110,8 @@ public class HomeActivity extends AppCompatActivity {
         return navigationView;
     }
     private void seleccionarItem(MenuItem menuItem){
+        Fragment mFragment = null;
+        FragmentManager mFragmentManager = getSupportFragmentManager();
         int item = menuItem.getItemId();
         Intent mIntent;
         switch (item){
@@ -119,6 +123,9 @@ public class HomeActivity extends AppCompatActivity {
                     mIntent = new Intent(this, RegistrarMiNegocioActivity.class);
                     startActivity(mIntent);
                 }
+                break;
+            case R.id.menuitem_perfiladministrador_administrarnegocios:
+                mFragment = new FragmentListviewMisnegocios();
                 break;
             case R.id.menuitem_perfiladministrador_crearcuenta:
                 mIntent = new Intent(this, RegistrarCorreoContrasenaActivity.class);
@@ -138,6 +145,9 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(mIntent);
                 break;
 
+        }
+        if(null != mFragment){
+            mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
         }
 
     }

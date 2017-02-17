@@ -77,6 +77,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
     public void abrirActivityRegistrarDatosPersonales(){
         Intent mIntent = new Intent(this, RegistrarDatosPersonalesActivity.class);
         startActivity(mIntent);
+        finish();
     }
     private boolean isCorreoValido(String correo){
         if(TextUtils.isEmpty(correo)){

@@ -10,11 +10,11 @@
     tools:context="co.com.fredymosqueralemus.pelucitas.HomeActivity"
     >
 
-    <FrameLayout
-        android:id="@+id/content_frame_homeactivity"
+    <RelativeLayout
+        android:id="@+id/contenedor_activityhome"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </FrameLayout>
+    </RelativeLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
