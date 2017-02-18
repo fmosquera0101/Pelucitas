@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                        sharedPreferencesSeguro.put(Constantes.CORREO, correo.trim());
                        sharedPreferencesSeguro.put(Constantes.CONTRASENA, contrasena);
                        sharedPreferencesSeguro.put(Constantes.ISLOGGED, Constantes.SI);
+                       sharedPreferencesSeguro.put(Constantes.USERUID, mAuth.getCurrentUser().getUid());
                        abrirHomeActivity();
                    }else {
                        Toast.makeText(LoginActivity.this, R.string.str_nohasiniciadosesion,

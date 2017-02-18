@@ -64,7 +64,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
                             sharedPreferencesSeguro.put(Constantes.CORREO, correo);
                             sharedPreferencesSeguro.put(Constantes.CONTRASENA, contrasena);
                             sharedPreferencesSeguro.put(Constantes.ISLOGGED, Constantes.SI);
-
+                            sharedPreferencesSeguro.put(Constantes.USERUID, mAuth.getCurrentUser().getUid());
                             abrirActivityRegistrarDatosPersonales();
                         }else{
                             Toast.makeText(RegistrarCorreoContrasenaActivity.this, R.string.str_creacionusuario_fallida,

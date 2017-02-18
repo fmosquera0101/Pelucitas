@@ -17,6 +17,7 @@ import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -38,13 +39,16 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
 
-    Intent mIntent;
+    private Intent intent;
+    private MiNegocio miNegocio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_direccion);
 
-        mIntent = getIntent();
+        intent = getIntent();
+        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
 
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
         etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
@@ -119,14 +123,17 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         if(!isAlgunCampoFormularioDireccionVacio()){
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference;
-            if(RegistrarMiNegocioActivity.class.getName().equals(mIntent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))){
-                String nitMiMegocio = mIntent.getStringExtra(Constantes.NIT_MINEGOCIO);
+            if(RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))){
+                String nitMiMegocio = miNegocio.getNitNegocio();
                 Direccion direccionNegocio = getDireccion();
                 direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
                 direccionNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
                 direccionNegocio.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
                 databaseReference.setValue(direccionNegocio);
+                miNegocio.setDireccion(direccionNegocio);
+                //databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(firebaseUser.getUid(), miNegocio.getNitNegocio()));
+                //databaseReference.setValue(miNegocio);
                 abrirActivityRegistrarHorario();
             }else{
                 Direccion direccionUsuario = getDireccion();
@@ -163,7 +170,8 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     }
     private void abrirActivityRegistrarHorario(){
         Intent intent = new Intent(this, RegistrarHorarioActivity.class);
-        intent.putExtra(Constantes.NIT_MINEGOCIO, mIntent.getStringExtra(Constantes.NIT_MINEGOCIO));
+        //intent.putExtra(Constantes.NIT_MINEGOCIO, inte.getStringExtra(Constantes.NIT_MINEGOCIO));
+        intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
         startActivity(intent);
         finish();
 

@@ -16,10 +16,10 @@ public class MiNegocio implements Serializable {
 
     private String nitNegocio;
     private String nombreNegocio;
-    private Direccion direccion;
     private String telefonoNegocio;
     private TipoNegocio tipoNegocio;
     private Horario horarioNegocio;
+    private Direccion direccion;
     private String fechaInsercion;
     private String fechaModificacion;
     private String uidAdministrador;
@@ -44,14 +44,6 @@ public class MiNegocio implements Serializable {
         this.nombreNegocio = nombreNegocio;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
-
     public String getTelefonoNegocio() {
         return telefonoNegocio;
     }
@@ -74,6 +66,14 @@ public class MiNegocio implements Serializable {
 
     public void setHorarioNegocio(Horario horarioNegocio) {
         this.horarioNegocio = horarioNegocio;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     public String getFechaInsercion() {

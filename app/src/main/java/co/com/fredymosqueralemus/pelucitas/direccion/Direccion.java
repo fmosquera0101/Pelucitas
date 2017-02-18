@@ -1,12 +1,13 @@
 package co.com.fredymosqueralemus.pelucitas.direccion;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
  */
 
-public class Direccion {
+public class Direccion implements Serializable {
     private String pais;
     private String departamento;
     private String ciudad;
@@ -21,6 +22,10 @@ public class Direccion {
 
     private String keyUidUsuario;
     private String nitIdentificacionNegocio;
+
+    public void Direccion(){
+
+    }
 
     public String getPais() {
         return pais;

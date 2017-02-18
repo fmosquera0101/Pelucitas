@@ -77,8 +77,8 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
             miNegocio.setFechaModificacion(null);
             miNegocio.setUidAdministrador(mFirebaseUser.getUid());
-            mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
-            mDatabaseReference.setValue(miNegocio);
+            //mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(mFirebaseUser.getUid(), miNegocio.getNitNegocio()));
+            //mDatabaseReference.setValue(miNegocio);
             if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])){
                 mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
                 mDatabaseReference.setValue(tipoNegocio);
@@ -95,7 +95,8 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private void  abrirActivityRegistrarDireccionMiNegocio(MiNegocio miNegocio){
         Intent intent = new Intent(this, RegistrarDireccionActivity.class);
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO, RegistrarMiNegocioActivity.class.getName());
-        intent.putExtra(Constantes.NIT_MINEGOCIO, miNegocio.getNitNegocio());
+        //intent.putExtra(Constantes.NIT_MINEGOCIO, miNegocio.getNitNegocio());
+        intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
         startActivity(intent);
         finish();
 

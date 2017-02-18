@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 
 /**
@@ -42,7 +44,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             view = layoutInflater.inflate(idLayout, parent, false);
             itemHolderlMisNegocios.imageView = (ImageView)view.findViewById(R.id.imagennegocio_layout_listview_misnegocios);
             itemHolderlMisNegocios.txtNombreNegocio = (TextView)view.findViewById(R.id.nombrenegocio_layout_listview_misnegocios);
-            itemHolderlMisNegocios.txtDireccionNegocio = (TextView)view.findViewById(R.id.horarionegocio_layout_listview_misnegocios);
+            itemHolderlMisNegocios.txtDireccionNegocio = (TextView)view.findViewById(R.id.direccionnegocio_layout_listview_misnegocios);
             itemHolderlMisNegocios.txtHorarioNegocio = (TextView)view.findViewById(R.id.horarionegocio_layout_listview_misnegocios);
             itemHolderlMisNegocios.txtTipoNegocio = (TextView)view.findViewById(R.id.tiponegocio_layout_listview_misnegocios);
             view.setTag(itemHolderlMisNegocios);
@@ -50,12 +52,30 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             itemHolderlMisNegocios = (ItemHolderlMisNegocios) view.getTag();
         }
         MiNegocio miNegocio = lstMisNegocios.get(position);
-        itemHolderlMisNegocios.txtNombreNegocio.setText("Mi Negocio");
-        itemHolderlMisNegocios.txtDireccionNegocio.setText("Mi direccion");
-        itemHolderlMisNegocios.txtHorarioNegocio.setText("Mi horario");
-        itemHolderlMisNegocios.txtTipoNegocio.setText("Barbas");
+        itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
+        itemHolderlMisNegocios.txtDireccionNegocio.setText(getDireccion(miNegocio.getDireccion()));
+        itemHolderlMisNegocios.txtHorarioNegocio.setText(getHorario(miNegocio.getHorarioNegocio()));
+        itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
         return  view;
 
+    }
+    private String getDireccion(Direccion direccion){
+        StringBuilder strbDireccion = new StringBuilder();
+        strbDireccion.append(direccion.getCarreraCalle());
+        strbDireccion.append(", ");
+        strbDireccion.append(direccion.getNumero1());
+        strbDireccion.append(", ");
+        strbDireccion.append(direccion.getNumero2());
+        return strbDireccion.toString();
+    }
+    private String getHorario(Horario horario){
+        StringBuilder strbHorario = new StringBuilder();
+        strbHorario.append(horario.getDiasLaborales());
+        strbHorario.append(", ");
+        strbHorario.append(horario.getHoraInicial());
+        strbHorario.append("-");
+        strbHorario.append(horario.getHoraFinal());
+        return strbHorario.toString();
     }
     private class ItemHolderlMisNegocios{
         ImageView imageView;

@@ -48,7 +48,10 @@ public interface Constantes {
     public static final String CORREO = "CORREO";
     public static final String CONTRASENA = "CONTRASENA";
     public static final String ISLOGGED = "ISLOGGED";
+    public static final String USERUID = "USERUID";
     public static final String SI = "SI";
     public static final String NO = "NO";
+
+    public static final String MINEGOCIOOBJECT = "MINEGOCIOCLASS";
 
 }
