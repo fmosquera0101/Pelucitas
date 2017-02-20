@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private EditText etxtNumero2;
     private EditText etxtBarrio;
     private EditText etxtDatosAdicionales;
-
+    private Button btnRegistrarDireccion;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
@@ -58,7 +60,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         etxtNumero2 = (EditText) findViewById(R.id.numero2_etxt_registrardireccionlayout);
         etxtDatosAdicionales = (EditText) findViewById(R.id.datosadicionales_etxt_registrardireccionlayout);
         etxtBarrio = (EditText) findViewById(R.id.barrio_etxt_registrardireccionlayout);
-
+        btnRegistrarDireccion = (Button) findViewById(R.id.siguiente_btn_registrardireccionlayout);
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -66,7 +68,24 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 firebaseUser = firebaseAuth.getCurrentUser();
             }
         };
+        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            btnRegistrarDireccion.setText(getString(R.string.str_editar));
+            getSupportActionBar().setTitle(getString(R.string.str_editardireccion));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            settearInformacionDireccion();
+        }
 
+    }
+    private void settearInformacionDireccion(){
+        Direccion direccion = miNegocio.getDireccion();
+        etxtPais.setText(direccion.getPais());
+        etxtDepartamento.setText(direccion.getDepartamento());
+        etxtCiudadMunicipio.setText(direccion.getCiudad());
+        etxtCarreraCalle.setText(direccion.getCarreraCalle());
+        etxtNumero1.setText(direccion.getNumero1());
+        etxtNumero2.setText(direccion.getNumero2());
+        etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
+        etxtBarrio.setText(direccion.getBarrio());
     }
     private boolean isAlgunCampoFormularioDireccionVacio(){
         if(TextUtils.isEmpty(etxtPais.getText())){
@@ -123,7 +142,8 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         if(!isAlgunCampoFormularioDireccionVacio()){
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference;
-            if(RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))){
+            if(RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))
+                    || AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                 String nitMiMegocio = miNegocio.getNitNegocio();
                 Direccion direccionNegocio = getDireccion();
                 direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
@@ -132,9 +152,15 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
                 databaseReference.setValue(direccionNegocio);
                 miNegocio.setDireccion(direccionNegocio);
-                //databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(firebaseUser.getUid(), miNegocio.getNitNegocio()));
-                //databaseReference.setValue(miNegocio);
-                abrirActivityRegistrarHorario();
+                if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+                    miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                    databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                    databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
+                    finish();
+
+                }else {
+                    abrirActivityRegistrarHorario();
+                }
             }else{
                 Direccion direccionUsuario = getDireccion();
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
@@ -188,5 +214,15 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         if(mAuthStateListener != null){
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            if(item == android.R.id.home){
+                onBackPressed();
+            }
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

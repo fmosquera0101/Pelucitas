@@ -28,6 +28,7 @@ public interface Constantes {
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     public static final String CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO = "CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO";
+    public static final String CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO = "CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO";
     public static final String NIT_MINEGOCIO = "NIT_MINEGOCIO";
 
     public static final String CALL_FROM_ACTIVITY_HOME = "CALL_FROM_ACTIVITY_HOME";

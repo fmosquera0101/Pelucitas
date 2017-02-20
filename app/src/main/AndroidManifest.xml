@@ -16,7 +16,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/login_activity_name"></activity>
+            android:label="@string/login_activity_name" />
         <activity
             android:name=".RegistrarCorreoContrasenaActivity"
             android:label="@string/activity_registrar_correo_contrasena" />
@@ -43,9 +43,14 @@
             android:label="@string/activity_registrar_minegocio" />
         <activity
             android:name=".RegistrarHorarioActivity"
-            android:label="@string/activity_registrar_horario"></activity>
-        <activity android:name=".ConfiguracionActivity"
-            android:label="@string/str_activity_configuracion"></activity>
+            android:label="@string/activity_registrar_horario" />
+        <activity
+            android:name=".ConfiguracionActivity"
+            android:label="@string/str_activity_configuracion" />
+        <activity android:name=".AdministrarMiNegocioActivity"
+            android:label="@string/str_activity_administrarMisNegocios">
+
+        </activity>
     </application>
 
 </manifest>

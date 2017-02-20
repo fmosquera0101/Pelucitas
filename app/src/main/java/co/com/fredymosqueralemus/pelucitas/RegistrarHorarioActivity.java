@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
+
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.horario.FormularioRegistrarHorario;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class RegistrarHorarioActivity extends AppCompatActivity {
@@ -21,6 +26,8 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Intent intent;
     private MiNegocio miNegocio;
+
+    private Button btnRegistrarHorario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,28 +35,55 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
         intent = getIntent();
         miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
         mAuth = FirebaseAuth.getInstance();
-
+        btnRegistrarHorario = (Button) findViewById(R.id.siguiente_btn_registrarhorariolayout);
         formularioRegistrarHorario = new FormularioRegistrarHorario(this, RegistrarHorarioActivity.this);
         formularioRegistrarHorario.addClickListenerCheckBoxesDias();
+
+        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            btnRegistrarHorario.setText(getString(R.string.str_editar));
+            getSupportActionBar().setTitle(getString(R.string.str_editarhorario));
+            formularioRegistrarHorario.setCheckedDias(miNegocio.getHorarioNegocio());
+            formularioRegistrarHorario.settearHorarioLaboral(miNegocio.getHorarioNegocio());
+        }
 
     }
     public void registrarHorario(View view){
         if(formularioRegistrarHorario.isHaSeleccionadoCampos()){
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            String nitNegocio = miNegocio.getNitNegocio();
-            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(nitNegocio));
-            Horario horario = formularioRegistrarHorario.getHorario();
-            databaseReference.setValue(horario);
-            miNegocio.setHorarioNegocio(horario);
-            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
-            databaseReference.push().setValue(miNegocio);
-            iraHome();
+            DatabaseReference databaseReference;
+
+            if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+                miNegocio.setHorarioNegocio(formularioRegistrarHorario.getHorario());
+                miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
+                finish();
+            }else{
+                String nitNegocio = miNegocio.getNitNegocio();
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(nitNegocio));
+                Horario horario = formularioRegistrarHorario.getHorario();
+                databaseReference.setValue(horario);
+                miNegocio.setHorarioNegocio(horario);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                databaseReference.push().setValue(miNegocio);
+                iraHome();
+            }
+
         }
     }
     private void iraHome(){
-        /*Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);*/
         finish();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            if(item == android.R.id.home){
+                onBackPressed();
+            }
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
 }

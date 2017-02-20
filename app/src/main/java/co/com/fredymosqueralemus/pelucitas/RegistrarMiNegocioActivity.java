@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,18 +32,24 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private EditText etxtNombreNegocio;
     private EditText etxtTelefono;
     private Spinner spnTipoNegocio;
+    private Button btnRegistrarInformacionMiNegocio;
+
     private String [] arrayTiposNegocios;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser mFirebaseUser;
-
+    private Intent intent;
+    private MiNegocio miNegocio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_mi_negocio);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        intent = getIntent();
+        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
         etxtNitNegocio = (EditText) findViewById(R.id.nit_negocio_etxt_registrarminegocio);
+
         etxtNombreNegocio = (EditText) findViewById(R.id.nombre_negocio_etxt_registrarminegocio);
         etxtTelefono = (EditText) findViewById(R.id.telefono_etxt_registrarminegocio);
         spnTipoNegocio = (Spinner) findViewById(R.id.tipo_negocio_spn_registrardatospersonaleslayout);
@@ -50,7 +57,17 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> arrayAdapterTiposNegocio = ArrayAdapter.createFromResource(this, R.array.arraystr_tiposnegocio, android.R.layout.simple_spinner_item);
         arrayAdapterTiposNegocio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoNegocio.setAdapter(arrayAdapterTiposNegocio);
+        btnRegistrarInformacionMiNegocio = (Button) findViewById(R.id.siguiente_btn_registrarminegocio);
 
+        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            getSupportActionBar().setTitle(R.string.titulo_editarminegocio);
+            etxtNitNegocio.setEnabled(false);
+            etxtNitNegocio.setText(miNegocio.getNitNegocio());
+            etxtNombreNegocio.setText(miNegocio.getNombreNegocio());
+            etxtTelefono.setText(miNegocio.getTelefonoNegocio());
+            spnTipoNegocio.setSelection(getTipoNegocioSeleccionado());
+            btnRegistrarInformacionMiNegocio.setText(R.string.str_editar);
+        }
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -59,12 +76,20 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             }
         };
     }
-
+    private int getTipoNegocioSeleccionado(){
+        int i = 0;
+        for (String strTipo: arrayTiposNegocios) {
+            if(strTipo.equals(miNegocio.getTipoNegocio().getTipoNegocio())){
+                return i;
+            }
+            i++;
+        }
+        return i;
+    }
     public void registrarInformacionMiNegocio(View view){
         if(!isAlgunCampoFormularioDireccionVacio()){
-            FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference mDatabaseReference;
-            MiNegocio miNegocio = new MiNegocio();
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference;
             miNegocio.setNitNegocio(etxtNitNegocio.getText().toString().trim());
             miNegocio.setNombreNegocio(etxtNombreNegocio.getText().toString().trim());
             miNegocio.setTelefonoNegocio(etxtTelefono.getText().toString().trim());
@@ -77,19 +102,27 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
             miNegocio.setFechaModificacion(null);
             miNegocio.setUidAdministrador(mFirebaseUser.getUid());
-            //mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(mFirebaseUser.getUid(), miNegocio.getNitNegocio()));
-            //mDatabaseReference.setValue(miNegocio);
+
             if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                mDatabaseReference.setValue(tipoNegocio);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                databaseReference.setValue(tipoNegocio);
             }else  if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[2])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                mDatabaseReference.setValue(tipoNegocio);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                databaseReference.setValue(tipoNegocio);
             }else  if(tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[3])){
-                mDatabaseReference = mFirebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                mDatabaseReference.setValue(tipoNegocio);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                databaseReference.setValue(tipoNegocio);
             }
-            abrirActivityRegistrarDireccionMiNegocio(miNegocio);
+
+            if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+                miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
+                finish();
+            }else {
+                abrirActivityRegistrarDireccionMiNegocio(miNegocio);
+            }
+
         }
     }
     private void  abrirActivityRegistrarDireccionMiNegocio(MiNegocio miNegocio){

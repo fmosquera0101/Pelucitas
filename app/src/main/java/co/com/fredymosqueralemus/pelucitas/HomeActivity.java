@@ -59,8 +59,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layouthome);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         actionBarDrawerToggle = getActionBarDrawerToggle();
         actionBarDrawerToggle.syncState();
         navigationView = getNavigationView();
@@ -124,13 +122,22 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(mIntent);
                 }
                 break;
+
             case R.id.menuitem_perfiladministrador_administrarnegocios:
+                if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
+                    Toast.makeText(HomeActivity.this, R.string.str_debesiniciarsesion,
+                            Toast.LENGTH_SHORT ).show();
+                }else{
                 mFragment = new FragmentListviewMisnegocios();
+                getSupportActionBar().setTitle(getString(R.string.str_misnegocios));
+                }
                 break;
+
             case R.id.menuitem_perfiladministrador_crearcuenta:
                 mIntent = new Intent(this, RegistrarCorreoContrasenaActivity.class);
                 startActivity(mIntent);
                 break;
+
             case R.id.menuitem_perfiladministrador_iniciarsesion:
                 if(!Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
                     mIntent = new Intent(this, LoginActivity.class);
@@ -140,6 +147,7 @@ public class HomeActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT ).show();
                 }
                 break;
+
             case R.id.menuitem_perfiladministrador_configuracion:
                 mIntent = new Intent(this, ConfiguracionActivity.class);
                 startActivity(mIntent);

@@ -66,6 +66,8 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         strbDireccion.append(direccion.getNumero1());
         strbDireccion.append(", ");
         strbDireccion.append(direccion.getNumero2());
+        strbDireccion.append(", ");
+        strbDireccion.append(direccion.getDatosAdicionales());
         return strbDireccion.toString();
     }
     private String getHorario(Horario horario){

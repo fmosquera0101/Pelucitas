@@ -57,71 +57,6 @@ public class FormularioRegistrarHorario{
 
 
     }
-
-    public EditText getEtHoraInicio() {
-        return etHoraInicio;
-    }
-
-    public EditText getEtHoraFin() {
-        return etHoraFin;
-    }
-
-    public CheckBox getChkbLunes() {
-        return chkbLunes;
-    }
-
-    public CheckBox getChkbMartes() {
-        return chkbMartes;
-    }
-
-    public CheckBox getChkbMiercoles() {
-        return chkbMiercoles;
-    }
-
-    public CheckBox getChkbJueves() {
-        return chkbJueves;
-    }
-
-    public CheckBox getChkbViernes() {
-        return chkbViernes;
-    }
-
-    public CheckBox getChkbSabado() {
-        return chkbSabado;
-    }
-
-    public CheckBox getChkbDomingo() {
-        return chkbDomingo;
-    }
-
-    public String getStrLunes() {
-        return strLunes;
-    }
-
-    public String getStrMartes() {
-        return strMartes;
-    }
-
-    public String getStrMiercoles() {
-        return strMiercoles;
-    }
-
-    public String getStrJueves() {
-        return strJueves;
-    }
-
-    public String getStrViernes() {
-        return strViernes;
-    }
-
-    public String getStrSabado() {
-        return strSabado;
-    }
-
-    public String getStrDomingo() {
-        return strDomingo;
-    }
-
     /**
      * Metodo encargado de agregar click listener a los checkboxes dias
      * @Autor Fredy Mosquera Lemus
@@ -416,5 +351,55 @@ public class FormularioRegistrarHorario{
         }
 
         return validarViews;
+    }
+    public void setCheckedDias(Horario horario){
+        if(isDiaChecked(getString(R.string.label_lunes), horario)){
+            this.chkbLunes.setChecked(true);
+            strLunes = getString(R.string.label_lunes);
+        }
+        if(isDiaChecked(getString(R.string.label_martes), horario)){
+            this.chkbMartes.setChecked(isDiaChecked(getString(R.string.label_martes), horario));
+            strMartes = getString(R.string.label_martes);
+        }
+
+        if(isDiaChecked(getString(R.string.label_miercoles), horario)){
+            this.chkbMiercoles.setChecked(isDiaChecked(getString(R.string.label_miercoles), horario));
+            strMiercoles = getString(R.string.label_miercoles);
+        }
+        if(isDiaChecked(getString(R.string.label_jueves), horario)){
+            this.chkbJueves.setChecked(isDiaChecked(getString(R.string.label_jueves), horario));
+            strJueves = getString(R.string.label_jueves);
+        }
+
+        if(isDiaChecked(getString(R.string.label_viernes), horario)){
+            this.chkbViernes.setChecked(isDiaChecked(getString(R.string.label_viernes), horario));
+            strViernes = getString(R.string.label_viernes);
+        }
+        if(isDiaChecked(getString(R.string.label_sabado), horario)){
+            this.chkbSabado.setChecked(isDiaChecked(getString(R.string.label_sabado), horario));
+            strSabado = getString(R.string.label_sabado);
+        }
+        if(isDiaChecked(getString(R.string.label_domingo), horario)){
+            this.chkbDomingo.setChecked(isDiaChecked(getString(R.string.label_domingo), horario));
+            strDomingo = getString(R.string.label_domingo);
+        }
+
+    }
+    public void settearHorarioLaboral(Horario horario){
+        etHoraInicio.setText(horario.getHoraInicial());
+        etHoraFin.setText(horario.getHoraFinal());
+
+    }
+
+
+    private boolean isDiaChecked(String strDia, Horario horario){
+        String [] arrayDias = horario.getDiasLaborales().split(" ");
+        for (String diasChecked:arrayDias) {
+            if(strDia.equals(diasChecked)){
+                return true;
+            }
+
+        }
+        return  false;
     }
 }

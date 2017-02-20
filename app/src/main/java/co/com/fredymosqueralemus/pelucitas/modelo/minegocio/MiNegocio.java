@@ -23,6 +23,7 @@ public class MiNegocio implements Serializable {
     private String fechaInsercion;
     private String fechaModificacion;
     private String uidAdministrador;
+    private String keyChild;
 
     public MiNegocio(){
 
@@ -98,5 +99,13 @@ public class MiNegocio implements Serializable {
 
     public void setUidAdministrador(String uidAdministrador) {
         this.uidAdministrador = uidAdministrador;
+    }
+
+    public String getKeyChild() {
+        return keyChild;
+    }
+
+    public void setKeyChild(String keyChild) {
+        this.keyChild = keyChild;
     }
 }

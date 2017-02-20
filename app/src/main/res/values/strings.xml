@@ -75,7 +75,7 @@
     <string name="hint_hora">00:00</string>
     <string name="hora_fin">Hora cierre:</string>
 
-
+    <string name="str_tiponegocio">Tipo Negocio</string>
     <string-array name="arraystr_tiposnegocio">
         <item>Tipo Negocio</item>
         <item>Barberia</item>
@@ -92,4 +92,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="str_activity_administrarMisNegocios">Administrar</string>
+    <string name="str_misnegocios">Mis negocios</string>
+    <string name="str_informacion">Información</string>
+    <string name="titulo_editarminegocio">Editar mi Negocio</string>
+    <string name="str_editar">Editar</string>
+    <string name="str_direccion">Direccion</string>
+    <string name="str_editardireccion">Editar Direccion</string>
+    <string name="str_horario">Horario</string>
+    <string name="str_agregarempleado">Agregar Empleado</string>
+    <string name="str_editarhorario">Editar Horario</string>
+    <string name="str_administraragenda">Administrar Agenda</string>
 </resources>
