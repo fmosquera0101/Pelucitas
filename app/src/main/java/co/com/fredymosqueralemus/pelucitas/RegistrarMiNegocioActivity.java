@@ -47,19 +47,20 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_mi_negocio);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
-        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
-        etxtNitNegocio = (EditText) findViewById(R.id.nit_negocio_etxt_registrarminegocio);
 
+        etxtNitNegocio = (EditText) findViewById(R.id.nit_negocio_etxt_registrarminegocio);
         etxtNombreNegocio = (EditText) findViewById(R.id.nombre_negocio_etxt_registrarminegocio);
         etxtTelefono = (EditText) findViewById(R.id.telefono_etxt_registrarminegocio);
         spnTipoNegocio = (Spinner) findViewById(R.id.tipo_negocio_spn_registrardatospersonaleslayout);
         arrayTiposNegocios = getResources().getStringArray(R.array.arraystr_tiposnegocio);
+        btnRegistrarInformacionMiNegocio = (Button) findViewById(R.id.siguiente_btn_registrarminegocio);
+
         ArrayAdapter<CharSequence> arrayAdapterTiposNegocio = ArrayAdapter.createFromResource(this, R.array.arraystr_tiposnegocio, android.R.layout.simple_spinner_item);
         arrayAdapterTiposNegocio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoNegocio.setAdapter(arrayAdapterTiposNegocio);
-        btnRegistrarInformacionMiNegocio = (Button) findViewById(R.id.siguiente_btn_registrarminegocio);
 
         if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
             getSupportActionBar().setTitle(R.string.titulo_editarminegocio);
             etxtNitNegocio.setEnabled(false);
             etxtNitNegocio.setText(miNegocio.getNitNegocio());
@@ -67,6 +68,8 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             etxtTelefono.setText(miNegocio.getTelefonoNegocio());
             spnTipoNegocio.setSelection(getTipoNegocioSeleccionado());
             btnRegistrarInformacionMiNegocio.setText(R.string.str_editar);
+        }else{
+            miNegocio = new MiNegocio();
         }
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -128,7 +131,6 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private void  abrirActivityRegistrarDireccionMiNegocio(MiNegocio miNegocio){
         Intent intent = new Intent(this, RegistrarDireccionActivity.class);
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO, RegistrarMiNegocioActivity.class.getName());
-        //intent.putExtra(Constantes.NIT_MINEGOCIO, miNegocio.getNitNegocio());
         intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
         startActivity(intent);
         finish();

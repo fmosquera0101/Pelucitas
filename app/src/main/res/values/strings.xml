@@ -103,4 +103,11 @@
     <string name="str_agregarempleado">Agregar Empleado</string>
     <string name="str_editarhorario">Editar Horario</string>
     <string name="str_administraragenda">Administrar Agenda</string>
+    <string name="str_nit">Nit</string>
+    <string name="str_minegocio">Mi negocio</string>
+    <string name="titulo_alertpermisos">Permisos necesarios</string>
+    <string name="mensaje_alertpermisos">El permiso de almacenamiento externo es necesario</string>
+    <string name="str_permisosdenegados">No se han habilitados los permisos</string>
+
+
 </resources>

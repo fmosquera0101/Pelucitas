@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -10,11 +7,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity">
+    <ImageView
+        android:id="@+id/imagennegocio_activity_administrarminegocio"
+        android:src="@drawable/ic_store_mall_directory_black_24dp"
+        android:scaleType="centerCrop"
+        android:layout_height="100dp"
+        android:layout_width="match_parent" />
+    <TextView
+        android:id="@+id/nombrenegocio_activity_administrarminegocio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_minegocio"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="25dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <TextView
             android:id="@+id/str_informacion"
@@ -42,40 +59,31 @@
             android:layout_height="wrap_content"
             android:rowCount="1"
             android:columnCount="2">
-            <ImageView
-                android:id="@+id/imagennegocio_activity_administrarminegocio"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_store_mall_directory_black_24dp"
-                />
+
 
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:rowCount="4"
                 android:columnCount="1">
+
+
                 <TextView
                     android:id="@+id/nit_activity_administrarminegocio"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Mi Negocio"
-                    />
-                <TextView
-                    android:id="@+id/nombrenegocio_activity_administrarminegocio"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Mi Negocio"
+                    android:layout_width="180dp"
+                    android:text="@string/str_nit"
                     />
                 <TextView
                     android:id="@+id/telefono_activity_administrarminegocio"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Direccion"
+                    android:layout_width="180dp"
+                    android:text="@string/str_direccion"
                     />
                 <TextView
                     android:id="@+id/tiponegocio_activity_administrarminegocio"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_alignParentRight="true"
                     android:text="Tipo negocio"
                     />
@@ -132,25 +140,25 @@
                     <TextView
                         android:id="@+id/pasideptociudad_activity_administrarminegocio"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:text="pais, depto, ciudad"
                         />
                     <TextView
                         android:id="@+id/direccion_activity_administrarminegocio"
                         android:layout_height="wrap_content"
                         android:text="Direccion"
-                        />
+                        android:layout_width="180dp" />
                     <TextView
                         android:id="@+id/datosadicionales_activity_administrarminegocio"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:layout_alignParentRight="true"
                         android:text="Datos adicionales"
                         />
                     <TextView
                         android:id="@+id/barrio_activity_administrarminegocio"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:text="Barrio"
                         />
 
@@ -208,14 +216,14 @@
                     <TextView
                         android:id="@+id/diaslaborales_activity_administrarminegocio"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:text="dias laborales"
                         />
                     <TextView
                         android:id="@+id/horariolaboral_activity_administrarminegocio"
                         android:layout_height="wrap_content"
                         android:text="horario laboral"
-                        />
+                        android:layout_width="180dp" />
 
 
 
@@ -247,6 +255,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/str_administraragenda"
         android:onClick="agregarEmpleado"/>
-
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
-</ScrollView>

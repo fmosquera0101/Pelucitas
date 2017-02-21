@@ -2,6 +2,7 @@ package co.com.fredymosqueralemus.pelucitas;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         mAuth = FirebaseAuth.getInstance();
 
@@ -30,5 +32,13 @@ public class ConfiguracionActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT ).show();
         finish();
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(item == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
