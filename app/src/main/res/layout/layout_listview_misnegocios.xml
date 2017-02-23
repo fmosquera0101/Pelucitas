@@ -35,22 +35,28 @@
                     android:text="@string/str_minegocio"
                     />
                 <TextView
-                    android:id="@+id/direccionnegocio_layout_listview_misnegocios"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_direccion"
-                    android:layout_width="220dp" />
-                <TextView
-                    android:id="@+id/horarionegocio_layout_listview_misnegocios"
-                    android:layout_height="wrap_content"
-                    android:layout_width="220dp"
-                    android:text="@string/str_horario"
-                    />
-                <TextView
                     android:id="@+id/tiponegocio_layout_listview_misnegocios"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/str_tiponegocio"
                     android:layout_width="220dp" />
+                <TextView
+                    android:id="@+id/direccionnegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
+                    android:text="@string/str_direccion"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                     />
+                <TextView
+                    android:id="@+id/horarionegocio_layout_listview_misnegocios"
+                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
+                    android:text="@string/str_horario"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
 
             </GridLayout>
         </GridLayout>

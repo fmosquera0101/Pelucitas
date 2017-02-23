@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -19,14 +21,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -37,6 +53,7 @@ import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class AdministrarMiNegocioActivity extends AppCompatActivity {
 
@@ -47,7 +64,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private TextView tvTelefono;
     private TextView tvTipoNegocio;
 
-    private TextView tvPaisDeptoCiudad;
     private TextView tvDireccion;
     private TextView tvBarrio;
     private TextView tvDatosAdicionales;
@@ -65,7 +81,11 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private int REQUEST_CAMERA = 0;
     private int SELECT_FILE = 1;
 
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     private String userChoose;
+
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +93,9 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://pelucitas-bb90f.appspot.com");
+
         databaseReference = firebaseDatabase.getReference();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
@@ -83,7 +106,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         tvTipoNegocio = (TextView) findViewById(R.id.tiponegocio_activity_administrarminegocio);
         relativeLayout = (RelativeLayout) findViewById(R.id.editar_informacionminegocio_activity_administrarminegocio);
 
-        tvPaisDeptoCiudad = (TextView) findViewById(R.id.pasideptociudad_activity_administrarminegocio);
         tvDireccion = (TextView) findViewById(R.id.direccion_activity_administrarminegocio);
         tvBarrio = (TextView) findViewById(R.id.barrio_activity_administrarminegocio);
         tvDatosAdicionales = (TextView) findViewById(R.id.datosadicionales_activity_administrarminegocio);
@@ -93,20 +115,16 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
 
         if(null != miNegocio){
             settearInforamcioEnViesMiNegocio(miNegocio);
+            File fileImage = UtilidadesImagenes.getFileImagenMiNegocio(miNegocio);
+            if(fileImage.exists()){
+                Glide.with(this).load(fileImage).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(fileImage.lastModified()))).into(imgvImagenNegocio);
+            }
+
 
         }
 
-        imgvImagenNegocio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seleccionarImagenNegocio();
-            }
-        });
-
-
-
     }
-    private void seleccionarImagenNegocio(){
+    public  void seleccionarImagenMiNegocio(View view){
         final CharSequence[] items = {"Camara", "Galeria", "Cancelar"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Elegir Imagen");
@@ -178,17 +196,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
 
     private void onCaptureImageResult(Intent data) {
         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
-        File file = new File(Environment.getExternalStorageDirectory(), "MiNegocio"+ System.currentTimeMillis()+".jpg");
-        try {
-            file.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(byteArrayOutputStream.toByteArray());
-            fileOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        guardarImagenMiNegocio(bitmap);
         imgvImagenNegocio.setImageBitmap(bitmap);
 
     }
@@ -198,6 +206,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         if(null != data){
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                guardarImagenMiNegocio(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -205,56 +214,44 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         }
 
     }
+    private void guardarImagenMiNegocio(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        File fileFolderImages = new File(Environment.getExternalStorageDirectory(), "Pelucitas/images");
+        if(!fileFolderImages.exists()){
+            fileFolderImages.mkdirs();
+        }
+        File file = new File(Environment.getExternalStorageDirectory()+"/Pelucitas/images", "MiNegocio"+miNegocio.getNitNegocio()+".jpg");
+        try {
+            byte [] dataImage = byteArrayOutputStream.toByteArray();
+            file.createNewFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(dataImage);
+            fileOutputStream.close();
+            subirImagenAFireBaseStorage(dataImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void settearInforamcioEnViesMiNegocio(MiNegocio miNegocio){
-        tvNitNegocio.setText("Nit: "+miNegocio.getNitNegocio());
+        tvNitNegocio.setText(getString(R.string.str_nit)+miNegocio.getNitNegocio());
         tvNombre.setText(miNegocio.getNombreNegocio());
-        tvTelefono.setText("Telefono: "+miNegocio.getTelefonoNegocio());
-        tvTipoNegocio.setText("Tipo Negocio: "+miNegocio.getTipoNegocio().getTipoNegocio());
+        tvTelefono.setText(getString(R.string.str_telefono)+miNegocio.getTelefonoNegocio());
+        tvTipoNegocio.setText(getString(R.string.str_tiponegocio)+miNegocio.getTipoNegocio().getTipoNegocio());
 
         Direccion direccion = miNegocio.getDireccion();
-        tvPaisDeptoCiudad.setText(getPaisDeptoCiudad(direccion));
-        tvDireccion.setText(getStrDireccion(direccion));
-        tvBarrio.setText("Barrio: "+direccion.getBarrio());
+        tvDireccion.setText(Utilidades.getStrDireccion(direccion));
+        tvBarrio.setText(getString(R.string.str_barrio)+direccion.getBarrio());
         tvDatosAdicionales.setText(direccion.getDatosAdicionales());
 
         Horario horario = miNegocio.getHorarioNegocio();
         tvDiasLaborales.setText(horario.getDiasLaborales());
-        tvHorariolaboral.setText(getStrHorarioLaboral(horario));
+        tvHorariolaboral.setText(Utilidades.getStrHorario(horario));
 
     }
-    private String getStrHorarioLaboral(Horario horario){
-        StringBuilder strbHorario = new StringBuilder();
-        strbHorario.append(horario.getHoraInicial());
-        strbHorario.append("-");
-        strbHorario.append(horario.getHoraFinal());
-
-        return strbHorario.toString();
-
-    }
-    private String getPaisDeptoCiudad(Direccion direccion){
-        StringBuilder strbPaisDeptoCiudad = new StringBuilder();
-        strbPaisDeptoCiudad.append(direccion.getCiudad());
-        strbPaisDeptoCiudad.append(", ");
-        strbPaisDeptoCiudad.append(direccion.getDepartamento());
-        strbPaisDeptoCiudad.append(", ");
-        strbPaisDeptoCiudad.append(direccion.getPais());
 
 
-        return strbPaisDeptoCiudad.toString();
-    }
-    private String getStrDireccion(Direccion direccion){
-        StringBuilder strbDireccion = new StringBuilder();
-        strbDireccion.append(direccion.getCarreraCalle());
-        strbDireccion.append(", ");
-        strbDireccion.append(direccion.getNumero1());
-        strbDireccion.append("-");
-        strbDireccion.append(direccion.getNumero2());
-
-        return strbDireccion.toString();
-
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int item = menuItem.getItemId();
@@ -301,5 +298,24 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void subirImagenAFireBaseStorage(byte [] dataImage) throws FileNotFoundException {
+        UploadTask uploadTask = storageReference.child("images").child(miNegocio.getNitNegocio()).child("Minegocio"+miNegocio.getNitNegocio()).putBytes(dataImage);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(AdministrarMiNegocioActivity.this, "No se pudo cargar la imagen",
+                        Toast.LENGTH_SHORT ).show();
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(AdministrarMiNegocioActivity.this, "Imagen cargada correctamente",
+                        Toast.LENGTH_SHORT ).show();
+            }
+        });
+
     }
 }

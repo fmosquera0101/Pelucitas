@@ -2,6 +2,10 @@ package co.com.fredymosqueralemus.pelucitas.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +13,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.signature.StringSignature;
+
+import java.io.File;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 /**
  * Created by Fredy Mosquera Lemus on 16/02/17.
@@ -37,7 +49,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         View view = convertView;
-        ItemHolderlMisNegocios itemHolderlMisNegocios;
+        final ItemHolderlMisNegocios itemHolderlMisNegocios;
         if(null == view){
             LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
             itemHolderlMisNegocios = new ItemHolderlMisNegocios();
@@ -52,33 +64,27 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             itemHolderlMisNegocios = (ItemHolderlMisNegocios) view.getTag();
         }
         MiNegocio miNegocio = lstMisNegocios.get(position);
+        File fileImage =  UtilidadesImagenes.getFileImagenMiNegocio(miNegocio);
+        if(fileImage.exists()){
+            Glide.with(context).load(fileImage).asBitmap().centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(fileImage.lastModified()))).
+                    into(new BitmapImageViewTarget(itemHolderlMisNegocios.imageView){
+                @Override
+                public void setResource(Bitmap resource){
+                    RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                    circularImage.setCircular(true);
+                    itemHolderlMisNegocios.imageView.setImageDrawable(circularImage);
+                }
+            });
+        }
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
-        itemHolderlMisNegocios.txtDireccionNegocio.setText(getDireccion(miNegocio.getDireccion()));
-        itemHolderlMisNegocios.txtHorarioNegocio.setText(getHorario(miNegocio.getHorarioNegocio()));
+        itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(miNegocio.getDireccion())+", "+miNegocio.getDireccion().getDatosAdicionales());
+        itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(miNegocio.getHorarioNegocio()));
         itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
         return  view;
 
     }
-    private String getDireccion(Direccion direccion){
-        StringBuilder strbDireccion = new StringBuilder();
-        strbDireccion.append(direccion.getCarreraCalle());
-        strbDireccion.append(", ");
-        strbDireccion.append(direccion.getNumero1());
-        strbDireccion.append(", ");
-        strbDireccion.append(direccion.getNumero2());
-        strbDireccion.append(", ");
-        strbDireccion.append(direccion.getDatosAdicionales());
-        return strbDireccion.toString();
-    }
-    private String getHorario(Horario horario){
-        StringBuilder strbHorario = new StringBuilder();
-        strbHorario.append(horario.getDiasLaborales());
-        strbHorario.append(", ");
-        strbHorario.append(horario.getHoraInicial());
-        strbHorario.append("-");
-        strbHorario.append(horario.getHoraFinal());
-        return strbHorario.toString();
-    }
+
+
     private class ItemHolderlMisNegocios{
         ImageView imageView;
         TextView txtNombreNegocio;

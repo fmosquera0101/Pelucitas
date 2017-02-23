@@ -13,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 
 /**
  * Created by Fredy Mosquera Lemus on 20/02/17.
@@ -51,5 +53,27 @@ public class Utilidades {
         }else {
             return true;
         }
+    }
+
+    public static String getStrHorario(Horario horario){
+        StringBuilder strbHorario = new StringBuilder();
+        strbHorario.append(horario.getDiasLaborales());
+        strbHorario.append(", ");
+        strbHorario.append(horario.getHoraInicial());
+        strbHorario.append("-");
+        strbHorario.append(horario.getHoraFinal());
+        return strbHorario.toString();
+    }
+    public static String getStrDireccion(Direccion direccion){
+        StringBuilder strbDireccion = new StringBuilder();
+        strbDireccion.append(direccion.getCarreraCalle());
+        strbDireccion.append(", ");
+        strbDireccion.append(direccion.getNumero1());
+        strbDireccion.append("-");
+        strbDireccion.append(direccion.getNumero2());
+
+        return strbDireccion.toString();
+
+
     }
 }

@@ -44,6 +44,11 @@ public class FragmentListviewMisnegocios extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
+        poblarListViewMisNegocios();
+        return view;
+    }
+
+    private void poblarListViewMisNegocios(){
         databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -72,6 +77,11 @@ public class FragmentListviewMisnegocios extends Fragment {
                 startActivity(intent);
             }
         });
-        return view;
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        poblarListViewMisNegocios();
     }
 }
