@@ -23,7 +23,7 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class InicioActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_inicio);
         mItent = getIntent();
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         mAuth = FirebaseAuth.getInstance();
@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
-                        Toast.makeText(HomeActivity.this, R.string.str_nohasiniciadosesion,
+                        Toast.makeText(InicioActivity.this, R.string.str_nohasiniciadosesion,
                                 Toast.LENGTH_SHORT ).show();
                     }
                 }
@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (item){
             case R.id.menuitem_perfiladministrador_registrarminegocio:
                 if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
-                    Toast.makeText(HomeActivity.this, R.string.str_debesiniciarsesion,
+                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
                 }else {
                     mIntent = new Intent(this, RegistrarMiNegocioActivity.class);
@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
 
             case R.id.menuitem_perfiladministrador_administrarnegocios:
                 if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
-                    Toast.makeText(HomeActivity.this, R.string.str_debesiniciarsesion,
+                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
                 }else{
                 mFragment = new FragmentListviewMisnegocios();
@@ -143,7 +143,7 @@ public class HomeActivity extends AppCompatActivity {
                     mIntent = new Intent(this, LoginActivity.class);
                     startActivity(mIntent);
                 }else{
-                    Toast.makeText(HomeActivity.this, R.string.str_hasiniciadosesion,
+                    Toast.makeText(InicioActivity.this, R.string.str_hasiniciadosesion,
                             Toast.LENGTH_SHORT ).show();
                 }
                 break;

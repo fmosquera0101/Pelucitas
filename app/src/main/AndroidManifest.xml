@@ -31,8 +31,8 @@
             android:name=".RegistrarPerfilUsuarioActivity"
             android:label="@string/activity_registrar_perfil_usuario" />
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/activity_home">
+            android:name=".InicioActivity"
+            android:label="@string/activity_inicio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

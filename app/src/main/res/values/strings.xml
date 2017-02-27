@@ -45,7 +45,7 @@
     <string name="error_msj_contrasenadebil">Debes elegir una contraseña de almenos 6 caracteres</string>
     <string name="error_fechanacimiento_novalida">Fecha de nacimiento no valida</string>
     <string name="error_numerotelefononovalido">Número de teléfono no valido</string>
-    <string name="activity_home">Inicio</string>
+    <string name="activity_inicio">Inicio</string>
     <string name="title_menu_administrar">Administrar</string>
     <string name="title_menu_administrar_registrarnegocio">Registar Negocio</string>
     <string name="drawer_abrir">Abrir</string>
@@ -109,6 +109,8 @@
     <string name="titulo_alertpermisos">Permisos necesarios</string>
     <string name="mensaje_alertpermisos">El permiso de almacenamiento externo es necesario</string>
     <string name="str_permisosdenegados">No se han habilitados los permisos</string>
+    <string name="str_obteniendoinformacion">Obteniendo inforamcion</string>
+    <string name="str_cargando">Cargando</string>
 
 
 </resources>

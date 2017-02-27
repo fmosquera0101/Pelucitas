@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/drawer_layouthome"
-    tools:context="co.com.fredymosqueralemus.pelucitas.HomeActivity"
+    tools:context="co.com.fredymosqueralemus.pelucitas.InicioActivity"
     >
 
     <RelativeLayout
