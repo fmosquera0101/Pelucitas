@@ -111,6 +111,11 @@
     <string name="str_permisosdenegados">No se han habilitados los permisos</string>
     <string name="str_obteniendoinformacion">Obteniendo inforamcion</string>
     <string name="str_cargando">Cargando</string>
+    <string name="st_camara">Cámara</string>
+    <string name="st_galeria">Galería</string>
+    <string name="st_cancelar">Cancelar</string>
+    <string name="st_elegirImagen">Elegir imagen</string>
+    <string name="st_selecImagen">Seleccionar imagen</string>
 
 
 </resources>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,6 +54,7 @@ import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class AdministrarMiNegocioActivity extends AppCompatActivity {
@@ -81,7 +83,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private int REQUEST_CAMERA = 0;
     private int SELECT_FILE = 1;
 
-    private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private String userChoose;
 
@@ -93,8 +94,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReferenceFromUrl("gs://pelucitas-bb90f.appspot.com");
+        storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
 
         databaseReference = firebaseDatabase.getReference();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
@@ -115,34 +115,31 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
 
         if(null != miNegocio){
             settearInforamcioEnViesMiNegocio(miNegocio);
-            File fileImage = UtilidadesImagenes.getFileImagenMiNegocio(miNegocio);
-            if(fileImage.exists()){
-                Glide.with(this).load(fileImage).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(fileImage.lastModified()))).into(imgvImagenNegocio);
-            }
-
+            StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+            Glide.with(this).using(new FirebaseImageLoader()).load(storageReferenceImagenes).into(imgvImagenNegocio);
 
         }
 
     }
     public  void seleccionarImagenMiNegocio(View view){
-        final CharSequence[] items = {"Camara", "Galeria", "Cancelar"};
+        final CharSequence[] items = {getString(R.string.st_camara), getString(R.string.st_galeria), getString(R.string.st_cancelar)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Elegir Imagen");
+        builder.setTitle(getString(R.string.st_elegirImagen));
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 boolean result = Utilidades.verificarPermisos(AdministrarMiNegocioActivity.this);
-                if("Camara".equals(items[which])){
-                    userChoose = "Camara";
+                if(getString(R.string.st_camara).equals(items[which])){
+                    userChoose = getString(R.string.st_camara);
                     if (result){
                         camaraIntent();
                     }
-                }else if("Galeria".equals(items[which])){
-                    userChoose = "Galeria";
+                }else if(getString(R.string.st_galeria).equals(items[which])){
+                    userChoose = getString(R.string.st_galeria);
                     if(result){
                         galeriaIntent();
                     }
-                }else if("Cancelar".equals(items[which])){
+                }else if(getString(R.string.st_cancelar).equals(items[which])){
                     dialog.dismiss();
                 }
 
@@ -156,7 +153,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Seleccionar imagen"), SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.st_selecImagen)), SELECT_FILE);
     }
 
     private void camaraIntent() {
@@ -168,9 +165,9 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         switch (requestCode){
             case Utilidades.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    if("Camara".equals(userChoose)){
+                    if(getString(R.string.st_camara).equals(userChoose)){
                         camaraIntent();
-                    }else if("Galeria".equals(userChoose)){
+                    }else if(getString(R.string.st_galeria).equals(userChoose)){
                         galeriaIntent();
                     }
                 }else {
@@ -185,7 +182,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == SELECT_FILE){
-
                 onSelectFromGaleryResult(data);
             }else if(requestCode == REQUEST_CAMERA){
                 onCaptureImageResult(data);
@@ -217,17 +213,8 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private void guardarImagenMiNegocio(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        File fileFolderImages = new File(Environment.getExternalStorageDirectory(), "Pelucitas/images");
-        if(!fileFolderImages.exists()){
-            fileFolderImages.mkdirs();
-        }
-        File file = new File(Environment.getExternalStorageDirectory()+"/Pelucitas/images", "MiNegocio"+miNegocio.getNitNegocio()+".jpg");
         try {
             byte [] dataImage = byteArrayOutputStream.toByteArray();
-            file.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(dataImage);
-            fileOutputStream.close();
             subirImagenAFireBaseStorage(dataImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -300,7 +287,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         });
     }
     private void subirImagenAFireBaseStorage(byte [] dataImage) throws FileNotFoundException {
-        UploadTask uploadTask = storageReference.child("images").child(miNegocio.getNitNegocio()).child("Minegocio"+miNegocio.getNitNegocio()).putBytes(dataImage);
+        UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio).putBytes(dataImage);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

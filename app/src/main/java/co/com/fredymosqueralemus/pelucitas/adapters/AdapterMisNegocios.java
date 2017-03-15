@@ -29,10 +29,12 @@ import java.io.File;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 /**
@@ -45,7 +47,6 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
     private int idLayout;
     private List<MiNegocio> lstMisNegocios;
 
-    private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
 
     public AdapterMisNegocios(Context context, int idLayout, List<MiNegocio> lstMisNegocios){
@@ -53,9 +54,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         this.context = context;
         this.idLayout = idLayout;
         this.lstMisNegocios = lstMisNegocios;
-
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReferenceFromUrl("gs://pelucitas-bb90f.appspot.com");
+        storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
 
     }
 
@@ -77,7 +76,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             itemHolderlMisNegocios = (ItemHolderlMisNegocios) view.getTag();
         }
         MiNegocio miNegocio = lstMisNegocios.get(position);
-        StorageReference storageReferenceImagenes = storageReference.child("images").child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
+        StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
 
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
         itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(miNegocio.getDireccion())+", "+miNegocio.getDireccion().getDatosAdicionales());

@@ -1,6 +1,10 @@
 package co.com.fredymosqueralemus.pelucitas.utilidades;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
@@ -82,5 +86,12 @@ public class UtilidadesFirebaseBD {
         strbHorariosXnegocio.append(nitNegocio);
         strbHorariosXnegocio.append("/");
         return strbHorariosXnegocio.toString();
+    }
+    public static StorageReference getFirebaseStorageFromUrl(){
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);
+    }
+    public static StorageReference getReferenceImagenMiNegocio(StorageReference storageReference, MiNegocio miNegocio){
+        return storageReference.child(Constantes.CONST_IMAGENES).child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
     }
 }
