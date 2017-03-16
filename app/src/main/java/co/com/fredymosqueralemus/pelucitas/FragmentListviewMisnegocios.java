@@ -50,8 +50,10 @@ public class FragmentListviewMisnegocios extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle(getString(R.string.str_cargando));
         progressDialog.setMessage(getString(R.string.str_obteniendoinformacion));
-        progressDialog.setCancelable(false);
+
+
         poblarListViewMisNegocios();
+
         return view;
     }
 
@@ -59,7 +61,7 @@ public class FragmentListviewMisnegocios extends Fragment {
         databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                progressDialog.show();
+
                 lstMisNegocios = new ArrayList<MiNegocio>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     MiNegocio miNegocio = child.getValue(MiNegocio.class);
@@ -68,7 +70,6 @@ public class FragmentListviewMisnegocios extends Fragment {
                 }
                 AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(),R.layout.layout_listview_misnegocios, lstMisNegocios);
                 listView.setAdapter(adapterMisNegocios);
-                progressDialog.dismiss();
 
             }
 
@@ -86,6 +87,8 @@ public class FragmentListviewMisnegocios extends Fragment {
                 startActivity(intent);
             }
         });
+
+
 
     }
     @Override

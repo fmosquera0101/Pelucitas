@@ -98,7 +98,7 @@
     <string name="titulo_editarminegocio">Editar mi Negocio</string>
     <string name="str_editar">Editar</string>
     <string name="str_direccion">Direccion</string>
-    <string name="str_editardireccion">Editar Direccion</string>
+    <string name="str_editardireccion">Editar Dirección</string>
     <string name="str_horario">Horario</string>
     <string name="str_agregarempleado">Agregar Empleado</string>
     <string name="str_editarhorario">Editar Horario</string>
@@ -109,7 +109,7 @@
     <string name="titulo_alertpermisos">Permisos necesarios</string>
     <string name="mensaje_alertpermisos">El permiso de almacenamiento externo es necesario</string>
     <string name="str_permisosdenegados">No se han habilitados los permisos</string>
-    <string name="str_obteniendoinformacion">Obteniendo inforamcion</string>
+    <string name="str_obteniendoinformacion">Obteniendo información</string>
     <string name="str_cargando">Cargando</string>
     <string name="st_camara">Cámara</string>
     <string name="st_galeria">Galería</string>

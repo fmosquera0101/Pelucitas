@@ -116,7 +116,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         if(null != miNegocio){
             settearInforamcioEnViesMiNegocio(miNegocio);
             StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
-            Glide.with(this).using(new FirebaseImageLoader()).load(storageReferenceImagenes).into(imgvImagenNegocio);
+            Glide.with(this).using(new FirebaseImageLoader()).load(storageReferenceImagenes).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imgvImagenNegocio);
 
         }
 

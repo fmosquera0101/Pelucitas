@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -83,7 +84,10 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(miNegocio.getHorarioNegocio()));
         itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
 
-        Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().centerCrop().into(new BitmapImageViewTarget(itemHolderlMisNegocios.imageView){
+
+        Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
+                centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).
+                into(new BitmapImageViewTarget(itemHolderlMisNegocios.imageView){
             @Override
             public void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
@@ -104,4 +108,5 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         TextView txtHorarioNegocio;
         TextView txtTipoNegocio;
     }
+
 }
