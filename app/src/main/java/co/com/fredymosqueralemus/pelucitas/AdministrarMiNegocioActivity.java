@@ -1,6 +1,7 @@
 package co.com.fredymosqueralemus.pelucitas;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.MediaStoreSignature;
 import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -70,10 +73,8 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private TextView tvBarrio;
     private TextView tvDatosAdicionales;
 
-    private TextView tvDiasLaborales;
     private TextView tvHorariolaboral;
 
-    private RelativeLayout relativeLayout;
     private Intent intent;
     private MiNegocio miNegocio;
 
@@ -87,6 +88,8 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private String userChoose;
 
     private FirebaseAuth mAuth;
+
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,19 +107,24 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         tvNombre = (TextView) findViewById(R.id.nombrenegocio_activity_administrarminegocio);
         tvTelefono = (TextView) findViewById(R.id.telefono_activity_administrarminegocio);
         tvTipoNegocio = (TextView) findViewById(R.id.tiponegocio_activity_administrarminegocio);
-        relativeLayout = (RelativeLayout) findViewById(R.id.editar_informacionminegocio_activity_administrarminegocio);
 
         tvDireccion = (TextView) findViewById(R.id.direccion_activity_administrarminegocio);
         tvBarrio = (TextView) findViewById(R.id.barrio_activity_administrarminegocio);
         tvDatosAdicionales = (TextView) findViewById(R.id.datosadicionales_activity_administrarminegocio);
-
-        tvDiasLaborales = (TextView) findViewById(R.id.diaslaborales_activity_administrarminegocio);
         tvHorariolaboral = (TextView) findViewById(R.id.horariolaboral_activity_administrarminegocio);
+
+        context = this;
 
         if(null != miNegocio){
             settearInforamcioEnViesMiNegocio(miNegocio);
-            StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
-            Glide.with(this).using(new FirebaseImageLoader()).load(storageReferenceImagenes).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imgvImagenNegocio);
+            final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+            storageReferenceImagenes.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                @Override
+                public void onSuccess(StorageMetadata storageMetadata) {
+                    Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(storageMetadata.getCreationTimeMillis()))).into(imgvImagenNegocio);
+                }
+            });
+
 
         }
 
@@ -233,7 +241,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         tvDatosAdicionales.setText(direccion.getDatosAdicionales());
 
         Horario horario = miNegocio.getHorarioNegocio();
-        tvDiasLaborales.setText(horario.getDiasLaborales());
         tvHorariolaboral.setText(Utilidades.getStrHorario(horario));
 
     }

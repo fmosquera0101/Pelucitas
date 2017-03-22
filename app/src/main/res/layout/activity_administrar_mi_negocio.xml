@@ -198,12 +198,7 @@
                     android:layout_height="wrap_content"
                     android:rowCount="4"
                     android:columnCount="1">
-                    <TextView
-                        android:id="@+id/diaslaborales_activity_administrarminegocio"
-                        android:layout_height="wrap_content"
-                        android:layout_width="220dp"
-                        android:text="dias laborales"
-                        />
+
                     <TextView
                         android:id="@+id/horariolaboral_activity_administrarminegocio"
                         android:layout_height="wrap_content"
