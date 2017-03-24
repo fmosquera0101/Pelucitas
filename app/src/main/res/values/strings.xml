@@ -116,6 +116,9 @@
     <string name="st_cancelar">Cancelar</string>
     <string name="st_elegirImagen">Elegir imagen</string>
     <string name="st_selecImagen">Seleccionar imagen</string>
+    <string name="str_perfil">Perfil</string>
+    <string name="str_localizacion">Localizacion</string>
+    <string name="str_micuenta">Mi cuenta</string>
 
 
 </resources>

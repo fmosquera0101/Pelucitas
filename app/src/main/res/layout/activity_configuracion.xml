@@ -12,6 +12,14 @@
     tools:context="co.com.fredymosqueralemus.pelucitas.ConfiguracionActivity">
 
     <Button
+        android:id="@+id/btn_miperfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/str_micuenta"
+        android:onClick="miCuenta"/>
+
+    <Button
         android:id="@+id/siguiente_btn_cerrarsesion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

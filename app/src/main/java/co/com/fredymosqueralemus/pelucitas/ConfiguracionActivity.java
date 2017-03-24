@@ -1,5 +1,6 @@
 package co.com.fredymosqueralemus.pelucitas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -31,6 +32,11 @@ public class ConfiguracionActivity extends AppCompatActivity {
         Toast.makeText(ConfiguracionActivity.this, R.string.str_hascerradosesion,
                 Toast.LENGTH_SHORT ).show();
         finish();
+
+    }
+    public void miCuenta(View view){
+        Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
+        startActivity(intent);
 
     }
     @Override
