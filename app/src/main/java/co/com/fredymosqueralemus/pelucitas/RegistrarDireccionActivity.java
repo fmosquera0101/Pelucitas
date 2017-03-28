@@ -20,6 +20,7 @@ import java.util.Date;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -162,12 +163,19 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                     abrirActivityRegistrarHorario();
                 }
             }else{
+
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+
                 Direccion direccionUsuario = getDireccion();
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
                 direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
                 direccionUsuario.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
                 databaseReference.setValue(direccionUsuario);
+                Usuario usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                usuario.setDireccion(direccionUsuario);
+                databaseReference.setValue(usuario);
                 abrirActivityRegistrarPerfil();
             }
 

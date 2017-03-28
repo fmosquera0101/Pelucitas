@@ -77,12 +77,13 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
             databaseReference.setValue(mUsuario);
 
-            abrirActivityRegistrarDireccion();
+            abrirActivityRegistrarDireccion(mUsuario);
         }
 
     }
-    public void abrirActivityRegistrarDireccion(){
+    public void abrirActivityRegistrarDireccion(Usuario usuario){
         Intent mIntent = new Intent(this, RegistrarDireccionActivity.class);
+        mIntent.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(mIntent);
         finish();
     }

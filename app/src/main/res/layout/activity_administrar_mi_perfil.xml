@@ -12,8 +12,8 @@
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity">
 
     <ImageView
-        android:id="@+id/imagennegocio_activity_administrarminegocio"
-        android:src="@drawable/ic_store_mall_directory_black_24dp"
+        android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
+        android:src="@drawable/ic_person_outline_black_24dp"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp"
-                android:onClick="editarPerfilUsuario">
+                >
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:onClick="editarPerfilUsuario"
+                    android:onClick="editarPerfilEmpleado"
                     >
 
                     <ImageView
@@ -177,7 +177,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:onClick="editarPerfilAdministrador">
 
                     <ImageView
                         android:id="@+id/icono_perfil_administrador"

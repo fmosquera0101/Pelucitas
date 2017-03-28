@@ -55,8 +55,8 @@ public interface Constantes {
     public static final String NO = "NO";
 
     public static final String MINEGOCIOOBJECT = "MINEGOCIOCLASS";
-
     public static final String CONST_IMAGENES = "imagenes";
 
+    public static final String USUARIO_OBJECT = "USUARIO_OBJECT";
 
 }
