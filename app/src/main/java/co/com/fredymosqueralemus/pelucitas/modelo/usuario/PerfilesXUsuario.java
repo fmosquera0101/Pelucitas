@@ -1,10 +1,12 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.usuario;
 
+import java.io.Serializable;
+
 /**
  * Created by Fredy Mosquera Lemus on 9/02/17.
  */
 
-public class PerfilesXUsuario {
+public class PerfilesXUsuario implements Serializable {
     private String keyUsuarioId;
     private String fechaInsercion;
     private String fechaModificacion;

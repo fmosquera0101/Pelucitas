@@ -15,7 +15,6 @@
 
     <ImageView
         android:id="@+id/imagennegocio_activity_administrarminegocio"
-        android:src="@drawable/ic_store_mall_directory_black_24dp"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="150dp"

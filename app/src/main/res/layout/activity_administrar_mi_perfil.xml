@@ -13,11 +13,10 @@
 
     <ImageView
         android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
-        android:src="@drawable/ic_person_outline_black_24dp"
         android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:onClick="seleccionarImagenMiNegocio"/>
+        android:onClick="seleccionarImagenPerfil"/>
     <TextView
         android:id="@+id/nombreusuario_activity_administrarmiperfil"
         android:layout_width="match_parent"
@@ -89,12 +88,23 @@
                         android:layout_height="wrap_content"
                         android:rowCount="4"
                         android:columnCount="1">
-
+                        <TextView
+                            android:layout_height="20dp"
+                            android:text="@string/str_fechanacimientolabel"
+                            android:layout_width="220dp"
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/fechanacimiento_activity_administrarmiperfil"
                             android:layout_height="20dp"
                             android:text="@string/str_fechanacimiento"
                             android:layout_width="220dp" />
+                        <TextView
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/str_telefono"
+                            android:layout_width="220dp"
+                            android:textStyle="bold"
+                            />
                         <TextView
                             android:id="@+id/telefono_activity_administrarmiperfil"
                             android:layout_height="20dp"
@@ -110,6 +120,56 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right_black_24dp"
                     />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardUseCompatPadding="true">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="editarDireccionUsuario">
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rowCount="1"
+                    android:columnCount="2">
+
+                    <GridLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rowCount="4"
+                        android:columnCount="1">
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_direccion"
+                            android:layout_width="180dp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/paisdeptociudad_activity_administrarmiperfil"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_localizacion"
+                            android:layout_width="180dp" />
+                        <TextView
+                            android:id="@+id/direccion_activity_administrarmiperfil"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_direccion"
+                            android:layout_width="180dp" />
+                    </GridLayout>
+                </GridLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_black_24dp"/>
+
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -213,62 +273,8 @@
                 </RelativeLayout>
 
             </GridLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_chevron_right_black_24dp"/>
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:onClick="editarDireccionUsuario">
-
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rowCount="1"
-                    android:columnCount="2">
-
-                    <GridLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:rowCount="4"
-                        android:columnCount="1">
-
-                        <TextView
-                            android:id="@+id/paisdeptociudad_activity_administrarmiperfil"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_localizacion"
-                            android:layout_width="180dp" />
-                        <TextView
-                            android:id="@+id/direccion_activity_administrarmiperfil"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_direccion"
-                            android:layout_width="180dp" />
-                    </GridLayout>
-                </GridLayout>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_chevron_right_black_24dp"/>
-
-            </RelativeLayout>
         </android.support.v7.widget.CardView>
 
     </LinearLayout>

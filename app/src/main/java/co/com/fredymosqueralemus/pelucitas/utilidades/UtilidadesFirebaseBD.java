@@ -5,6 +5,7 @@ import com.google.firebase.storage.StorageReference;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
@@ -93,5 +94,9 @@ public class UtilidadesFirebaseBD {
     }
     public static StorageReference getReferenceImagenMiNegocio(StorageReference storageReference, MiNegocio miNegocio){
         return storageReference.child(Constantes.CONST_IMAGENES).child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
+    }
+    public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, Usuario usuario){
+        return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.USUARIO_FIREBASE_BD).
+                child(usuario.getCedulaIdentificacion()).child("MiPerfil" + usuario.getCedulaIdentificacion());
     }
 }

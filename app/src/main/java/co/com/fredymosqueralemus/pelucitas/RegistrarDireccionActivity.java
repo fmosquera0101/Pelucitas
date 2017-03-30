@@ -164,7 +164,8 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 }
             }else{
 
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+                Usuario usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getKeyUid()));
 
                 Direccion direccionUsuario = getDireccion();
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
@@ -172,11 +173,14 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 direccionUsuario.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
                 databaseReference.setValue(direccionUsuario);
-                Usuario usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+
                 usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
                 usuario.setDireccion(direccionUsuario);
+
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+
                 databaseReference.setValue(usuario);
-                abrirActivityRegistrarPerfil();
+                abrirActivityRegistrarPerfil(usuario);
             }
 
         }
@@ -196,8 +200,9 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
         return direccion;
     }
-    private void abrirActivityRegistrarPerfil(){
+    private void abrirActivityRegistrarPerfil(Usuario usuario){
         Intent intent = new Intent(this, RegistrarPerfilUsuarioActivity.class);
+        intent.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(intent);
         finish();
 
