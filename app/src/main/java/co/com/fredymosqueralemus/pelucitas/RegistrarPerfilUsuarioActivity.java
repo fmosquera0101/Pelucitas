@@ -59,18 +59,32 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         perfilesXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
         perfilesXUsuario.setFechaModificacion(null);
 
-        if(ckbxPerfilEmpleado.isChecked()){
-            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(firebaseUser.getUid()));
-            databaseReference.setValue(perfilesXUsuario);
-
-        }
-        if(ckbxPerfilAdministrador.isChecked()){
-            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilAdministrador(firebaseUser.getUid()));
-            databaseReference.setValue(perfilesXUsuario);
-        }
+        insertarPerfilEmpleado(perfilesXUsuario, firebaseDatabase);
+        insertarPerfilAdministrador(perfilesXUsuario, firebaseDatabase);
 
         abrirActivityHome();
 
+    }
+    private void insertarPerfilEmpleado(PerfilesXUsuario perfilesXUsuario, FirebaseDatabase firebaseDatabase){
+        if(ckbxPerfilEmpleado.isChecked()){
+            perfilesXUsuario.setActivo("S");
+
+        }else{
+            perfilesXUsuario.setActivo("N");
+        }
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(firebaseUser.getUid()));
+        databaseReference.setValue(perfilesXUsuario);
+    }
+    private void insertarPerfilAdministrador(PerfilesXUsuario perfilesXUsuario, FirebaseDatabase firebaseDatabase){
+        if(ckbxPerfilAdministrador.isChecked()){
+            perfilesXUsuario.setActivo("S");
+
+        }else{
+            perfilesXUsuario.setActivo("N");
+        }
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilAdministrador(firebaseUser.getUid()));
+
+        databaseReference.setValue(perfilesXUsuario);
     }
     private void abrirActivityHome(){
         /*Intent intent = new Intent(this, HomeActivity.class);

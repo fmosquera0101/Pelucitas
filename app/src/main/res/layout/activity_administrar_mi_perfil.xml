@@ -179,12 +179,19 @@
             card_view:cardCornerRadius="2dp"
             card_view:cardUseCompatPadding="true"
             android:layout_marginTop="16dp">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp"
                 >
+                <TextView
+                    android:layout_height="20dp"
+                    android:text="@string/str_perfil"
+                    android:layout_width="220dp"
+                    android:textStyle="bold"
+                    />
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,7 +205,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:onClick="editarPerfilEmpleado"
                     >
 
                     <ImageView
@@ -229,6 +235,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:enabled="true"
+                        android:onClick="actualizarPerfilEmpleado"
                         />
 
                 </RelativeLayout>
@@ -238,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:onClick="editarPerfilAdministrador">
+                  >
 
                     <ImageView
                         android:id="@+id/icono_perfil_administrador"
@@ -259,7 +266,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_toRightOf="@+id/icono_perfil_administrador"
                         android:text="@string/srt_perfiladministrador"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        />
 
                     <CheckBox
                         android:id="@+id/perfiladministrador_chkbx_activity_administrarmiperfil"
@@ -268,6 +276,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:enabled="true"
+                        android:onClick="actualizarPerfilAdministrador"
                         />
 
                 </RelativeLayout>

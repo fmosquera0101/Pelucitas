@@ -10,6 +10,7 @@ public class PerfilesXUsuario implements Serializable {
     private String keyUsuarioId;
     private String fechaInsercion;
     private String fechaModificacion;
+    private String activo;
 
     public String getKeyUsuarioId() {
         return keyUsuarioId;
@@ -33,5 +34,11 @@ public class PerfilesXUsuario implements Serializable {
 
     public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+    public String getActivo() {
+        return activo;
+    }
+    public void setActivo(String activo) {
+        this.activo = activo;
     }
 }

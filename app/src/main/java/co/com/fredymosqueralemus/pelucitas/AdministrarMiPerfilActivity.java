@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
@@ -47,6 +50,7 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
@@ -93,14 +97,21 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 usuario = dataSnapshot.getValue(Usuario.class);
-                settearViewsInfoUsuario(usuario);
-                final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario);
-                storageReferenceImagenes.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-                    @Override
-                    public void onSuccess(StorageMetadata storageMetadata) {
-                        Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(storageMetadata.getCreationTimeMillis()))).into(imgvImagenPerfilUsuario);
+                if(null != usuario) {
+                    settearViewsInfoUsuario(usuario);
+                    File fileImage = UtilidadesImagenes.getFileImagenPerfilUsuario(usuario);
+                    if (fileImage.exists()) {
+                        Glide.with(context).load(fileImage).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(fileImage.lastModified()))).into(imgvImagenPerfilUsuario);
+                    } else {
+                        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario);
+                        storageReferenceImagenes.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                            @Override
+                            public void onSuccess(StorageMetadata storageMetadata) {
+                                Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(storageMetadata.getCreationTimeMillis()))).into(imgvImagenPerfilUsuario);
+                            }
+                        });
                     }
-                });
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -112,9 +123,9 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 perfilAdministrador = dataSnapshot.getValue(PerfilesXUsuario.class);
-                if(null != perfilAdministrador){
-                    chbxPerfilAdministrador.setChecked(true);
-                }
+                boolean isPerfil = (null != perfilAdministrador && "S".equals(perfilAdministrador.getActivo()));
+                chbxPerfilAdministrador.setChecked(isPerfil);
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -126,9 +137,10 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 perfilEmpleado = dataSnapshot.getValue(PerfilesXUsuario.class);
-                if(null != perfilEmpleado){
-                    chbxPerfilEmpleado.setChecked(true);
-                }
+                boolean isPerfil = (null != perfilEmpleado && "S".equals(perfilEmpleado.getActivo()));
+
+                 chbxPerfilEmpleado.setChecked(isPerfil);
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -136,6 +148,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             }
         });
 
+        /*
         chbxPerfilAdministrador.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -156,7 +169,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
         }
 
@@ -193,25 +206,19 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void seleccionarImagenMiNegocio(View view) {
-
-    }
-
     public void editarFechaNacimientoTelefono(View view) {
-
-    }
-
-    public void editarPerfilEmpleado(View view) {
-
-    }
-
-    public void editarPerfilAdministrador(View view) {
-
+        Intent intentEditarFechaNacTel = new Intent(this, RegistrarDatosPersonalesActivity.class);
+        startActivity(intentEditarFechaNacTel);
     }
 
     public void editarDireccionUsuario(View view) {
+        Intent intentEditarDireccionUsuario = new Intent(this, RegistrarDireccionActivity.class);
+        startActivity(intentEditarDireccionUsuario);
 
     }
+
+
+
 
     public void seleccionarImagenPerfil(View view) {
         {
@@ -293,8 +300,17 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     private void guardarImagenMiNegocio(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        File fileFolderImages = new File(Environment.getExternalStorageDirectory(), "/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil");
+        if(!fileFolderImages.exists()){
+            fileFolderImages.mkdirs();
+        }
+        File file = new File(Environment.getExternalStorageDirectory()+"/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil", "usuario"+usuario.getCedulaIdentificacion()+".jpg");
         try {
             byte [] dataImage = byteArrayOutputStream.toByteArray();
+            file.createNewFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(dataImage);
+            fileOutputStream.close();
             subirImagenAFireBaseStorage(dataImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -319,5 +335,27 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void actualizarPerfilAdministrador(View view){
+        if(chbxPerfilAdministrador.isChecked()){
+            perfilAdministrador.setActivo("S");
+        }else{
+            perfilAdministrador.setActivo("N");
+        }
+        perfilAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilAdministrador(usuario.getKeyUid()));
+        databaseReference.setValue(perfilAdministrador);
+    }
+
+    public void actualizarPerfilEmpleado(View view){
+        if(chbxPerfilEmpleado.isChecked()){
+            perfilEmpleado.setActivo("S");
+        }else{
+            perfilEmpleado.setActivo("N");
+        }
+        perfilEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(usuario.getKeyUid()));
+        databaseReference.setValue(perfilEmpleado);
     }
 }
