@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
@@ -32,7 +33,7 @@ public class UtilidadesImagenes {
     private static String getPathImagenUsuarioPerfil(Usuario usuario){
         StringBuilder strbPathFileImage = new StringBuilder();
         strbPathFileImage.append(Environment.getExternalStorageDirectory());
-        strbPathFileImage.append("/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil/");
+        strbPathFileImage.append(Constantes.APP_FOLDER);
         strbPathFileImage.append("usuario");
         strbPathFileImage.append(usuario.getCedulaIdentificacion());
         strbPathFileImage.append(".jpg");

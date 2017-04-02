@@ -93,7 +93,7 @@ public class UtilidadesFirebaseBD {
         return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);
     }
     public static StorageReference getReferenceImagenMiNegocio(StorageReference storageReference, MiNegocio miNegocio){
-        return storageReference.child(Constantes.CONST_IMAGENES).child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
+        return storageReference.child(Constantes.CONST_IMAGENES).child("negocios").child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
     }
     public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, Usuario usuario){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.USUARIO_FIREBASE_BD).

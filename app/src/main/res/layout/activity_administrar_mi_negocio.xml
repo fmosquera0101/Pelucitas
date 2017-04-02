@@ -15,9 +15,9 @@
 
     <ImageView
         android:id="@+id/imagennegocio_activity_administrarminegocio"
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:src="@drawable/ic_add_a_photo_black_24dp"
         android:onClick="seleccionarImagenMiNegocio"/>
     <TextView
         android:id="@+id/nombrenegocio_activity_administrarminegocio"

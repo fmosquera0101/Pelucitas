@@ -81,6 +81,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
     private PerfilesXUsuario perfilAdministrador;
     private PerfilesXUsuario perfilEmpleado;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +98,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 usuario = dataSnapshot.getValue(Usuario.class);
-                if(null != usuario) {
+                if (null != usuario) {
                     settearViewsInfoUsuario(usuario);
                     File fileImage = UtilidadesImagenes.getFileImagenPerfilUsuario(usuario);
                     if (fileImage.exists()) {
@@ -113,6 +114,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -127,6 +129,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
                 chbxPerfilAdministrador.setChecked(isPerfil);
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -139,39 +142,18 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
                 perfilEmpleado = dataSnapshot.getValue(PerfilesXUsuario.class);
                 boolean isPerfil = (null != perfilEmpleado && "S".equals(perfilEmpleado.getActivo()));
 
-                 chbxPerfilEmpleado.setChecked(isPerfil);
+                chbxPerfilEmpleado.setChecked(isPerfil);
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
-        /*
-        chbxPerfilAdministrador.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(chbxPerfilAdministrador.isChecked()){
-                    perfilAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-                    databaseReference.setValue(perfilAdministrador);
-                }
-            }
-        });
 
-        chbxPerfilEmpleado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(chbxPerfilEmpleado.isChecked()){
-                    perfilEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-                    databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(usuario.getKeyUid()));
-                    databaseReference.setValue(perfilEmpleado);
-
-                }
-            }
-        });*/
-
-        }
+    }
 
     private void inicializarViews() {
         imgvImagenPerfilUsuario = (ImageView) findViewById(R.id.imagenmiperfil_activity_administrarmiperfil);
@@ -190,10 +172,9 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         txtvCorreoUsuario.setText(sharedPreferencesSeguro.getString(Constantes.CORREO));
         txtvFechaNacimiento.setText(miUsuario.getFechaNacimiento());
         txtvTelefono.setText(miUsuario.getTelefono());
-        //Settear perfil
         Direccion direccion = miUsuario.getDireccion();
         txtpaisdeptociudad.setText(direccion.getPais() + " " + direccion.getDepartamento() + " " + direccion.getCiudad());
-        txtvDireccion.setText(Utilidades.getStrDireccion(direccion) + ", " + direccion.getDatosAdicionales()+", " + direccion.getBarrio());
+        txtvDireccion.setText(Utilidades.getStrDireccion(direccion) + ", " + direccion.getDatosAdicionales() + ", " + direccion.getBarrio());
 
     }
 
@@ -218,36 +199,32 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     }
 
 
-
-
     public void seleccionarImagenPerfil(View view) {
-        {
-            final CharSequence[] items = {getString(R.string.st_camara), getString(R.string.st_galeria), getString(R.string.st_cancelar)};
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.st_elegirImagen));
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    boolean result = Utilidades.verificarPermisos(AdministrarMiPerfilActivity.this);
-                    if (getString(R.string.st_camara).equals(items[which])) {
-                        userChoose = getString(R.string.st_camara);
-                        if (result) {
-                            camaraIntent();
-                        }
-                    } else if (getString(R.string.st_galeria).equals(items[which])) {
-                        userChoose = getString(R.string.st_galeria);
-                        if (result) {
-                            galeriaIntent();
-                        }
-                    } else if (getString(R.string.st_cancelar).equals(items[which])) {
-                        dialog.dismiss();
+
+        final CharSequence[] items = {getString(R.string.st_camara), getString(R.string.st_galeria), getString(R.string.st_cancelar)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.st_elegirImagen));
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                boolean result = Utilidades.verificarPermisos(AdministrarMiPerfilActivity.this);
+                if (getString(R.string.st_camara).equals(items[which])) {
+                    userChoose = getString(R.string.st_camara);
+                    if (result) {
+                        camaraIntent();
                     }
-
+                } else if (getString(R.string.st_galeria).equals(items[which])) {
+                    userChoose = getString(R.string.st_galeria);
+                    if (result) {
+                        galeriaIntent();
+                    }
+                } else if (getString(R.string.st_cancelar).equals(items[which])) {
+                    dialog.dismiss();
                 }
-            });
-            builder.show();
-        }
 
+            }
+        });
+        builder.show();
     }
 
     private void galeriaIntent() {
@@ -265,12 +242,12 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == SELECT_FILE){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE) {
                 onSelectFromGaleryResult(data);
-            }else if(requestCode == REQUEST_CAMERA){
+            } else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
             }
         }
@@ -286,7 +263,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
     private void onSelectFromGaleryResult(Intent data) {
         Bitmap bitmap = null;
-        if(null != data){
+        if (null != data) {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                 guardarImagenMiNegocio(bitmap);
@@ -297,16 +274,17 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         }
 
     }
-    private void guardarImagenMiNegocio(Bitmap bitmap){
+
+    private void guardarImagenMiNegocio(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        File fileFolderImages = new File(Environment.getExternalStorageDirectory(), "/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil");
-        if(!fileFolderImages.exists()){
+        File fileFolderImages = new File(Environment.getExternalStorageDirectory(), Constantes.APP_FOLDER);
+        if (!fileFolderImages.exists()) {
             fileFolderImages.mkdirs();
         }
-        File file = new File(Environment.getExternalStorageDirectory()+"/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil", "usuario"+usuario.getCedulaIdentificacion()+".jpg");
+        File file = new File(Environment.getExternalStorageDirectory() + Constantes.APP_FOLDER, "usuario" + usuario.getCedulaIdentificacion() + ".jpg");
         try {
-            byte [] dataImage = byteArrayOutputStream.toByteArray();
+            byte[] dataImage = byteArrayOutputStream.toByteArray();
             file.createNewFile();
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(dataImage);
@@ -317,30 +295,30 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         }
     }
 
-    private void subirImagenAFireBaseStorage(byte [] dataImage) throws FileNotFoundException {
+    private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
         UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario).putBytes(dataImage);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
 
                 Toast.makeText(AdministrarMiPerfilActivity.this, "No se pudo cargar la imagen",
-                        Toast.LENGTH_SHORT ).show();
+                        Toast.LENGTH_SHORT).show();
 
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(AdministrarMiPerfilActivity.this, "Imagen cargada correctamente",
-                        Toast.LENGTH_SHORT ).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    public void actualizarPerfilAdministrador(View view){
-        if(chbxPerfilAdministrador.isChecked()){
+    public void actualizarPerfilAdministrador(View view) {
+        if (chbxPerfilAdministrador.isChecked()) {
             perfilAdministrador.setActivo("S");
-        }else{
+        } else {
             perfilAdministrador.setActivo("N");
         }
         perfilAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
@@ -348,10 +326,10 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         databaseReference.setValue(perfilAdministrador);
     }
 
-    public void actualizarPerfilEmpleado(View view){
-        if(chbxPerfilEmpleado.isChecked()){
+    public void actualizarPerfilEmpleado(View view) {
+        if (chbxPerfilEmpleado.isChecked()) {
             perfilEmpleado.setActivo("S");
-        }else{
+        } else {
             perfilEmpleado.setActivo("N");
         }
         perfilEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));

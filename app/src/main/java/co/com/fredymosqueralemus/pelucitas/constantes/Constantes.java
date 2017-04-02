@@ -59,4 +59,6 @@ public interface Constantes {
 
     public static final String USUARIO_OBJECT = "USUARIO_OBJECT";
 
+    public static final String APP_FOLDER = "/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil";
+
 }

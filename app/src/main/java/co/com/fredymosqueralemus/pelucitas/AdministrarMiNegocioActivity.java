@@ -102,12 +102,12 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+
         imgvImagenNegocio = (ImageView) findViewById(R.id.imagennegocio_activity_administrarminegocio);
         tvNitNegocio = (TextView) findViewById(R.id.nit_activity_administrarminegocio);
         tvNombre = (TextView) findViewById(R.id.nombrenegocio_activity_administrarminegocio);
         tvTelefono = (TextView) findViewById(R.id.telefono_activity_administrarminegocio);
         tvTipoNegocio = (TextView) findViewById(R.id.tiponegocio_activity_administrarminegocio);
-
         tvDireccion = (TextView) findViewById(R.id.direccion_activity_administrarminegocio);
         tvBarrio = (TextView) findViewById(R.id.barrio_activity_administrarminegocio);
         tvDatosAdicionales = (TextView) findViewById(R.id.datosadicionales_activity_administrarminegocio);
@@ -298,7 +298,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(AdministrarMiNegocioActivity.this, "No se pudo cargar la imagen",
                         Toast.LENGTH_SHORT ).show();
 

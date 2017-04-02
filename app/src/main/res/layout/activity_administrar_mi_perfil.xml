@@ -13,9 +13,11 @@
 
     <ImageView
         android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:src="@drawable/ic_add_a_photo_black_24dp"
         android:onClick="seleccionarImagenPerfil"/>
     <TextView
         android:id="@+id/nombreusuario_activity_administrarmiperfil"
