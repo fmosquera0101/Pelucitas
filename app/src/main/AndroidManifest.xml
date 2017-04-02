@@ -51,7 +51,8 @@
         <activity
             android:name=".AdministrarMiNegocioActivity"
             android:label="@string/str_activity_administrarMisNegocios" />
-        <activity android:name=".AdministrarMiPerfilActivity"></activity>
+        <activity android:name=".AdministrarMiPerfilActivity" />
+        <activity android:name=".EditarInforamcionMiNegocioActivity"></activity>
     </application>
 
 </manifest>

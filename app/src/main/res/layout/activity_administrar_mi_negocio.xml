@@ -13,227 +13,133 @@
     android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity">
 
-    <ImageView
-        android:id="@+id/imagennegocio_activity_administrarminegocio"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_add_a_photo_black_24dp"
-        android:onClick="seleccionarImagenMiNegocio"/>
-    <TextView
-        android:id="@+id/nombrenegocio_activity_administrarminegocio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/str_minegocio"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textSize="25dp" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <TextView
-            android:id="@+id/str_informacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-        android:textStyle="bold"
-            android:text="@string/str_informacion"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardUseCompatPadding="true">
     <RelativeLayout
-        android:id="@+id/editar_informacionminegocio_activity_administrarminegocio"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:onClick="editarInforamcionMiNegocio"
+        android:onClick="editarInformacionMiNegocio"
         >
-
         <GridLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:rowCount="1"
             android:columnCount="2">
+            <ImageView
+                android:id="@+id/imagen_minegocio_activity_administrarminegocio"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_add_a_photo_black_24dp"
+                />
 
-
-            <GridLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:rowCount="4"
-                android:columnCount="1">
-
-
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center">
                 <TextView
-                    android:id="@+id/nit_activity_administrarminegocio"
-                    android:layout_height="20dp"
+                    android:id="@+id/nombrenegocio_activity_administrarminegocio"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/str_minegocio"
+                    />
+                <TextView
+                    android:id="@+id/nitnegocio_activity_administrarminegocio"
+                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
                     android:text="@string/str_nit"
-                    android:layout_width="220dp" />
-
-                <TextView
-                    android:id="@+id/telefono_activity_administrarminegocio"
-                    android:layout_height="20dp"
-                    android:layout_width="180dp"
-                    android:text="@string/str_direccion"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     />
                 <TextView
                     android:id="@+id/tiponegocio_activity_administrarminegocio"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Tipo negocio"
+                    android:text="@string/str_tiponegocio"
                     android:layout_width="220dp" />
 
-            </GridLayout>
+            </LinearLayout>
         </GridLayout>
-        <ImageView
-            android:id="@+id/icono_indicadorderecho_activity_administrarminegocio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_chevron_right_black_24dp"/>
-
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+    <include layout="@layout/linea_separador"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:textStyle="bold"
-        android:text="@string/str_direccion"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardUseCompatPadding="true">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:onClick="editarDireccionMiNegocio"
-            >
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
 
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rowCount="1"
-                android:columnCount="2">
-
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rowCount="4"
-                    android:columnCount="1">
-
-                    <TextView
-                        android:id="@+id/direccion_activity_administrarminegocio"
-                        android:layout_height="20dp"
-                        android:text="Direccion"
-                        android:layout_width="220dp" />
-                    <TextView
-                        android:id="@+id/datosadicionales_activity_administrarminegocio"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:text="Datos adicionales"
-                        android:layout_width="220dp" />
-                    <TextView
-                        android:id="@+id/barrio_activity_administrarminegocio"
-                        android:layout_height="20dp"
-                        android:text="Barrio"
-                        android:layout_width="220dp" />
-
-
-                </GridLayout>
-            </GridLayout>
             <ImageView
-                android:id="@+id/icono_indicadorderechoeditardireccion_activity_administrarminegocio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_chevron_right_black_24dp"
-               />
+                android:id="@+id/imagendireccion_activity_administrarminegocio"
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_direccion_black_24dp"
+                />
 
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:textStyle="bold"
-        android:text="@string/str_horario"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardUseCompatPadding="true">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:onClick="editarHoararioMiNegocio"
-            >
-
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rowCount="1"
-                android:columnCount="2">
-
-                <GridLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/direccion_activity_administrarminegocio"
                     android:layout_height="wrap_content"
-                    android:rowCount="4"
-                    android:columnCount="1">
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/str_direccion"
+                    android:layout_gravity="center"
+                    />
+    </LinearLayout>
+    <include layout="@layout/linea_separador"/>
 
-                    <TextView
-                        android:id="@+id/horariolaboral_activity_administrarminegocio"
-                        android:layout_height="wrap_content"
-                        android:text="horario laboral"
-                        android:layout_width="180dp" />
-
-
-
-                </GridLayout>
-            </GridLayout>
-            <ImageView
-                android:id="@+id/icono_indicadorderechoeditarhorario_activity_administrarminegocio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_chevron_right_black_24dp"/>
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-    <Button
-        android:id="@+id/agregarempleado_activity_administrarminegocio"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/str_agregarempleado"
-        android:onClick="agregarEmpleado"/>
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
 
-    <Button
-        android:id="@+id/administraragenda_activity_administrarminegocio"
+        <ImageView
+            android:id="@+id/imagenhorario_activity_administrarminegocio"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_horario_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/horario_activity_administrarminegocio"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="@string/str_horario"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+    <include layout="@layout/linea_separador"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/str_administraragenda"
-        android:onClick="agregarEmpleado"/>
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/imagenempleado_activity_administrarminegocio"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_empleados_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/empleados_activity_administrarminegocio"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="@string/str_empleados"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
 </LinearLayout>
