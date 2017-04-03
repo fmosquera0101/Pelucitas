@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
@@ -18,8 +21,11 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.horario.FormularioRegistrarHorario;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class RegistrarHorarioActivity extends AppCompatActivity {
     private FormularioRegistrarHorario formularioRegistrarHorario;
@@ -34,6 +40,9 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_horario);
         intent = getIntent();
         miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+        SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
         mAuth = FirebaseAuth.getInstance();
         btnRegistrarHorario = (Button) findViewById(R.id.siguiente_btn_registrarhorariolayout);
         formularioRegistrarHorario = new FormularioRegistrarHorario(this, RegistrarHorarioActivity.this);
@@ -43,8 +52,19 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             btnRegistrarHorario.setText(getString(R.string.str_editar));
             getSupportActionBar().setTitle(getString(R.string.str_editarhorario));
-            formularioRegistrarHorario.setCheckedDias(miNegocio.getHorarioNegocio());
-            formularioRegistrarHorario.settearHorarioLaboral(miNegocio.getHorarioNegocio());
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                    formularioRegistrarHorario.setCheckedDias(miNegocio.getHorarioNegocio());
+                    formularioRegistrarHorario.settearHorarioLaboral(miNegocio.getHorarioNegocio());
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
     }
@@ -56,7 +76,7 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
             if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                 miNegocio.setHorarioNegocio(formularioRegistrarHorario.getHorario());
                 miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                 databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
                 finish();
             }else{
@@ -65,7 +85,7 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
                 Horario horario = formularioRegistrarHorario.getHorario();
                 databaseReference.setValue(horario);
                 miNegocio.setHorarioNegocio(horario);
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                 databaseReference.push().setValue(miNegocio);
                 iraHome();
             }

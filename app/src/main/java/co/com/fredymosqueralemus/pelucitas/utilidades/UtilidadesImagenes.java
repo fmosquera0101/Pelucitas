@@ -1,6 +1,20 @@
 package co.com.fredymosqueralemus.pelucitas.utilidades;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.signature.StringSignature;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
@@ -13,6 +27,25 @@ import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
  */
 
 public class UtilidadesImagenes {
+
+    public static void cargarImagenMiNegocio(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
+        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+        storageReferenceImagenes.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
+                        centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(storageMetadata.getCreationTimeMillis()))).
+                        into(new BitmapImageViewTarget(imageView) {
+                            @Override
+                            public void setResource(Bitmap resource) {
+                                RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                                circularImage.setCircular(true);
+                                imageView.setImageDrawable(circularImage);
+                            }
+                        });
+            }
+        });
+    }
 
     public static File getFileImagenMiNegocio(MiNegocio miNegocio){
         return new File(getPathImagenMiNegoico(miNegocio));

@@ -54,7 +54,7 @@
                     android:ellipsize="end"
                     />
                 <TextView
-                    android:id="@+id/tiponegocio_activity_administrarminegocio"
+                    android:id="@+id/tipo_negocio_activity_administrarminegocio"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/str_tiponegocio"
@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
+        android:onClick="editarDireccionMiNegocio"
         >
 
             <ImageView
@@ -96,6 +97,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
+        android:onClick="editarHoararioMiNegocio"
         >
 
         <ImageView

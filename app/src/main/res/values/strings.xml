@@ -121,6 +121,7 @@
     <string name="str_localizacion">Localizacion</string>
     <string name="str_micuenta">Mi cuenta</string>
     <string name="str_empleados">Empleados</string>
+    <string name="str_cancelar">Cancelar</string>
 
 
 </resources>

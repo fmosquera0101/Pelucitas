@@ -60,7 +60,7 @@ public class UtilidadesFirebaseBD {
         return strbNodoInserPerfilAdministrador.toString();
 
     }
-    public static String getUrlInsercionMiNegocio(String usuarioUid, String nitMiNegocio){
+    public static String getUrlInsercionMiNegocio(String usuarioUid){
         StringBuilder strbNodoInsercionMiNegocio = new StringBuilder();
         strbNodoInsercionMiNegocio.append(Constantes.MINEGOCIO_FIREBASE_BD);
         strbNodoInsercionMiNegocio.append("/");

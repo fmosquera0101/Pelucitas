@@ -12,8 +12,11 @@ import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
@@ -21,8 +24,11 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
@@ -44,7 +50,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
     private Intent intent;
     private MiNegocio miNegocio;
-
+    SharedPreferencesSeguro sharedPreferencesSeguro;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +58,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
         intent = getIntent();
         miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
-
+        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
         etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
         etxtCiudadMunicipio = (EditText) findViewById(R.id.ciudadmunicipio_etxt_registrardireccionlayout);
@@ -78,15 +84,28 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
     }
     private void settearInformacionDireccion(){
-        Direccion direccion = miNegocio.getDireccion();
-        etxtPais.setText(direccion.getPais());
-        etxtDepartamento.setText(direccion.getDepartamento());
-        etxtCiudadMunicipio.setText(direccion.getCiudad());
-        etxtCarreraCalle.setText(direccion.getCarreraCalle());
-        etxtNumero1.setText(direccion.getNumero1());
-        etxtNumero2.setText(direccion.getNumero2());
-        etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
-        etxtBarrio.setText(direccion.getBarrio());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                Direccion direccion = miNegocio.getDireccion();
+                etxtPais.setText(direccion.getPais());
+                etxtDepartamento.setText(direccion.getDepartamento());
+                etxtCiudadMunicipio.setText(direccion.getCiudad());
+                etxtCarreraCalle.setText(direccion.getCarreraCalle());
+                etxtNumero1.setText(direccion.getNumero1());
+                etxtNumero2.setText(direccion.getNumero2());
+                etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
+                etxtBarrio.setText(direccion.getBarrio());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
     private boolean isAlgunCampoFormularioDireccionVacio(){
         if(TextUtils.isEmpty(etxtPais.getText())){
@@ -155,7 +174,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 miNegocio.setDireccion(direccionNegocio);
                 if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                     miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-                    databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador(), miNegocio.getNitNegocio()));
+                    databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                     databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
                     finish();
 
