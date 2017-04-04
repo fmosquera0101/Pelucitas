@@ -52,7 +52,11 @@
             android:name=".AdministrarMiNegocioActivity"
             android:label="@string/str_activity_administrarMisNegocios" />
         <activity android:name=".AdministrarMiPerfilActivity" />
-        <activity android:name=".EditarInforamcionMiNegocioActivity"></activity>
+        <activity android:name=".EditarInforamcionMiNegocioActivity" />
+
+        <service
+            android:name=".services.CargarImagenMiNegocioIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

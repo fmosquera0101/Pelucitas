@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -14,7 +15,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +36,17 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
-import co.com.fredymosqueralemus.pelucitas.seleccionarimagenes.SeleccionarImagenMiNegocio;
+import co.com.fredymosqueralemus.pelucitas.imagenes.SeleccionarImagenMiNegocio;
+import co.com.fredymosqueralemus.pelucitas.services.CargarImagenMiNegocioIntentService;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
@@ -61,20 +65,22 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
-
-    SeleccionarImagenMiNegocio seleccionarImagenMiNegocio;
+    private SeleccionarImagenMiNegocio seleccionarImagenMiNegocio;
+    private FirebaseDatabase firebaseDatabase;
+    SharedPreferencesSeguro sharedPreferencesSeguro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_inforamcion_mi_negocio);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         intent = getIntent();
         context = this;
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
-        SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         seleccionarImagenMiNegocio = new SeleccionarImagenMiNegocio(context, this);
         imgvImagenMiNegocio = (ImageView) findViewById(R.id.imagen_miperfil_activity_editar_informacion_minegocio);
         txvNombreNegocio = (TextView) findViewById(R.id.nombre_negocio_activity_editar_informacion_minegocio);
@@ -83,21 +89,25 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_editar_informacion_minegocio);
 
         if(null != miNegocio){
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-                    txvNombreNegocio.setText(miNegocio.getNombreNegocio());
-                    txvNitNegocio.setText(getString(R.string.str_nit)+": "+miNegocio.getNitNegocio());
-                    txvTelefonoNegocio.setText(getString(R.string.str_telefono)+": "+miNegocio.getTelefonoNegocio());
-                    txvTipoNegocio.setText(getString(R.string.str_tiponegocio)+": "+miNegocio.getTipoNegocio().getTipoNegocio());
-                    UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                            txvNombreNegocio.setText(miNegocio.getNombreNegocio());
+                            txvNitNegocio.setText(getString(R.string.str_nit)+": "+miNegocio.getNitNegocio());
+                            txvTelefonoNegocio.setText(getString(R.string.str_telefono)+": "+miNegocio.getTelefonoNegocio());
+                            txvTipoNegocio.setText(getString(R.string.str_tiponegocio)+": "+miNegocio.getTipoNegocio().getTipoNegocio());
+                            UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
+                        }
 
-                }
-            });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    }
+            );
+
 
         }
 
@@ -176,7 +186,15 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
     private void guardarImagenMiNegocio(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        int bytesCount = bitmap.getByteCount();
+        int bytesCompress = 0;
+        if(bytesCount > 5132448){
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+
+            bytesCompress = bitmap.getByteCount();
+        }else{
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        }
         try {
             byte[] dataImage = byteArrayOutputStream.toByteArray();
             subirImagenAFireBaseStorage(dataImage);
@@ -186,23 +204,36 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     }
 
     private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
-        UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio).putBytes(dataImage);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "No se pudo cargar la imagen",
-                        Toast.LENGTH_SHORT).show();
+        Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
+        intenCargarImgagen.putExtra("byteArrayImagenMiNegocio", dataImage);
+        intenCargarImgagen.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+        startService(intenCargarImgagen);
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(null != miNegocio){
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                            txvNombreNegocio.setText(miNegocio.getNombreNegocio());
+                            txvNitNegocio.setText(getString(R.string.str_nit)+": "+miNegocio.getNitNegocio());
+                            txvTelefonoNegocio.setText(getString(R.string.str_telefono)+": "+miNegocio.getTelefonoNegocio());
+                            txvTipoNegocio.setText(getString(R.string.str_tiponegocio)+": "+miNegocio.getTipoNegocio().getTipoNegocio());
+                            UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
+                        }
 
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(context, "Imagen cargada correctamente",
-                        Toast.LENGTH_SHORT).show();
-                UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
-            }
-        });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
+                        }
+                    }
+            );
+
+
+        }
     }
 
 }

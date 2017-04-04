@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 
 /**
  * Esta clase representa el negocio, entidad o local ( peluqueria, barberia, salon de belleza)
@@ -24,6 +25,7 @@ public class MiNegocio implements Serializable {
     private String fechaModificacion;
     private String uidAdministrador;
     private String keyChild;
+    private ImagenModelo imagenModelo;
 
     public MiNegocio(){
 
@@ -107,5 +109,13 @@ public class MiNegocio implements Serializable {
 
     public void setKeyChild(String keyChild) {
         this.keyChild = keyChild;
+    }
+
+    public ImagenModelo getImagenModelo() {
+        return imagenModelo;
+    }
+
+    public void setImagenModelo(ImagenModelo imagenModelo) {
+        this.imagenModelo = imagenModelo;
     }
 }

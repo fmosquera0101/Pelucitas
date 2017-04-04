@@ -44,7 +44,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser mFirebaseUser;
-    FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDatabase;
     private Intent intent;
     private MiNegocio miNegocio;
 

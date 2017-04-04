@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
@@ -30,21 +31,20 @@ public class UtilidadesImagenes {
 
     public static void cargarImagenMiNegocio(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
         final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
-        storageReferenceImagenes.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-            @Override
-            public void onSuccess(StorageMetadata storageMetadata) {
-                Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
-                        centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(storageMetadata.getCreationTimeMillis()))).
-                        into(new BitmapImageViewTarget(imageView) {
-                            @Override
-                            public void setResource(Bitmap resource) {
-                                RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                                circularImage.setCircular(true);
-                                imageView.setImageDrawable(circularImage);
-                            }
-                        });
-            }
-        });
+        ImagenModelo imagenModelo = miNegocio.getImagenModelo();
+        if(null != imagenModelo) {
+            Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
+                    centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
+                    into(new BitmapImageViewTarget(imageView) {
+                        @Override
+                        public void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                            circularImage.setCircular(true);
+                            imageView.setImageDrawable(circularImage);
+                        }
+                    });
+        }
+
     }
 
     public static File getFileImagenMiNegocio(MiNegocio miNegocio){

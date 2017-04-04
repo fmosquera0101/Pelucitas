@@ -33,6 +33,7 @@ import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -77,24 +78,12 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             itemHolderlMisNegocios = (ItemHolderlMisNegocios) view.getTag();
         }
         MiNegocio miNegocio = lstMisNegocios.get(position);
-        StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
 
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
         itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(miNegocio.getDireccion())+", "+miNegocio.getDireccion().getDatosAdicionales());
         itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(miNegocio.getHorarioNegocio()));
         itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
-
-
-        Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
-                centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).
-                into(new BitmapImageViewTarget(itemHolderlMisNegocios.imageView){
-            @Override
-            public void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularImage = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                circularImage.setCircular(true);
-                itemHolderlMisNegocios.imageView.setImageDrawable(circularImage);
-            }
-        });
+       UtilidadesImagenes.cargarImagenMiNegocio(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
 
         return  view;
 

@@ -88,7 +88,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_administrarminegocio);
 
         if (null != miNegocio) {
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
@@ -103,7 +103,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
             });
 
         }
-
 
     }
 
@@ -147,18 +146,15 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     public void agregarEmpleado(View view) {
 
     }
-
     @Override
-    public void onStart() {
+    public void onStart(){
         super.onStart();
-        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                MiNegocio minegocioOnchange = dataSnapshot.child(miNegocio.getKeyChild()).getValue(MiNegocio.class);
-                if (null != minegocioOnchange) {
-                    settearInforamcioEnViesMiNegocio(minegocioOnchange);
-                    UtilidadesImagenes.cargarImagenMiNegocio(imgvMiNegocio, minegocioOnchange, context, storageReference);
-                }
+                MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                settearInforamcioEnViesMiNegocio(miNegocio);
+                UtilidadesImagenes.cargarImagenMiNegocio(imgvMiNegocio, miNegocio, context, storageReference);
             }
 
             @Override
