@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +59,8 @@ public class FragmentListviewMisnegocios extends Fragment {
     }
 
     private void poblarListViewMisNegocios(){
+        Toast.makeText(getContext(), "Obteniedo la informacion de tus negocios, por favor espere",
+                Toast.LENGTH_SHORT).show();
         databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

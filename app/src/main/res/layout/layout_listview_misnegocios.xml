@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:rowCount="4"
-                android:columnCount="1">
+                android:columnCount="1"
+                android:layout_marginLeft="10dp">
                 <TextView
                     android:id="@+id/nombrenegocio_layout_listview_misnegocios"
                     android:layout_height="wrap_content"

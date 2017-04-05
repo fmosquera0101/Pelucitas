@@ -63,11 +63,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private MiNegocio miNegocio;
 
     private SharedPreferencesSeguro sharedPreferencesSeguro;
-    private int REQUEST_CAMERA = 0;
-    private int SELECT_FILE = 1;
-
     private StorageReference storageReference;
-    private String userChoose;
     private DatabaseReference databaseReference;
 
 
@@ -87,22 +83,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         txvNitMiNegocio = (TextView) findViewById(R.id.nitnegocio_activity_administrarminegocio);
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_administrarminegocio);
 
-        if (null != miNegocio) {
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-                    settearInforamcioEnViesMiNegocio(miNegocio);
-                    UtilidadesImagenes.cargarImagenMiNegocio(imgvMiNegocio, miNegocio, context, storageReference);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
+        getInforamcionNegocio();
 
     }
 
@@ -149,18 +130,27 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-                settearInforamcioEnViesMiNegocio(miNegocio);
-                UtilidadesImagenes.cargarImagenMiNegocio(imgvMiNegocio, miNegocio, context, storageReference);
-            }
+        getInforamcionNegocio();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    }
 
-            }
-        });
+    private void getInforamcionNegocio(){
+        if (null != miNegocio) {
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+                    settearInforamcioEnViesMiNegocio(miNegocio);
+                    UtilidadesImagenes.cargarImagenMiNegocio(imgvMiNegocio, miNegocio, context, storageReference);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
     }
 }

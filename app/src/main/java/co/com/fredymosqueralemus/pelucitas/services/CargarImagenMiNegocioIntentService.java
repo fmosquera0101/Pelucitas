@@ -19,7 +19,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
 
+import co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity;
+import co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity;
 import co.com.fredymosqueralemus.pelucitas.EditarInforamcionMiNegocioActivity;
+import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
@@ -46,15 +49,37 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
             byte[] dataImage = intent.getByteArrayExtra("byteArrayImagenMiNegocio");
             final MiNegocio miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
             StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
+
+            final int id = 1;
+            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+            mBuilder.setSmallIcon(R.drawable.ic_notification_24dp);
+            mBuilder.setContentTitle("Carga de Pelucitas");
+            mBuilder.setContentText("Se esta cargando su imagen");
+            Intent resultIntent = new Intent(this, AdministrarMiNegocioActivity.class);
+            resultIntent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+
+            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+            taskStackBuilder.addNextIntent(new Intent(this, InicioActivity.class));
+            taskStackBuilder.addNextIntent(resultIntent);
+
+            PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pendingIntent);
+            mBuilder.setAutoCancel(true);
+            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+            mBuilder.setProgress(0, 0, true);
+            notificationManager.notify(id, mBuilder.build());
+
             UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio).putBytes(dataImage);
+
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    //Toast.makeText(context, "No se pudo cargar la imagen",
-                    //        Toast.LENGTH_SHORT).show();
-
-                    Log.d("Imagen", "Imagen cargada Fallo");
-                    mostrarNotificacion("Imagen cargada Fallo", miNegocio);
+                    mBuilder.setContentTitle("Carga de Pelucitas fallida");
+                    mBuilder.setContentText("Toca para ver las opciones");
+                    mBuilder.setProgress(0, 0, false);
+                    notificationManager.notify(id, mBuilder.build());
 
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -74,47 +99,15 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                     databaseReferenceMiNegocio.child(miNegocio.getKeyChild()).setValue(miNegocio);
-
-                    mostrarNotificacion("Imagen cargada correctamente", miNegocio);
-                    //Toast.makeText(context, "Imagen cargada correctamente",
-                    //       Toast.LENGTH_SHORT).show();
+                    mBuilder.setContentTitle("Carga de Pelucitas finalizada");
+                    mBuilder.setContentText("Toca para ver las opciones");
+                    mBuilder.setProgress(0, 0, false);
+                    notificationManager.notify(id, mBuilder.build());
                 }
 
             });
 
         }
-    }
-
-    private void mostrarNotificacion(String mensaje, MiNegocio miNegocio) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notification_24dp)
-                        .setContentTitle("My notification")
-                        .setContentText("Imagen cargada correctamente");
-// Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, EditarInforamcionMiNegocioActivity.class);
-        resultIntent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(EditarInforamcionMiNegocioActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-        int mId = 1;
-        mBuilder.setProgress(0, 0, true);
-        mNotificationManager.notify(mId, mBuilder.build());
     }
 
 }
