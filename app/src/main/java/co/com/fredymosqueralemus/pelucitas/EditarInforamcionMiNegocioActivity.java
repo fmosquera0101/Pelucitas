@@ -43,6 +43,7 @@ import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.imagenes.SeleccionarImagenMiNegocio;
 import co.com.fredymosqueralemus.pelucitas.services.CargarImagenMiNegocioIntentService;
+import co.com.fredymosqueralemus.pelucitas.services.TaskCargarImagenMiNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
@@ -204,10 +205,11 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
         Toast.makeText(context, "Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones",
                 Toast.LENGTH_SHORT).show();
-        Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
+        /*Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
         intenCargarImgagen.putExtra(Constantes.BYTE_ARRAY_IMAGEN_MI_NEGOCIO, dataImage);
         intenCargarImgagen.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
-        startService(intenCargarImgagen);
+        startService(intenCargarImgagen);*/
+        new TaskCargarImagenMiNegocio(context, dataImage, miNegocio, imgvImagenMiNegocio).execute();
 
     }
     @Override
