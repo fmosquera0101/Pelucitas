@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 
 /**
  * Esta clase representa el modelo de usuario de la aplicaion
@@ -22,6 +23,8 @@ public class Usuario implements Serializable {
 
     private String fechaInsercion;
     private String fechaModificacion;
+
+    private ImagenModelo imagenModelo;
 
     public String getKeyUid() {
         return keyUid;
@@ -101,5 +104,13 @@ public class Usuario implements Serializable {
 
     public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public ImagenModelo getImagenModelo() {
+        return imagenModelo;
+    }
+
+    public void setImagenModelo(ImagenModelo imagenModelo) {
+        this.imagenModelo = imagenModelo;
     }
 }

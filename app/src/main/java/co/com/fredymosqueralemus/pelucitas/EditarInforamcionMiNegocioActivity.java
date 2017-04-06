@@ -5,11 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,36 +14,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.signature.StringSignature;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
-import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
-import co.com.fredymosqueralemus.pelucitas.imagenes.SeleccionarImagenMiNegocio;
-import co.com.fredymosqueralemus.pelucitas.services.CargarImagenMiNegocioIntentService;
+import co.com.fredymosqueralemus.pelucitas.imagenes.SeleccionarImagen;
 import co.com.fredymosqueralemus.pelucitas.services.TaskCargarImagenMiNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
@@ -66,7 +50,7 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
-    private SeleccionarImagenMiNegocio seleccionarImagenMiNegocio;
+    private SeleccionarImagen seleccionarImagenMiNegocio;
     private FirebaseDatabase firebaseDatabase;
     SharedPreferencesSeguro sharedPreferencesSeguro;
 
@@ -82,7 +66,7 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-        seleccionarImagenMiNegocio = new SeleccionarImagenMiNegocio(context, this);
+        seleccionarImagenMiNegocio = new SeleccionarImagen(context, this);
         imgvImagenMiNegocio = (ImageView) findViewById(R.id.imagen_miperfil_activity_editar_informacion_minegocio);
         txvNombreNegocio = (TextView) findViewById(R.id.nombre_negocio_activity_editar_informacion_minegocio);
         txvNitNegocio = (TextView) findViewById(R.id.nit_negocio_activity_editar_informacion_minegocio);
@@ -134,8 +118,8 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void seleccionarImagenPerfil(View view){
-        seleccionarImagenMiNegocio.seleccionarImagenMiNegocio();
+    public void seleccionarImagenMiNegocio(View view){
+        seleccionarImagenMiNegocio.seleccionarImagen();
     }
 
     @Override
@@ -190,8 +174,6 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
     private void guardarImagenMiNegocio(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        int bytesCount = bitmap.getByteCount();
-
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         try {

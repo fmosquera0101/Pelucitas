@@ -27,267 +27,94 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:textSize="25dp" />
+    <TextView
+        android:id="@+id/correo_activity_administrarmiperfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_correo"
+        android:textAlignment="center"
+         />
+
+    <include layout="@layout/linea_separador"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:onClick="editarInformacionPersonal"
+        >
+
+        <ImageView
+            android:id="@+id/imageninfoperfil_activity_administrarmiperfil"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_person_outline_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/informacion_activity_administrarmiperfil"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="@string/str_informacion_personal"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+    <include layout="@layout/linea_separador"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:onClick="editarDireccionUsuario"
+        >
+
+        <ImageView
+            android:id="@+id/imagendireccion_activity_administrarmiperfil"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_direccion_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/direccion_activity_administrarmiperfil"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="@string/str_direccion"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+    <include layout="@layout/linea_separador"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:onClick="editarPerfiles"
+        >
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imagenperfiles_activity_administrarmiperfil"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_empleados_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/perfiles_activity_administrarmiperfil"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true">
-            <RelativeLayout
-                android:id="@+id/editar_informacionminegocio_activity_administrarmiperfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rowCount="1"
-                    android:columnCount="2">
-
-                    <GridLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:rowCount="4"
-                        android:columnCount="1">
-                        <TextView
-                            android:id="@+id/correo_activity_administrarmiperfil"
-                            android:layout_height="20dp"
-                            android:text="@string/str_correo"
-                            android:layout_width="220dp" />
-
-                    </GridLayout>
-                </GridLayout>
-
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:onClick="editarFechaNacimientoTelefono"
-                >
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rowCount="1"
-                    android:columnCount="2">
-
-                    <GridLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:rowCount="4"
-                        android:columnCount="1">
-                        <TextView
-                            android:layout_height="20dp"
-                            android:text="@string/str_fechanacimientolabel"
-                            android:layout_width="220dp"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/fechanacimiento_activity_administrarmiperfil"
-                            android:layout_height="20dp"
-                            android:text="@string/str_fechanacimiento"
-                            android:layout_width="220dp" />
-                        <TextView
-                            android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
-                            android:text="@string/str_telefono"
-                            android:layout_width="220dp"
-                            android:textStyle="bold"
-                            />
-                        <TextView
-                            android:id="@+id/telefono_activity_administrarmiperfil"
-                            android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
-                            android:text="@string/str_telefono"
-                            android:layout_width="220dp" />
-                    </GridLayout>
-                </GridLayout>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_chevron_right_black_24dp"
-                    />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:onClick="editarDireccionUsuario">
-
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:rowCount="1"
-                    android:columnCount="2">
-
-                    <GridLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:rowCount="4"
-                        android:columnCount="1">
-
-                        <TextView
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_direccion"
-                            android:layout_width="180dp"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/paisdeptociudad_activity_administrarmiperfil"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_localizacion"
-                            android:layout_width="180dp" />
-                        <TextView
-                            android:id="@+id/direccion_activity_administrarmiperfil"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_direccion"
-                            android:layout_width="180dp" />
-                    </GridLayout>
-                </GridLayout>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_chevron_right_black_24dp"/>
-
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true"
-            android:layout_marginTop="16dp">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                >
-                <TextView
-                    android:layout_height="20dp"
-                    android:text="@string/str_perfil"
-                    android:layout_width="220dp"
-                    android:textStyle="bold"
-                    />
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="1"
-                android:padding="16dp"
-                android:rowCount="2">
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayoutEditarPerfil_activity_administrarmiperfil"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    >
-
-                    <ImageView
-                        android:id="@+id/icono_perfil_empleado"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/ic_person_outline_black_24dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/perfilempleado_textv_activity_administrarmiperfil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toRightOf="@+id/icono_perfil_empleado"
-                        android:text="@string/srt_perfilempleado"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <CheckBox
-                        android:id="@+id/perfilempleado_chkbx_activity_administrarmiperfil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:enabled="true"
-                        android:onClick="actualizarPerfilEmpleado"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                  >
-
-                    <ImageView
-                        android:id="@+id/icono_perfil_administrador"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/ic_person_outline_black_24dp"
-                        />
-
-                    <TextView
-                        android:id="@+id/perfiladministrdor_textv_activity_administrarmiperfil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toRightOf="@+id/icono_perfil_administrador"
-                        android:text="@string/srt_perfiladministrador"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        />
-
-                    <CheckBox
-                        android:id="@+id/perfiladministrador_chkbx_activity_administrarmiperfil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:enabled="true"
-                        android:onClick="actualizarPerfilAdministrador"
-                        />
-
-                </RelativeLayout>
-
-            </GridLayout>
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="@string/str_perfiles"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
+    <include layout="@layout/linea_separador"/>
+
 </LinearLayout>
 </ScrollView>

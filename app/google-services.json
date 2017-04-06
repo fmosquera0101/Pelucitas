@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "677490348517",
+    "firebase_url": "https://pelucitas-bb90f.firebaseio.com",
+    "project_id": "pelucitas-bb90f",
+    "storage_bucket": "pelucitas-bb90f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677490348517:android:fa20a11e37fdd967",
+        "android_client_info": {
+          "package_name": "co.com.fredymosqueralemus.pelucitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677490348517-7ocfm5ub6q75glgd8qpcbpcphact5ogj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoY-JKaKrClX-skP2dN1rivs56WPyeh_U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677490348517-7ocfm5ub6q75glgd8qpcbpcphact5ogj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
