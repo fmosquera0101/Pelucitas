@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     tools:context="co.com.fredymosqueralemus.pelucitas.FragmentListviewMisnegocios">
+    <ProgressBar
+        android:id="@+id/progressBar_fragmentListviewMisnegocios"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/listview_fragment_listview_misnegocios"

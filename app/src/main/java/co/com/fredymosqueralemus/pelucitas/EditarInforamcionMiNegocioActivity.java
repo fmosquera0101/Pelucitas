@@ -79,7 +79,7 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         intent = getIntent();
         context = this;
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
-        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         seleccionarImagenMiNegocio = new SeleccionarImagenMiNegocio(context, this);
         imgvImagenMiNegocio = (ImageView) findViewById(R.id.imagen_miperfil_activity_editar_informacion_minegocio);
@@ -88,6 +88,10 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         txvTelefonoNegocio = (TextView) findViewById(R.id.telefono_negocio_activity_editar_informacion_minegocio);
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_editar_informacion_minegocio);
 
+        obtenerInformacionMiNegocio();
+
+    }
+    private void obtenerInformacionMiNegocio(){
         if(null != miNegocio){
             databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(
                     new ValueEventListener() {
@@ -110,11 +114,10 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
 
         }
-
     }
     public void editarInformacionBasicaMiNegocio(View view){
         Intent intent = new Intent(this, RegistrarMiNegocioActivity.class);
-        intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+        intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO, EditarInforamcionMiNegocioActivity.class.getName());
         startActivity(intent);
 
@@ -187,14 +190,9 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     private void guardarImagenMiNegocio(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int bytesCount = bitmap.getByteCount();
-        int bytesCompress = 0;
-        if(bytesCount > 5132448){
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
 
-            bytesCompress = bitmap.getByteCount();
-        }else{
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
         try {
             byte[] dataImage = byteArrayOutputStream.toByteArray();
             subirImagenAFireBaseStorage(dataImage);
@@ -207,36 +205,15 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
         Toast.makeText(context, "Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones",
                 Toast.LENGTH_SHORT).show();
         Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
-        intenCargarImgagen.putExtra("byteArrayImagenMiNegocio", dataImage);
-        intenCargarImgagen.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+        intenCargarImgagen.putExtra(Constantes.BYTE_ARRAY_IMAGEN_MI_NEGOCIO, dataImage);
+        intenCargarImgagen.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startService(intenCargarImgagen);
 
     }
     @Override
     public void onStart(){
         super.onStart();
-        if(null != miNegocio){
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-                            txvNombreNegocio.setText(miNegocio.getNombreNegocio());
-                            txvNitNegocio.setText(getString(R.string.str_nit)+": "+miNegocio.getNitNegocio());
-                            txvTelefonoNegocio.setText(getString(R.string.str_telefono)+": "+miNegocio.getTelefonoNegocio());
-                            txvTipoNegocio.setText(getString(R.string.str_tiponegocio)+": "+miNegocio.getTipoNegocio().getTipoNegocio());
-                            UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    }
-            );
-
-
-        }
+        obtenerInformacionMiNegocio();
     }
 
 }

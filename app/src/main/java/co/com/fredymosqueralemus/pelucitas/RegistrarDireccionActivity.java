@@ -28,7 +28,6 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.
@@ -57,7 +56,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_direccion);
 
         intent = getIntent();
-        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
         etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
@@ -229,7 +228,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private void abrirActivityRegistrarHorario(){
         Intent intent = new Intent(this, RegistrarHorarioActivity.class);
         //intent.putExtra(Constantes.NIT_MINEGOCIO, inte.getStringExtra(Constantes.NIT_MINEGOCIO));
-        intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+        intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);
         finish();
 

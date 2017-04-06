@@ -55,7 +55,7 @@ public interface Constantes {
     public static final String SI = "SI";
     public static final String NO = "NO";
 
-    public static final String MINEGOCIOOBJECT = "MINEGOCIOCLASS";
+    public static final String MINEGOCIO_OBJECT = "MINEGOCIOCLASS";
     public static final String CONST_IMAGENES = "imagenes";
 
     public static final String USUARIO_OBJECT = "USUARIO_OBJECT";
@@ -64,5 +64,6 @@ public interface Constantes {
 
     public static final int REQUEST_CAMERA = 0;
     public static final int SELECT_FILE = 1;
+    public static final String BYTE_ARRAY_IMAGEN_MI_NEGOCIO = "BYTE_ARRAY_IMAGEN_MI_NEGOCIO";
 
 }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,8 +19,6 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity;
-import co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity;
-import co.com.fredymosqueralemus.pelucitas.EditarInforamcionMiNegocioActivity;
 import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
@@ -46,8 +43,8 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            byte[] dataImage = intent.getByteArrayExtra("byteArrayImagenMiNegocio");
-            final MiNegocio miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+            byte[] dataImage = intent.getByteArrayExtra(Constantes.BYTE_ARRAY_IMAGEN_MI_NEGOCIO);
+            final MiNegocio miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
             StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
 
             final int id = 1;
@@ -56,7 +53,7 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
             mBuilder.setContentTitle("Carga de Pelucitas");
             mBuilder.setContentText("Se esta cargando su imagen");
             Intent resultIntent = new Intent(this, AdministrarMiNegocioActivity.class);
-            resultIntent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+            resultIntent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
 
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
             taskStackBuilder.addNextIntent(new Intent(this, InicioActivity.class));
@@ -77,7 +74,7 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     mBuilder.setContentTitle("Carga de Pelucitas fallida");
-                    mBuilder.setContentText("Toca para ver las opciones");
+                    mBuilder.setContentText(getString(R.string.str_toca_ver_opciones));
                     mBuilder.setProgress(0, 0, false);
                     notificationManager.notify(id, mBuilder.build());
 
@@ -100,7 +97,7 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
                     DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                     databaseReferenceMiNegocio.child(miNegocio.getKeyChild()).setValue(miNegocio);
                     mBuilder.setContentTitle("Carga de Pelucitas finalizada");
-                    mBuilder.setContentText("Toca para ver las opciones");
+                    mBuilder.setContentText(getString(R.string.str_toca_ver_opciones));
                     mBuilder.setProgress(0, 0, false);
                     notificationManager.notify(id, mBuilder.build());
                 }

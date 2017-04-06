@@ -123,5 +123,6 @@
     <string name="str_empleados">Empleados</string>
     <string name="str_cancelar">Cancelar</string>
 
+    <string name="str_toca_ver_opciones">Toca para ver las opciones</string>
 
 </resources>

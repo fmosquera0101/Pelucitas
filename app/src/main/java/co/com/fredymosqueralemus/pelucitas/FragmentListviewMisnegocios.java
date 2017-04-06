@@ -1,6 +1,5 @@
 package co.com.fredymosqueralemus.pelucitas;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +34,7 @@ public class FragmentListviewMisnegocios extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
-    private ProgressDialog progressDialog;
+    private ProgressBar progressBar;
 
     public void FragmentListviewMisnegocios(){
 
@@ -43,15 +43,10 @@ public class FragmentListviewMisnegocios extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState){
         View view =  layoutInflater.inflate(R.layout.fragment_listview_misnegocios, container, false);
         listView = (ListView) view.findViewById(R.id.listview_fragment_listview_misnegocios);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar_fragmentListviewMisnegocios);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(getContext(), Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle(getString(R.string.str_cargando));
-        progressDialog.setMessage(getString(R.string.str_obteniendoinformacion));
-
 
         poblarListViewMisNegocios();
 
@@ -59,12 +54,10 @@ public class FragmentListviewMisnegocios extends Fragment {
     }
 
     private void poblarListViewMisNegocios(){
-        Toast.makeText(getContext(), "Obteniedo la informacion de tus negocios, por favor espere",
-                Toast.LENGTH_SHORT).show();
-        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addValueEventListener(new ValueEventListener() {
+
+        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 lstMisNegocios = new ArrayList<MiNegocio>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     MiNegocio miNegocio = child.getValue(MiNegocio.class);
@@ -73,12 +66,14 @@ public class FragmentListviewMisnegocios extends Fragment {
                 }
                 AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(),R.layout.layout_listview_misnegocios, lstMisNegocios);
                 listView.setAdapter(adapterMisNegocios);
+                progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getContext(), "No se pudo obtener la informacion",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -86,7 +81,7 @@ public class FragmentListviewMisnegocios extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), AdministrarMiNegocioActivity.class);
-                intent.putExtra(Constantes.MINEGOCIOOBJECT, lstMisNegocios.get(position));
+                intent.putExtra(Constantes.MINEGOCIO_OBJECT, lstMisNegocios.get(position));
                 startActivity(intent);
             }
         });

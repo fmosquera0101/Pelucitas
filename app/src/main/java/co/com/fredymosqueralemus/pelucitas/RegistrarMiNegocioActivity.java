@@ -72,7 +72,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             linearLayoutBtnEditarInformacionMiNegocio.setVisibility(View.VISIBLE);
             linearLayoutBtnRegistrarInforamcionMiNegocio.setVisibility(View.GONE);
 
-            miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+            miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
             getSupportActionBar().setTitle(R.string.titulo_editarminegocio);
             etxtNitNegocio.setEnabled(false);
             etxtNitNegocio.setText(miNegocio.getNitNegocio());
@@ -160,7 +160,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private void abrirActivityRegistrarDireccionMiNegocio(MiNegocio miNegocio) {
         Intent intent = new Intent(this, RegistrarDireccionActivity.class);
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO, RegistrarMiNegocioActivity.class.getName());
-        intent.putExtra(Constantes.MINEGOCIOOBJECT, miNegocio);
+        intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);
         finish();
 

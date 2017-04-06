@@ -2,7 +2,6 @@ package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class RegistrarHorarioActivity extends AppCompatActivity {
     private FormularioRegistrarHorario formularioRegistrarHorario;
@@ -39,7 +37,7 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_horario);
         intent = getIntent();
-        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIOOBJECT);
+        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
