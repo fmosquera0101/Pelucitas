@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     private ImageView imgvImagenPerfilUsuario;
     private TextView txtvNombreUsuario;
     private TextView txtvCorreoUsuario;
-
+    private ProgressBar progressBar;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
@@ -97,6 +98,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
                 if (null != usuario) {
                     settearViewsInfoUsuario(usuario);
                     UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilUsuario, usuario, context, storageReference);
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -112,6 +114,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         imgvImagenPerfilUsuario = (ImageView) findViewById(R.id.imagenmiperfil_activity_administrarmiperfil);
         txtvNombreUsuario = (TextView) findViewById(R.id.nombreusuario_activity_administrarmiperfil);
         txtvCorreoUsuario = (TextView) findViewById(R.id.correo_activity_administrarmiperfil);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_activity_administrarmiperfil);
     }
 
     private void settearViewsInfoUsuario(Usuario miUsuario) {

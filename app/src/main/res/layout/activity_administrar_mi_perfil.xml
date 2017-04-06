@@ -11,6 +11,11 @@
     android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar_activity_administrarmiperfil"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
         android:scaleType="fitCenter"

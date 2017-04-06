@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
+    android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.FragmentListviewMisnegocios">
     <ProgressBar
         android:id="@+id/progressBar_fragmentListviewMisnegocios"
