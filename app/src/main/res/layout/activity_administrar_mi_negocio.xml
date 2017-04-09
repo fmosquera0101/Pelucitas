@@ -70,8 +70,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:onClick="editarDireccionMiNegocio"
-        >
+        android:onClick="abrirEditarDireccionMiNegocio">
 
             <ImageView
                 android:id="@+id/imagendireccion_activity_administrarminegocio"

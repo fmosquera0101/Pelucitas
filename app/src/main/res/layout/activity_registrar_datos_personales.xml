@@ -52,6 +52,35 @@
         android:inputType="none"
 
         />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_editar_cancelar_registrardatospersonaleslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btn_cancelar_registrardatospersonaleslayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_cancelar"
+            android:onClick="cancelarEdicionInfoUsuario"/>
+
+        <Button
+            android:id="@+id/btn_editar_registrardatospersonaleslayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_editar"
+            android:onClick="editarInformacionUsuario"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linear_layout_registrarinfousuario_registrardatospersonaleslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
     <Button
         android:id="@+id/siguiente_btn_registrardatospersonaleslayout"
         android:layout_width="match_parent"
@@ -59,6 +88,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/str_siguiente"
         android:onClick="registrarDatosPersonales"/>
+        </LinearLayout>
 
 </LinearLayout>
 </ScrollView>

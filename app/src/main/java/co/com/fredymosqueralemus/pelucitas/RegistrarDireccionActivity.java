@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,19 +44,25 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private EditText etxtBarrio;
     private EditText etxtDatosAdicionales;
     private Button btnRegistrarDireccion;
+    private Button btnEditarDireccionUsuario;
+    private Button btnEditarDireccionMinegocio;
+    private LinearLayout linearLayoutCancelarEditar;
+    private LinearLayout linearLayoutRegistrarDireccion;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
 
     private Intent intent;
     private MiNegocio miNegocio;
-    SharedPreferencesSeguro sharedPreferencesSeguro;
+    private SharedPreferencesSeguro sharedPreferencesSeguro;
+    private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_direccion);
-
+        mAuth = FirebaseAuth.getInstance();
         intent = getIntent();
+
         miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
@@ -67,36 +74,41 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         etxtDatosAdicionales = (EditText) findViewById(R.id.datosadicionales_etxt_registrardireccionlayout);
         etxtBarrio = (EditText) findViewById(R.id.barrio_etxt_registrardireccionlayout);
         btnRegistrarDireccion = (Button) findViewById(R.id.siguiente_btn_registrardireccionlayout);
-        mAuth = FirebaseAuth.getInstance();
+        linearLayoutCancelarEditar = (LinearLayout) findViewById(R.id.linear_layout_editar_cancelar_registrardireccionlayout);
+        btnEditarDireccionUsuario = (Button) findViewById(R.id.btn_editardireccionusuairo_registrardireccionlayout);
+        btnEditarDireccionMinegocio = (Button) findViewById(R.id.btn_editardireccionminegocio_registrardireccionlayout);
+        linearLayoutRegistrarDireccion = (LinearLayout) findViewById(R.id.linear_layout_registrardireccion_registrardireccionlayout);
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 firebaseUser = firebaseAuth.getCurrentUser();
             }
         };
-        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
-            btnRegistrarDireccion.setText(getString(R.string.str_editar));
-            getSupportActionBar().setTitle(getString(R.string.str_editardireccion));
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            settearInformacionDireccion();
+        if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
+            setDisplayHomeAsUpEnabledAndBarTittle();
+            linearLayoutCancelarEditar.setVisibility(View.VISIBLE);
+            btnEditarDireccionUsuario.setVisibility(View.VISIBLE);
+            usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+            settearViewsFromDireccion(usuario.getDireccion());
+        }else if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            setDisplayHomeAsUpEnabledAndBarTittle();
+            settearViewsFromDirrecionFromFirebase();
+            btnEditarDireccionMinegocio.setVisibility(View.VISIBLE);
+            //direccion = (Direccion) intent.getSerializableExtra(Constantes.DIRECCION_OBJECT);
+            //settearViewsFromDireccion(direccion);
+        }else {
+            linearLayoutRegistrarDireccion.setVisibility(View.VISIBLE);
         }
 
     }
-    private void settearInformacionDireccion(){
+    private void settearViewsFromDirrecionFromFirebase(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
                 Direccion direccion = miNegocio.getDireccion();
-                etxtPais.setText(direccion.getPais());
-                etxtDepartamento.setText(direccion.getDepartamento());
-                etxtCiudadMunicipio.setText(direccion.getCiudad());
-                etxtCarreraCalle.setText(direccion.getCarreraCalle());
-                etxtNumero1.setText(direccion.getNumero1());
-                etxtNumero2.setText(direccion.getNumero2());
-                etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
-                etxtBarrio.setText(direccion.getBarrio());
+                settearViewsFromDireccion(direccion);
             }
 
             @Override
@@ -105,6 +117,20 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void setDisplayHomeAsUpEnabledAndBarTittle(){
+        getSupportActionBar().setTitle(getString(R.string.str_editardireccion));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    private void settearViewsFromDireccion(Direccion direccion){
+        etxtPais.setText(direccion.getPais());
+        etxtDepartamento.setText(direccion.getDepartamento());
+        etxtCiudadMunicipio.setText(direccion.getCiudad());
+        etxtCarreraCalle.setText(direccion.getCarreraCalle());
+        etxtNumero1.setText(direccion.getNumero1());
+        etxtNumero2.setText(direccion.getNumero2());
+        etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
+        etxtBarrio.setText(direccion.getBarrio());
     }
     private boolean isAlgunCampoFormularioDireccionVacio(){
         if(TextUtils.isEmpty(etxtPais.getText())){
@@ -161,10 +187,11 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         if(!isAlgunCampoFormularioDireccionVacio()){
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference;
+
             if(RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))
                     || AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                 String nitMiMegocio = miNegocio.getNitNegocio();
-                Direccion direccionNegocio = getDireccion();
+                Direccion direccionNegocio = getDireccion(new Direccion());
                 direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
                 direccionNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
                 direccionNegocio.setFechaModificacion(null);
@@ -182,10 +209,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 }
             }else{
 
-                Usuario usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getKeyUid()));
-
-                Direccion direccionUsuario = getDireccion();
+                Direccion direccionUsuario = getDireccion(usuario.getDireccion());
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
                 direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
                 direccionUsuario.setFechaModificacion(null);
@@ -203,8 +227,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
         }
     }
-    private Direccion getDireccion(){
-        Direccion direccion = new Direccion();
+    private Direccion getDireccion(Direccion direccion){
         direccion.setPais(etxtPais.getText().toString().trim());
         direccion.setDepartamento(etxtDepartamento.getText().toString().trim());
         direccion.setCiudad(etxtCiudadMunicipio.getText().toString().trim());
@@ -213,8 +236,8 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         direccion.setNumero2(etxtNumero2.getText().toString().trim());
         direccion.setDatosAdicionales(etxtDatosAdicionales.getText().toString().trim());
         direccion.setBarrio(etxtBarrio.getText().toString());
-        direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-        direccion.setFechaModificacion(null);
+       // direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+       // direccion.setFechaModificacion(null);
 
         return direccion;
     }
@@ -255,5 +278,24 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+    public void cancelarEdicionDireccion(View view){
+        finish();
+    }
+    public void editarDireccionUsuario(View view){
+        if(!isAlgunCampoFormularioDireccionVacio()) {
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            Date fechaHoy = new Date();
+            Direccion direccionUsuario = getDireccion(usuario.getDireccion());
+            direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
+            direccionUsuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
+            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
+            databaseReference.setValue(direccionUsuario);
+            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
+            usuario.setDireccion(direccionUsuario);
+            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+            databaseReference.setValue(usuario);
+            finish();
+        }
     }
 }

@@ -32,6 +32,7 @@ public interface Constantes {
     public static final String CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO = "CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO";
     public static final String CALL_FROM_ACTIVITY_EDITARMINEGOCIO = "CALL_FROM_ACTIVITY_EDITARMINEGOCIO";
     public static final String NIT_MINEGOCIO = "NIT_MINEGOCIO";
+    public static final String CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL = "CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL";
 
     public static final String CALL_FROM_ACTIVITY_HOME = "CALL_FROM_ACTIVITY_HOME";
 
@@ -59,7 +60,7 @@ public interface Constantes {
     public static final String CONST_IMAGENES = "imagenes";
 
     public static final String USUARIO_OBJECT = "USUARIO_OBJECT";
-
+    public static final String DIRECCION_OBJECT = "DIRECCION_OBJECT";
     public static final String APP_FOLDER = "/co.com.fredymosqueralemus.pelucitas/imagenes/usuario/perfil";
 
     public static final int REQUEST_CAMERA = 0;

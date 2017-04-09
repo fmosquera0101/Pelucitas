@@ -126,5 +126,6 @@
     <string name="str_toca_ver_opciones">Toca para ver las opciones</string>
     <string name="str_informacion_personal">Informacion personal</string>
     <string name="str_perfiles">Perfiles</string>
+    <string name="str_editardatospersonales">Editar Informacion personal</string>
 
 </resources>

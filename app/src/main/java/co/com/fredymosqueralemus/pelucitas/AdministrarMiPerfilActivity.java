@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     private TextView txtvNombreUsuario;
     private TextView txtvCorreoUsuario;
     private ProgressBar progressBar;
+    private LinearLayout linearLayoutOpcionesAdministrarMiPerfil;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
@@ -70,8 +72,6 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
     private String userChoose;
 
-    private int REQUEST_CAMERA = 0;
-    private int SELECT_FILE = 1;
 
     private StorageReference storageReference;
     private Context context;
@@ -90,7 +90,9 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         seleccionarImagen = new SeleccionarImagen(context, this);
 
         inicializarViews();
-
+        obtenerInformacionUsuarioFromFirebase();
+    }
+    private void obtenerInformacionUsuarioFromFirebase(){
         databaseReference.child(Constantes.USUARIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,6 +101,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
                     settearViewsInfoUsuario(usuario);
                     UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilUsuario, usuario, context, storageReference);
                     progressBar.setVisibility(View.GONE);
+                    linearLayoutOpcionesAdministrarMiPerfil.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -107,14 +110,14 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void inicializarViews() {
         imgvImagenPerfilUsuario = (ImageView) findViewById(R.id.imagenmiperfil_activity_administrarmiperfil);
         txtvNombreUsuario = (TextView) findViewById(R.id.nombreusuario_activity_administrarmiperfil);
         txtvCorreoUsuario = (TextView) findViewById(R.id.correo_activity_administrarmiperfil);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_activity_administrarmiperfil);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar_activity_administrarmiperfil);
+        linearLayoutOpcionesAdministrarMiPerfil = (LinearLayout) findViewById(R.id.linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil);
     }
 
     private void settearViewsInfoUsuario(Usuario miUsuario) {
@@ -133,12 +136,16 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     }
 
     public void editarInformacionPersonal(View view) {
-        Intent intentEditarFechaNacTel = new Intent(this, RegistrarDatosPersonalesActivity.class);
-        startActivity(intentEditarFechaNacTel);
+        Intent intentnEditInfoPersonal = new Intent(this, RegistrarDatosPersonalesActivity.class);
+        intentnEditInfoPersonal.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL, AdministrarMiPerfilActivity.class.getName());
+        intentnEditInfoPersonal.putExtra(Constantes.USUARIO_OBJECT, usuario);
+        startActivity(intentnEditInfoPersonal);
     }
 
-    public void editarDireccionUsuario(View view) {
+    public void abrirEditarDireccionUsuario(View view) {
         Intent intentEditarDireccionUsuario = new Intent(this, RegistrarDireccionActivity.class);
+        intentEditarDireccionUsuario.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL, AdministrarMiPerfilActivity.class.getName());
+        intentEditarDireccionUsuario.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(intentEditarDireccionUsuario);
 
     }
@@ -157,9 +164,9 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE) {
+            if (requestCode == Constantes.SELECT_FILE) {
                 onSelectFromGaleryResult(data);
-            } else if (requestCode == REQUEST_CAMERA) {
+            } else if (requestCode == Constantes.REQUEST_CAMERA) {
                 onCaptureImageResult(data);
             }
         }
@@ -202,5 +209,10 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void  onStart(){
+        super.onStart();
+        obtenerInformacionUsuarioFromFirebase();
+    }
 
 }

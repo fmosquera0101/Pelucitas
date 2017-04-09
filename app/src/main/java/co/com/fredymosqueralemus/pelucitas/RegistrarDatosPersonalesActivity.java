@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,50 +39,108 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
     private EditText etxtApellidos;
     private EditText etxtTelefono;
     private EditText etxtFechaNacimiento;
+    private LinearLayout linearLayoutEditarCancelarEdicion;
+    private LinearLayout linearLayoutRegistrarInfoUsuairo;
+
+    private Button btnCancelar;
+    private Button btnEditarInfoUsuario;
+    private Button btnRegistrarInfoUsuairo;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
+
+    private Intent intent;
+    private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_datos_personales);
-
-        etxtCedulaIdentificacion = (EditText) findViewById(R.id.cedula_ext_registrardatospersonaleslayout);
-        etxtNombre = (EditText) findViewById(R.id.nombre_ext_registrardatospersonaleslayout);
-        etxtApellidos = (EditText) findViewById(R.id.apellidos_ext_registrardatospersonaleslayout);
-        etxtTelefono = (EditText) findViewById(R.id.telefono_ext_registrardatospersonaleslayout);
-        etxtFechaNacimiento = (EditText) findViewById(R.id.fechanacimiento_ext_registrardatospersonaleslayout);
-        mostrarDatePickerEditTextFechaNacimiento();
         mAuth = FirebaseAuth.getInstance();
+        intent = getIntent();
+
+        iniciarlizarViews();
+        mostrarDatePickerEditTextFechaNacimiento();
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 firebaseUser = firebaseAuth.getCurrentUser();
             }
         };
+
+        if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getString(R.string.str_editardatospersonales));
+            linearLayoutEditarCancelarEdicion.setVisibility(View.VISIBLE);
+            usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+            settearViewsFromUsuario(usuario);
+        }else {
+            linearLayoutRegistrarInfoUsuairo.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void iniciarlizarViews(){
+        etxtCedulaIdentificacion = (EditText) findViewById(R.id.cedula_ext_registrardatospersonaleslayout);
+        etxtNombre = (EditText) findViewById(R.id.nombre_ext_registrardatospersonaleslayout);
+        etxtApellidos = (EditText) findViewById(R.id.apellidos_ext_registrardatospersonaleslayout);
+        etxtTelefono = (EditText) findViewById(R.id.telefono_ext_registrardatospersonaleslayout);
+        etxtFechaNacimiento = (EditText) findViewById(R.id.fechanacimiento_ext_registrardatospersonaleslayout);
+        linearLayoutEditarCancelarEdicion = (LinearLayout) findViewById(R.id.linear_layout_editar_cancelar_registrardatospersonaleslayout);
+        linearLayoutRegistrarInfoUsuairo = (LinearLayout) findViewById(R.id.linear_layout_registrarinfousuario_registrardatospersonaleslayout);
+        btnCancelar = (Button) findViewById(R.id.btn_cancelar_registrardatospersonaleslayout);
+        btnEditarInfoUsuario = (Button) findViewById(R.id.btn_editar_registrardatospersonaleslayout);
+        btnRegistrarInfoUsuairo = (Button) findViewById(R.id.siguiente_btn_registrardatospersonaleslayout);
     }
 
     public void registrarDatosPersonales(View view){
 
         if(!isAlgunCampoDatosPersonalesVacio()) {
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
-
-            Usuario mUsuario = new Usuario();
-            mUsuario.setKeyUid(firebaseUser.getUid());
-            mUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString().trim());
-            mUsuario.setNombre(etxtNombre.getText().toString().trim());
-            mUsuario.setApellidos(etxtApellidos.getText().toString().trim());
-            mUsuario.setTelefono(etxtTelefono.getText() != null ? etxtTelefono.getText().toString().trim() : "-");
-            mUsuario.setFechaNacimiento(etxtFechaNacimiento.getText().toString());
-            mUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-            mUsuario.setFechaModificacion(null);
-
-            databaseReference.setValue(mUsuario);
-
-            abrirActivityRegistrarDireccion(mUsuario);
+            DatabaseReference databaseReference = getDatabaseReference(firebaseUser.getUid());
+            usuario = new Usuario();
+            usuario = getUsuarioFromViews(usuario);
+            usuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            usuario.setFechaModificacion(null);
+            databaseReference.setValue(usuario);
+            abrirActivityRegistrarDireccion(usuario);
         }
 
+    }
+    public void editarInformacionUsuario(View view){
+        if(!isAlgunCampoDatosPersonalesVacio()) {
+            DatabaseReference databaseReference = getDatabaseReference(firebaseUser.getUid());
+            usuario = getUsuarioFromViews(usuario);
+            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            databaseReference.setValue(usuario);
+            finish();
+        }
+
+    }
+    private DatabaseReference getDatabaseReference(String userId){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(userId));
+        return databaseReference;
+    }
+    public void cancelarEdicionInfoUsuario(View view){
+        finish();
+    }
+    private void settearViewsFromUsuario(Usuario usuario){
+        etxtCedulaIdentificacion.setText(usuario.getCedulaIdentificacion());
+        etxtNombre.setText(usuario.getNombre());
+        etxtApellidos.setText(usuario.getApellidos());
+        etxtTelefono.setText(usuario.getTelefono() != null && !"".equals(usuario.getTelefono()) ? usuario.getTelefono():"");
+        etxtFechaNacimiento.setText(usuario.getFechaNacimiento());
+
+    }
+    private Usuario getUsuarioFromViews(Usuario miUsuario){
+        miUsuario.setKeyUid(firebaseUser.getUid());
+        miUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString().trim());
+        miUsuario.setNombre(etxtNombre.getText().toString().trim());
+        miUsuario.setApellidos(etxtApellidos.getText().toString().trim());
+        miUsuario.setTelefono(etxtTelefono.getText() != null ? etxtTelefono.getText().toString().trim() : "");
+        miUsuario.setFechaNacimiento(etxtFechaNacimiento.getText().toString());
+
+        return miUsuario;
     }
     public void abrirActivityRegistrarDireccion(Usuario usuario){
         Intent mIntent = new Intent(this, RegistrarDireccionActivity.class);
@@ -197,6 +258,16 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
             return false;
         }
         return isFechaValida;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int item = menuItem.getItemId();
+        if(item == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
 }

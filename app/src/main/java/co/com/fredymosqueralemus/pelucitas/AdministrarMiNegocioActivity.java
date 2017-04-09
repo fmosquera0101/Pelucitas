@@ -82,7 +82,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void editarDireccionMiNegocio(View view) {
+    public void abrirEditarDireccionMiNegocio(View view) {
         Intent intent = new Intent(this, RegistrarDireccionActivity.class);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         intent.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO, AdministrarMiNegocioActivity.class.getName());

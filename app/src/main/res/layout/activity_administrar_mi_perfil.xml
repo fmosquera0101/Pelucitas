@@ -10,12 +10,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity">
-
     <ProgressBar
-        android:id="@+id/progressBar_activity_administrarmiperfil"
+        android:id="@+id/progressbar_activity_administrarmiperfil"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        >
     <ImageView
         android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
         android:scaleType="fitCenter"
@@ -72,7 +79,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:onClick="editarDireccionUsuario"
+        android:onClick="abrirEditarDireccionUsuario"
         >
 
         <ImageView
@@ -120,6 +127,6 @@
             />
     </LinearLayout>
     <include layout="@layout/linea_separador"/>
-
+</LinearLayout>
 </LinearLayout>
 </ScrollView>

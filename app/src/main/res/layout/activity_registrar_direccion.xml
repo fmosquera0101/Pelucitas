@@ -104,6 +104,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_editar_cancelar_registrardireccionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btn_cancelar_registrardireccionlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_cancelar"
+            android:onClick="cancelarEdicionDireccion"/>
+
+        <Button
+            android:id="@+id/btn_editardireccionusuairo_registrardireccionlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_editar"
+            android:onClick="editarDireccionUsuario"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btn_editardireccionminegocio_registrardireccionlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/str_editar"
+            android:onClick="editarDireccionMiNegocio"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_registrardireccion_registrardireccionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
     <Button
         android:id="@+id/siguiente_btn_registrardireccionlayout"
         android:layout_width="match_parent"
@@ -111,6 +150,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/str_siguiente"
         android:onClick="registrarDireccion"/>
+        </LinearLayout>
 
 </LinearLayout>
  </ScrollView>
