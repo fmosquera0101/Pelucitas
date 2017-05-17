@@ -117,13 +117,48 @@
 
 
         </android.support.v7.widget.CardView>
-        <Button
-            android:id="@+id/siguiente_btn_registrarperfilayout"
+
+        <LinearLayout
+            android:id="@+id/layout_registrarpefil_registrarperfillayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/str_siguiente"
-            android:onClick="registrarPerfilesXUsuario"/>
+            android:orientation="vertical"
+
+            >
+
+            <Button
+                android:id="@+id/siguiente_btn_registrarperfilayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/str_siguiente"
+                android:onClick="registrarPerfilesXUsuario"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_editar_cancelar_registrarperfillayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+
+            <Button
+                android:id="@+id/editar_btn_registrarperfilayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/str_editar"
+                android:onClick="editarPerfilesXUsuario"/>
+            <Button
+                android:id="@+id/cancelar_btn_registrarperfilayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/str_cancelar"
+                android:onClick="cancelarEditarPerfilesXUsuario"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

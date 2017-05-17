@@ -113,4 +113,6 @@ public class Usuario implements Serializable {
     public void setImagenModelo(ImagenModelo imagenModelo) {
         this.imagenModelo = imagenModelo;
     }
+
+
 }

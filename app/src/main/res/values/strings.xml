@@ -36,7 +36,7 @@
     <string name="str_fechanacimiento">Fecha de nacimiento (dd/mm/yyyy)</string>
     <string name="str_fechanacimientolabel">Fecha de nacimiento</string>
     <string name="activity_registrar_perfil_usuario">Elegir perfil</string>
-    <string name="str_msjelegirperfil">Debes elegir un perfil para usar la aplicación, si no eliges ninguno el registro se hará con el perfil cliente por defecto</string>
+    <string name="str_msjelegirperfil">Elige un perfil</string>
     <string name="srt_perfilcliente">Cliente</string>
     <string name="srt_perfilempleado">Empleado</string>
     <string name="srt_perfiladministrador">Administrador</string>
@@ -127,5 +127,6 @@
     <string name="str_informacion_personal">Informacion personal</string>
     <string name="str_perfiles">Perfiles</string>
     <string name="str_editardatospersonales">Editar Informacion personal</string>
+    <string name="srt_ditarperfilusuario">Editar perfil</string>
 
 </resources>

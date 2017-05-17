@@ -151,6 +151,8 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     }
     public void editarPerfiles(View view){
         Intent intentEditarPerfiles = new Intent(this, RegistrarPerfilUsuarioActivity.class);
+        intentEditarPerfiles.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL, AdministrarMiPerfilActivity.class.getName());
+        intentEditarPerfiles.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(intentEditarPerfiles);
     }
 
