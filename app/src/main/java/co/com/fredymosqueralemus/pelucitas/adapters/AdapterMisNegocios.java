@@ -63,7 +63,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         View view = convertView;
-        final ItemHolderlMisNegocios itemHolderlMisNegocios;
+        ItemHolderlMisNegocios itemHolderlMisNegocios;
         if(null == view){
             LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
             itemHolderlMisNegocios = new ItemHolderlMisNegocios();
@@ -83,7 +83,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(miNegocio.getDireccion())+", "+miNegocio.getDireccion().getDatosAdicionales());
         itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(miNegocio.getHorarioNegocio()));
         itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
-       UtilidadesImagenes.cargarImagenMiNegocio(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
+        UtilidadesImagenes.cargarImagenMiNegocio(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
 
         return  view;
 

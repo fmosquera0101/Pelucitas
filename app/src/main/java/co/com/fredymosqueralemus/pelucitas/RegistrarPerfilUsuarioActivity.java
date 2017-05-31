@@ -37,7 +37,7 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private Usuario usuario;
     private Intent intent;
     private PerfilesXUsuario perfilesXUsuarioAdministrador;

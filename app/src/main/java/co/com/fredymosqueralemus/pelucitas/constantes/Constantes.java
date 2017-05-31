@@ -23,6 +23,8 @@ public interface Constantes {
     public static final String TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD = "peluqueria";
     public static final String TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD = "salondebelleza";
 
+    public static final String EMPLEADOS_X_NEGOCIO = "empleadosXNegocio";
+
     public static final String FORMAT_DDMMYYYYHHMMSS = "dd/MM/yyyy HH:mm:ss";
 
     public static final String PETTERN_VALIDA_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

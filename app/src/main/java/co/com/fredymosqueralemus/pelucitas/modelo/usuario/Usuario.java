@@ -20,6 +20,7 @@ public class Usuario implements Serializable {
     private String perfil;
     private Direccion direccion;
     private String fechaNacimiento;
+    private String email;
 
     private String fechaInsercion;
     private String fechaModificacion;
@@ -114,5 +115,11 @@ public class Usuario implements Serializable {
         this.imagenModelo = imagenModelo;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

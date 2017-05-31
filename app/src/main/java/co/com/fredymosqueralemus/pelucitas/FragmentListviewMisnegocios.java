@@ -31,7 +31,6 @@ public class FragmentListviewMisnegocios extends Fragment {
 
     private ListView listView;
     private List<MiNegocio> lstMisNegocios;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
     private ProgressBar progressBar;
@@ -45,8 +44,7 @@ public class FragmentListviewMisnegocios extends Fragment {
         listView = (ListView) view.findViewById(R.id.listview_fragment_listview_misnegocios);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_fragmentListviewMisnegocios);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(getContext(), Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         poblarListViewMisNegocios();
 
