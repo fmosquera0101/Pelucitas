@@ -1,12 +1,8 @@
 package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +23,9 @@ import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class MisEmpleadosActivity extends AppCompatActivity {
 
@@ -36,14 +34,25 @@ public class MisEmpleadosActivity extends AppCompatActivity {
     private List<Usuario> listUsuarios;
     private DatabaseReference databaseReference;
     private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_empleados);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = (ListView) findViewById(R.id.listview_fragment_MisEmpleadosActivity);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_MisEmpleadosActivity);
         context = this;
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int item = menuItem.getItemId();
+        if (item == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -59,8 +68,8 @@ public class MisEmpleadosActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                if(null != newText && !"".equals(newText)) {
+            public boolean onQueryTextChange(final String newText) {
+                if (null != newText && !"".equals(newText)) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     Query firebaseQuery = databaseReference.child(Constantes.USUARIO_FIREBASE_BD).orderByChild("nombre").startAt("#" + newText);
                     firebaseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,8 +77,14 @@ public class MisEmpleadosActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             listUsuarios = new ArrayList<Usuario>();
                             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                Usuario usuario = child.getValue(Usuario.class);
-                                listUsuarios.add(usuario);
+                                final Usuario usuario = child.getValue(Usuario.class);
+                                if (usuario.getNombre().trim().toLowerCase().contains(newText.trim().toLowerCase())) {
+                                    PerfilesXUsuario perfilesXUsuario = usuario.getPerfilEmpleado();
+                                    if ("S".equals(perfilesXUsuario.getActivo())) {
+                                        listUsuarios.add(usuario);
+                                    }
+
+                                }
                             }
                             progressBar.setVisibility(View.GONE);
                             AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
@@ -80,8 +95,14 @@ public class MisEmpleadosActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             progressBar.setVisibility(View.GONE);
+
                         }
                     });
+                } else {
+                    listUsuarios = new ArrayList<Usuario>();
+                    progressBar.setVisibility(View.GONE);
+                    AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
+                    listView.setAdapter(adapterMisEmpleados);
                 }
                 return false;
             }

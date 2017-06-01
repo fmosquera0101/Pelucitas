@@ -9,7 +9,7 @@ public interface Constantes {
     public static final String URL_STORAGE_FIREBASE = "gs://pelucitas-bb90f.appspot.com";
     public static final String USUARIO_FIREBASE_BD = "usuarios";
 
-    public static final String PERFILESX_USUARIO_FIREBASE_BD = "perfilesXUsuairo";
+    public static final String PERFILES_X_USUARIO_FIREBASE_BD = "perfilesXUsuairo";
     public static final String PERFIL_ADMINISTRADOR_FIREBASE_BD = "administrador";
     public static final String PERFIL_EMPLEADO_FIREBASE_BD = "empleado";
     public static final String PERFIL_CLIENTE_FIREBASE_BD = "cliente";

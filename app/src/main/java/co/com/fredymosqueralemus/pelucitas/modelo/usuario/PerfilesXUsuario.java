@@ -7,18 +7,9 @@ import java.io.Serializable;
  */
 
 public class PerfilesXUsuario implements Serializable {
-    private String keyUsuarioId;
     private String fechaInsercion;
     private String fechaModificacion;
     private String activo;
-
-    public String getKeyUsuarioId() {
-        return keyUsuarioId;
-    }
-
-    public void setKeyUsuarioId(String keyUsuarioId) {
-        this.keyUsuarioId = keyUsuarioId;
-    }
 
     public String getFechaInsercion() {
         return fechaInsercion;

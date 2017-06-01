@@ -28,7 +28,6 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private EditText etxtCorreo;
     private EditText etxtContrasena;
     SharedPreferencesSeguro sharedPreferencesSeguro;

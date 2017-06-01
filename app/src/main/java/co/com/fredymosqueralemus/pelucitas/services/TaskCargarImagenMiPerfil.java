@@ -19,13 +19,11 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
 
-import co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity;
 import co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity;
 import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
-import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -104,7 +102,7 @@ public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
                 usuario.setImagenModelo(imagenModelo);
                 usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechahoy));
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getKeyUid()));
+                DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
                 databaseReferenceMiNegocio.setValue(usuario);
 
                 mBuilder.setContentTitle("Carga de Pelucitas finalizada");

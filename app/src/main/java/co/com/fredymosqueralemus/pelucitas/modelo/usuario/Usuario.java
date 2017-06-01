@@ -1,18 +1,17 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.usuario;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 
 /**
- * Esta clase representa el modelo de usuario de la aplicaion
+ * Esta clase representa el modelo de usuario de la aplicacion
  * Created by fredymosqueralemus on 3/02/17.
  */
 
 public class Usuario implements Serializable {
-    private String keyUid;
+    private String uid;
     private String cedulaIdentificacion;
     private String nombre;
     private String apellidos;
@@ -27,12 +26,15 @@ public class Usuario implements Serializable {
 
     private ImagenModelo imagenModelo;
 
-    public String getKeyUid() {
-        return keyUid;
+    private PerfilesXUsuario perfilEmpleado;
+    private PerfilesXUsuario perfilAdministrador;
+
+    public String getUid() {
+        return uid;
     }
 
-    public void setKeyUid(String keyUid) {
-        this.keyUid = keyUid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getCedulaIdentificacion() {
@@ -91,6 +93,14 @@ public class Usuario implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFechaInsercion() {
         return fechaInsercion;
     }
@@ -115,11 +125,19 @@ public class Usuario implements Serializable {
         this.imagenModelo = imagenModelo;
     }
 
-    public String getEmail() {
-        return email;
+    public PerfilesXUsuario getPerfilEmpleado() {
+        return perfilEmpleado;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPerfilEmpleado(PerfilesXUsuario perfilEmpleado) {
+        this.perfilEmpleado = perfilEmpleado;
+    }
+
+    public PerfilesXUsuario getPerfilAdministrador() {
+        return perfilAdministrador;
+    }
+
+    public void setPerfilAdministrador(PerfilesXUsuario perfilAdministrador) {
+        this.perfilAdministrador = perfilAdministrador;
     }
 }

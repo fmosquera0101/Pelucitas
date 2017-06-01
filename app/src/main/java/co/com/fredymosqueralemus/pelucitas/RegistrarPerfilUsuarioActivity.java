@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,14 +33,11 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
     private LinearLayout linearLayoutEditarCanceraRegistroPerfil;
     private LinearLayout linearLayoutRegistrarPerfil;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private Usuario usuario;
     private Intent intent;
     private PerfilesXUsuario perfilesXUsuarioAdministrador;
-    private  PerfilesXUsuario perfilesXUsuarioEmpleado;
+    private PerfilesXUsuario perfilesXUsuarioEmpleado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,139 +46,129 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         ckbxPerfilAdministrador = (CheckBox) findViewById(R.id.perfiladministrador_chkbx_registrarperfillayout);
         linearLayoutEditarCanceraRegistroPerfil = (LinearLayout) findViewById(R.id.layout_editar_cancelar_registrarperfillayout);
         linearLayoutRegistrarPerfil = (LinearLayout) findViewById(R.id.layout_registrarpefil_registrarperfillayout);
-
         intent = getIntent();
-        if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
+        usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+
+        if (AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))) {
             getSupportActionBar().setTitle(getString(R.string.srt_ditarperfilusuario));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             linearLayoutEditarCanceraRegistroPerfil.setVisibility(View.VISIBLE);
             linearLayoutRegistrarPerfil.setVisibility(View.GONE);
-            usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
             settearPerfiles(usuario);
         }
-        mAuth = FirebaseAuth.getInstance();
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                firebaseUser = firebaseAuth.getCurrentUser();
-            }
-        };
 
     }
-    private void settearPerfiles(Usuario usuario){
-        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilAdministrador(usuario.getKeyUid()));
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                perfilesXUsuarioAdministrador = (PerfilesXUsuario) dataSnapshot.getValue(PerfilesXUsuario.class);
-                if("S".equals(perfilesXUsuarioAdministrador.getActivo())){
-                    ckbxPerfilAdministrador.setChecked(true);
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    private void settearPerfiles(Usuario usuario) {
 
-            }
-        });
-        databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(usuario.getKeyUid()));
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                perfilesXUsuarioEmpleado = (PerfilesXUsuario) dataSnapshot.getValue(PerfilesXUsuario.class);
-                if("S".equals(perfilesXUsuarioEmpleado.getActivo())){
-                    ckbxPerfilEmpleado.setChecked(true);
-                }
-            }
+        perfilesXUsuarioAdministrador = usuario.getPerfilAdministrador();
+        if ("S".equals(perfilesXUsuarioAdministrador.getActivo())) {
+            ckbxPerfilAdministrador.setChecked(true);
+        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        perfilesXUsuarioEmpleado = usuario.getPerfilEmpleado();
+        if ("S".equals(perfilesXUsuarioEmpleado.getActivo())) {
+            ckbxPerfilEmpleado.setChecked(true);
+        }
 
-            }
-        });
     }
 
     /**
      * Este metodo se ejecuta en respuesta al clic del boto siguiente de esta activity
      * Es el encargado de registrar la informacion de la direccion ingresada por el usuario
-     * @param view
-     * Created by Fredy Mosquera Lemus on 9/02/17.
+     *
+     * @param view Created by Fredy Mosquera Lemus on 9/02/17.
      */
-    public void registrarPerfilesXUsuario(View view){
-        guardarPerfilUsuario(firebaseUser.getUid());
+    public void registrarPerfilesXUsuario(View view) {
+        guardarPerfilUsuario(usuario.getUid());
         abrirActivityHome();
     }
-    public void editarPerfilesXUsuario(View view){
-        guardarPerfilUsuario(usuario.getKeyUid());
+
+    public void editarPerfilesXUsuario(View view) {
+        guardarPerfilUsuario(usuario.getUid());
         finish();
     }
-    protected void guardarPerfilUsuario(String usuarioUid){
 
-        if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
+    protected void guardarPerfilUsuario(String usuarioUid) {
 
+        if (AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))) {
             perfilesXUsuarioAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-            insertarPerfilAdministrador(perfilesXUsuarioAdministrador);
+            usuario.setPerfilAdministrador(perfilesXUsuarioAdministrador);
             perfilesXUsuarioEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-            insertarPerfilEmpleado(perfilesXUsuarioEmpleado);
+            usuario.setPerfilEmpleado(perfilesXUsuarioEmpleado);
 
-        }else{
+            insertarPerfilEmpleado(perfilesXUsuarioEmpleado);
+            insertarPerfilAdministrador(perfilesXUsuarioAdministrador);
+        } else {
             PerfilesXUsuario perfilesXUsuario = new PerfilesXUsuario();
             perfilesXUsuario.setFechaModificacion(null);
             perfilesXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-            perfilesXUsuario.setKeyUsuarioId(firebaseUser.getUid());
             insertarPerfilEmpleado(perfilesXUsuario);
             insertarPerfilAdministrador(perfilesXUsuario);
         }
 
 
     }
-    private void insertarPerfilEmpleado(PerfilesXUsuario perfilesXUsuario){
-        if(ckbxPerfilEmpleado.isChecked()){
+
+    private void insertarPerfilEmpleado(PerfilesXUsuario perfilesXUsuario) {
+        if (ckbxPerfilEmpleado.isChecked()) {
             perfilesXUsuario.setActivo("S");
 
-        }else{
+        } else {
             perfilesXUsuario.setActivo("N");
         }
-        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilEmpleado(perfilesXUsuario.getKeyUsuarioId()));
-        databaseReference.setValue(perfilesXUsuario);
+        usuario.setPerfilEmpleado(perfilesXUsuario);
+        DatabaseReference databaseReference = getDatabaseReference(usuario.getUid());
+        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        databaseReference.setValue(usuario);
     }
-    private void insertarPerfilAdministrador(PerfilesXUsuario perfilesXUsuario){
-        if(ckbxPerfilAdministrador.isChecked()){
+
+    private void insertarPerfilAdministrador(PerfilesXUsuario perfilesXUsuario) {
+        if (ckbxPerfilAdministrador.isChecked()) {
             perfilesXUsuario.setActivo("S");
 
-        }else{
+        } else {
             perfilesXUsuario.setActivo("N");
         }
-        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionPerfilAdministrador(perfilesXUsuario.getKeyUsuarioId()));
+        usuario.setPerfilAdministrador(perfilesXUsuario);
+        DatabaseReference databaseReference = getDatabaseReference(usuario.getUid());
+        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        databaseReference.setValue(usuario);
+    }
 
-        databaseReference.setValue(perfilesXUsuario);
-    }
-    public void cancelarEditarPerfilesXUsuario(View view){
+    public void cancelarEditarPerfilesXUsuario(View view) {
         finish();
     }
-    private void abrirActivityHome(){
-        /*Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);*/
+
+    private void abrirActivityHome() {
         finish();
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
+
     }
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(mAuthStateListener);
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         int item = menuItem.getItemId();
-        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
-            if(item == android.R.id.home){
+        if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
+            if (item == android.R.id.home) {
                 onBackPressed();
             }
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private DatabaseReference getDatabaseReference(String userId) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(userId));
+        return databaseReference;
     }
 }

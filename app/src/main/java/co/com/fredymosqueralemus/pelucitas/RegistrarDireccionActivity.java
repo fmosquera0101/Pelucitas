@@ -62,40 +62,27 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_direccion);
         mAuth = FirebaseAuth.getInstance();
         intent = getIntent();
-
-        miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-        etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
-        etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
-        etxtCiudadMunicipio = (EditText) findViewById(R.id.ciudadmunicipio_etxt_registrardireccionlayout);
-        etxtCarreraCalle = (EditText) findViewById(R.id.carreracalle_etxt_registrardireccionlayout);
-        etxtNumero1 = (EditText) findViewById(R.id.numero1_etxt_registrardireccionlayout);
-        etxtNumero2 = (EditText) findViewById(R.id.numero2_etxt_registrardireccionlayout);
-        etxtDatosAdicionales = (EditText) findViewById(R.id.datosadicionales_etxt_registrardireccionlayout);
-        etxtBarrio = (EditText) findViewById(R.id.barrio_etxt_registrardireccionlayout);
-        btnRegistrarDireccion = (Button) findViewById(R.id.siguiente_btn_registrardireccionlayout);
-        linearLayoutCancelarEditar = (LinearLayout) findViewById(R.id.linear_layout_editar_cancelar_registrardireccionlayout);
-        btnEditarDireccionUsuario = (Button) findViewById(R.id.btn_editardireccionusuairo_registrardireccionlayout);
-        btnEditarDireccionMinegocio = (Button) findViewById(R.id.btn_editardireccionminegocio_registrardireccionlayout);
-        linearLayoutRegistrarDireccion = (LinearLayout) findViewById(R.id.linear_layout_registrardireccion_registrardireccionlayout);
+        inicializarViews();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 firebaseUser = firebaseAuth.getCurrentUser();
             }
         };
+        usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
         if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
             setDisplayHomeAsUpEnabledAndBarTittle();
             linearLayoutCancelarEditar.setVisibility(View.VISIBLE);
             btnEditarDireccionUsuario.setVisibility(View.VISIBLE);
-            usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+
             settearViewsFromDireccion(usuario.getDireccion());
         }else if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
             setDisplayHomeAsUpEnabledAndBarTittle();
             settearViewsFromDirrecionFromFirebase();
             btnEditarDireccionMinegocio.setVisibility(View.VISIBLE);
-            //direccion = (Direccion) intent.getSerializableExtra(Constantes.DIRECCION_OBJECT);
-            //settearViewsFromDireccion(direccion);
+            miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
+
         }else {
             linearLayoutRegistrarDireccion.setVisibility(View.VISIBLE);
         }
@@ -198,6 +185,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
                 databaseReference.setValue(direccionNegocio);
                 miNegocio.setDireccion(direccionNegocio);
+
                 if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                     miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
                     databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
@@ -228,6 +216,9 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         }
     }
     private Direccion getDireccion(Direccion direccion){
+        if(null == direccion){
+            direccion = new Direccion();
+        }
         direccion.setPais(etxtPais.getText().toString().trim());
         direccion.setDepartamento(etxtDepartamento.getText().toString().trim());
         direccion.setCiudad(etxtCiudadMunicipio.getText().toString().trim());
@@ -297,5 +288,22 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             databaseReference.setValue(usuario);
             finish();
         }
+    }
+
+    private void inicializarViews(){
+        etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
+        etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
+        etxtCiudadMunicipio = (EditText) findViewById(R.id.ciudadmunicipio_etxt_registrardireccionlayout);
+        etxtCarreraCalle = (EditText) findViewById(R.id.carreracalle_etxt_registrardireccionlayout);
+        etxtNumero1 = (EditText) findViewById(R.id.numero1_etxt_registrardireccionlayout);
+        etxtNumero2 = (EditText) findViewById(R.id.numero2_etxt_registrardireccionlayout);
+        etxtDatosAdicionales = (EditText) findViewById(R.id.datosadicionales_etxt_registrardireccionlayout);
+        etxtBarrio = (EditText) findViewById(R.id.barrio_etxt_registrardireccionlayout);
+        btnRegistrarDireccion = (Button) findViewById(R.id.siguiente_btn_registrardireccionlayout);
+        linearLayoutCancelarEditar = (LinearLayout) findViewById(R.id.linear_layout_editar_cancelar_registrardireccionlayout);
+        btnEditarDireccionUsuario = (Button) findViewById(R.id.btn_editardireccionusuairo_registrardireccionlayout);
+        btnEditarDireccionMinegocio = (Button) findViewById(R.id.btn_editardireccionminegocio_registrardireccionlayout);
+        linearLayoutRegistrarDireccion = (LinearLayout) findViewById(R.id.linear_layout_registrardireccion_registrardireccionlayout);
+
     }
 }

@@ -133,7 +133,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
     }
     private Usuario getUsuarioFromViews(Usuario miUsuario){
-        miUsuario.setKeyUid(firebaseUser.getUid());
+        miUsuario.setUid(firebaseUser.getUid());
         miUsuario.setCedulaIdentificacion(etxtCedulaIdentificacion.getText().toString().trim());
         miUsuario.setNombre(etxtNombre.getText().toString().trim());
         miUsuario.setApellidos(etxtApellidos.getText().toString().trim());

@@ -50,7 +50,7 @@ public class UtilidadesFirebaseBD {
     }
     private static String getUrlInsertPerfiles(String strPerfil, String usuarioUid){
         StringBuilder strbNodoInserPerfilAdministrador = new StringBuilder();
-        strbNodoInserPerfilAdministrador.append(Constantes.PERFILESX_USUARIO_FIREBASE_BD);
+        strbNodoInserPerfilAdministrador.append(Constantes.PERFILES_X_USUARIO_FIREBASE_BD);
         strbNodoInserPerfilAdministrador.append("/");
         strbNodoInserPerfilAdministrador.append(strPerfil);
         strbNodoInserPerfilAdministrador.append("/");
