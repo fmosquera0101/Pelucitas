@@ -55,7 +55,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         txvNitMiNegocio = (TextView) findViewById(R.id.nitnegocio_activity_administrarminegocio);
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_administrarminegocio);
 
-        getInforamcionNegocio();
+        getInformacionNegocio();
 
     }
 
@@ -99,17 +99,18 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     public void listarEmpleados(View view) {
         Intent intent = new Intent(this, MisEmpleadosActivity.class);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
+        intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);
 
     }
     @Override
     public void onStart(){
         super.onStart();
-        getInforamcionNegocio();
+        getInformacionNegocio();
 
     }
 
-    private void getInforamcionNegocio(){
+    private void getInformacionNegocio(){
         if (null != miNegocio) {
             databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

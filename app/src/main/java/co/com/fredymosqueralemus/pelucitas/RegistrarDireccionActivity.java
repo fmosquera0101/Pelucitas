@@ -56,6 +56,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     private MiNegocio miNegocio;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
     private Usuario usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,24 +72,26 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             }
         };
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
-        if(AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))){
+        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
+        if (AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))) {
             setDisplayHomeAsUpEnabledAndBarTittle();
             linearLayoutCancelarEditar.setVisibility(View.VISIBLE);
             btnEditarDireccionUsuario.setVisibility(View.VISIBLE);
 
             settearViewsFromDireccion(usuario.getDireccion());
-        }else if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+        } else if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
             setDisplayHomeAsUpEnabledAndBarTittle();
             settearViewsFromDirrecionFromFirebase();
+            linearLayoutCancelarEditar.setVisibility(View.VISIBLE);
             btnEditarDireccionMinegocio.setVisibility(View.VISIBLE);
-            miNegocio = (MiNegocio)intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
 
-        }else {
+        } else {
             linearLayoutRegistrarDireccion.setVisibility(View.VISIBLE);
         }
 
     }
-    private void settearViewsFromDirrecionFromFirebase(){
+
+    private void settearViewsFromDirrecionFromFirebase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,11 +108,13 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         });
 
     }
-    private void setDisplayHomeAsUpEnabledAndBarTittle(){
+
+    private void setDisplayHomeAsUpEnabledAndBarTittle() {
         getSupportActionBar().setTitle(getString(R.string.str_editardireccion));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    private void settearViewsFromDireccion(Direccion direccion){
+
+    private void settearViewsFromDireccion(Direccion direccion) {
         etxtPais.setText(direccion.getPais());
         etxtDepartamento.setText(direccion.getDepartamento());
         etxtCiudadMunicipio.setText(direccion.getCiudad());
@@ -119,44 +124,45 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         etxtDatosAdicionales.setText(direccion.getDatosAdicionales());
         etxtBarrio.setText(direccion.getBarrio());
     }
-    private boolean isAlgunCampoFormularioDireccionVacio(){
-        if(TextUtils.isEmpty(etxtPais.getText())){
+
+    private boolean isAlgunCampoFormularioDireccionVacio() {
+        if (TextUtils.isEmpty(etxtPais.getText())) {
             etxtPais.requestFocus();
             etxtPais.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtDepartamento.getText())){
+        if (TextUtils.isEmpty(etxtDepartamento.getText())) {
             etxtDepartamento.requestFocus();
             etxtDepartamento.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtCiudadMunicipio.getText())){
+        if (TextUtils.isEmpty(etxtCiudadMunicipio.getText())) {
             etxtCiudadMunicipio.requestFocus();
             etxtCiudadMunicipio.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtCarreraCalle.getText())){
+        if (TextUtils.isEmpty(etxtCarreraCalle.getText())) {
             etxtCarreraCalle.requestFocus();
             etxtCarreraCalle.setError(getString(R.string.error_campo_requerido));
             return true;
         }
 
-        if(TextUtils.isEmpty(etxtNumero1.getText())){
+        if (TextUtils.isEmpty(etxtNumero1.getText())) {
             etxtNumero1.requestFocus();
             etxtNumero1.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtNumero2.getText())){
+        if (TextUtils.isEmpty(etxtNumero2.getText())) {
             etxtNumero2.requestFocus();
             etxtNumero2.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtDatosAdicionales.getText())){
+        if (TextUtils.isEmpty(etxtDatosAdicionales.getText())) {
             etxtDatosAdicionales.requestFocus();
             etxtDatosAdicionales.setError(getString(R.string.error_campo_requerido));
             return true;
         }
-        if(TextUtils.isEmpty(etxtBarrio.getText())){
+        if (TextUtils.isEmpty(etxtBarrio.getText())) {
             etxtBarrio.requestFocus();
             etxtBarrio.setError(getString(R.string.error_campo_requerido));
             return true;
@@ -167,16 +173,16 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     /**
      * Este metodo se ejecuta en respuesta al clic del boto siguiente de esta activity
      * Es el encargado de registrar la informacion de la direccion ingresada por el usuario
-     * @param view
-     * Created by Fredy Mosquera Lemus on 8/02/17.
+     *
+     * @param view Created by Fredy Mosquera Lemus on 8/02/17.
      */
-    public void registrarDireccion(View view){
-        if(!isAlgunCampoFormularioDireccionVacio()){
+    public void registrarDireccion(View view) {
+        if (!isAlgunCampoFormularioDireccionVacio()) {
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference;
 
-            if(RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))
-                    || AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+            if (RegistrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_REGISTRAR_MINEGOCIO))
+                    || AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
                 String nitMiMegocio = miNegocio.getNitNegocio();
                 Direccion direccionNegocio = getDireccion(new Direccion());
                 direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
@@ -186,16 +192,16 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 databaseReference.setValue(direccionNegocio);
                 miNegocio.setDireccion(direccionNegocio);
 
-                if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
+                if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
                     miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
                     databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                     databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
                     finish();
 
-                }else {
+                } else {
                     abrirActivityRegistrarHorario();
                 }
-            }else{
+            } else {
 
                 Direccion direccionUsuario = getDireccion(usuario.getDireccion());
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
@@ -215,8 +221,9 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
         }
     }
-    private Direccion getDireccion(Direccion direccion){
-        if(null == direccion){
+
+    private Direccion getDireccion(Direccion direccion) {
+        if (null == direccion) {
             direccion = new Direccion();
         }
         direccion.setPais(etxtPais.getText().toString().trim());
@@ -227,19 +234,21 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         direccion.setNumero2(etxtNumero2.getText().toString().trim());
         direccion.setDatosAdicionales(etxtDatosAdicionales.getText().toString().trim());
         direccion.setBarrio(etxtBarrio.getText().toString());
-       // direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-       // direccion.setFechaModificacion(null);
+        // direccion.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+        // direccion.setFechaModificacion(null);
 
         return direccion;
     }
-    private void abrirActivityRegistrarPerfil(Usuario usuario){
+
+    private void abrirActivityRegistrarPerfil(Usuario usuario) {
         Intent intent = new Intent(this, RegistrarPerfilUsuarioActivity.class);
         intent.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(intent);
         finish();
 
     }
-    private void abrirActivityRegistrarHorario(){
+
+    private void abrirActivityRegistrarHorario() {
         Intent intent = new Intent(this, RegistrarHorarioActivity.class);
         //intent.putExtra(Constantes.NIT_MINEGOCIO, inte.getStringExtra(Constantes.NIT_MINEGOCIO));
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
@@ -247,50 +256,69 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         finish();
 
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
-        if(mAuthStateListener != null){
+        if (mAuthStateListener != null) {
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         int item = menuItem.getItemId();
-        if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
-            if(item == android.R.id.home){
+        if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
+            if (item == android.R.id.home) {
                 onBackPressed();
             }
         }
         return super.onOptionsItemSelected(menuItem);
     }
-    public void cancelarEdicionDireccion(View view){
+
+    public void cancelarEdicionDireccion(View view) {
         finish();
     }
-    public void editarDireccionUsuario(View view){
-        if(!isAlgunCampoFormularioDireccionVacio()) {
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+
+    public void editarDireccionUsuario(View view) {
+        if (!isAlgunCampoFormularioDireccionVacio()) {
             Date fechaHoy = new Date();
             Direccion direccionUsuario = getDireccion(usuario.getDireccion());
             direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
             direccionUsuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
-            DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
             databaseReference.setValue(direccionUsuario);
             usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
             usuario.setDireccion(direccionUsuario);
-            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+            databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
             databaseReference.setValue(usuario);
             finish();
         }
     }
 
-    private void inicializarViews(){
+    public void editarDireccionMiNegocio(View view) {
+        if (!isAlgunCampoFormularioDireccionVacio()) {
+            Direccion direccionNegocio = getDireccion(new Direccion());
+            direccionNegocio.setNitIdentificacionNegocio(miNegocio.getNitNegocio());
+            direccionNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
+            databaseReference.setValue(direccionNegocio);
+            miNegocio.setDireccion(direccionNegocio);
+            miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
+            databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
+
+            finish();
+        }
+    }
+
+    private void inicializarViews() {
         etxtPais = (EditText) findViewById(R.id.pais_etxt_registrardireccionlayout);
         etxtDepartamento = (EditText) findViewById(R.id.departamento_etxt_registrardireccionlayout);
         etxtCiudadMunicipio = (EditText) findViewById(R.id.ciudadmunicipio_etxt_registrardireccionlayout);

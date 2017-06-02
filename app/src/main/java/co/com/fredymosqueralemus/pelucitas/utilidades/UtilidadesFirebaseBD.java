@@ -13,6 +13,14 @@ import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 public class UtilidadesFirebaseBD {
 
+    public static String getUrlInserccionEmpleadosXNegocios(String nitNegocio){
+        StringBuilder strbNodoInserEmpl = new StringBuilder();
+        strbNodoInserEmpl.append(Constantes.EMPLEADOS_X_NEGOCIO);
+        strbNodoInserEmpl.append("/");
+        strbNodoInserEmpl.append(nitNegocio);
+
+        return strbNodoInserEmpl.toString();
+    }
     public static String getUrlInserccionUsuario(String usuarioUid){
         StringBuilder strbNodoInserUsuario = new StringBuilder();
         strbNodoInserUsuario.append(Constantes.USUARIO_FIREBASE_BD);

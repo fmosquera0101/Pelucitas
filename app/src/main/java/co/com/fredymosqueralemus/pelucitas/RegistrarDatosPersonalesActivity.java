@@ -139,7 +139,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
         miUsuario.setApellidos(etxtApellidos.getText().toString().trim());
         miUsuario.setTelefono(etxtTelefono.getText() != null ? etxtTelefono.getText().toString().trim() : "");
         miUsuario.setFechaNacimiento(etxtFechaNacimiento.getText().toString());
-
+        miUsuario.setEmail(firebaseUser.getEmail());
         return miUsuario;
     }
     public void abrirActivityRegistrarDireccion(Usuario usuario){

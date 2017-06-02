@@ -29,6 +29,8 @@ public class Usuario implements Serializable {
     private PerfilesXUsuario perfilEmpleado;
     private PerfilesXUsuario perfilAdministrador;
 
+    private String nitNegocioEmpleador;
+
     public String getUid() {
         return uid;
     }
@@ -139,5 +141,13 @@ public class Usuario implements Serializable {
 
     public void setPerfilAdministrador(PerfilesXUsuario perfilAdministrador) {
         this.perfilAdministrador = perfilAdministrador;
+    }
+
+    public String getNitNegocioEmpleador() {
+        return nitNegocioEmpleador;
+    }
+
+    public void setNitNegocioEmpleador(String nitNegocioEmpleador) {
+        this.nitNegocioEmpleador = nitNegocioEmpleador;
     }
 }
