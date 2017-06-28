@@ -128,5 +128,8 @@
     <string name="str_perfiles">Perfiles</string>
     <string name="str_editardatospersonales">Editar Informacion personal</string>
     <string name="srt_ditarperfilusuario">Editar perfil</string>
+    <string name="str_agenda">Agenda</string>
+    <string name="str_hora">Hora</string>
+    <string name="str_reservado">Reservado</string>
 
 </resources>

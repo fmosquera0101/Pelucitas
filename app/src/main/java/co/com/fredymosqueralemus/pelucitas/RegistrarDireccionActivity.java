@@ -77,8 +77,10 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             setDisplayHomeAsUpEnabledAndBarTittle();
             linearLayoutCancelarEditar.setVisibility(View.VISIBLE);
             btnEditarDireccionUsuario.setVisibility(View.VISIBLE);
-
             settearViewsFromDireccion(usuario.getDireccion());
+            if("S".equals(intent.getStringExtra(Constantes.SN_READONLY_INFORMACION_USUARIO))){
+                settViewsDireccionReadOnly();
+            }
         } else if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
             setDisplayHomeAsUpEnabledAndBarTittle();
             settearViewsFromDirrecionFromFirebase();
@@ -88,6 +90,21 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         } else {
             linearLayoutRegistrarDireccion.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    private void settViewsDireccionReadOnly() {
+
+        etxtPais.setEnabled(false);
+        etxtDepartamento.setEnabled(false);
+        etxtCiudadMunicipio.setEnabled(false);
+        etxtCarreraCalle.setEnabled(false);
+        etxtNumero1.setEnabled(false);
+        etxtNumero2.setEnabled(false);
+        etxtDatosAdicionales.setEnabled(false);
+        etxtBarrio.setEnabled(false);
+        btnRegistrarDireccion.setEnabled(false);
+        linearLayoutCancelarEditar.setVisibility(View.GONE);
 
     }
 
@@ -274,7 +291,8 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int item = menuItem.getItemId();
-        if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
+        if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO)) ||
+                AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))) {
             if (item == android.R.id.home) {
                 onBackPressed();
             }

@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:src="@drawable/ic_add_a_photo_black_24dp"
-        android:onClick="seleccionarImagenPerfil"/>
+        />
     <TextView
         android:id="@+id/nombreusuario_activity_administrarmiperfil"
         android:layout_width="match_parent"
@@ -102,6 +102,7 @@
     <include layout="@layout/linea_separador"/>
 
     <LinearLayout
+        android:id="@+id/layout_editar_perfil_AdministrarMiPerfilActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -127,6 +128,32 @@
             />
     </LinearLayout>
     <include layout="@layout/linea_separador"/>
+        <LinearLayout
+            android:id="@+id/layout_veragenda_empleado_activity_administrarmiperfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:onClick="verAgendaEmpleado"
+            >
+            <ImageView
+                android:id="@+id/imagen_agenda_activity_administrarmiperfil"
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_event_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/textview_agenda_empleado_activity_administrarmiperfil"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:text="@string/str_agenda"
+                android:layout_gravity="center"
+                />
+            </LinearLayout>
+        <include layout="@layout/linea_separador"/>
 </LinearLayout>
 </LinearLayout>
 </ScrollView>

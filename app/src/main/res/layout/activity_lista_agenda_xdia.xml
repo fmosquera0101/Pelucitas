@@ -5,22 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="co.com.fredymosqueralemus.pelucitas.MisEmpleadosActivity">
+    tools:context="co.com.fredymosqueralemus.pelucitas.ListaAgendaXDiaActivity">
 
-    <Button
-        android:id="@+id/btnBuscarEmpleado_MisEmpleadosActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Buscar Empleado"
-        android:onClick="abrirActivityBuscarEmpleado"/>
     <ProgressBar
-        android:id="@+id/progressBar_MisEmpleadosActivity"
+        android:id="@+id/progressBar_ListaAgendaXDiaActivity"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <ListView
-        android:id="@+id/listview_fragment_MisEmpleadosActivity"
+        android:id="@+id/listview_fragment_ListaAgendaXDiaActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </ListView>

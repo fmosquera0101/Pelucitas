@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
+import co.com.fredymosqueralemus.pelucitas.adapters.BuscarEmpleadoActivity;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
@@ -84,6 +85,17 @@ public class MisEmpleadosActivity extends AppCompatActivity {
 
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Usuario usuario = listUsuarios.get(position);
+                Intent intentEmpleado = new Intent(context, AdministrarMiPerfilActivity.class);
+                intentEmpleado.putExtra(Constantes.USUARIO_OBJECT, usuario);
+                intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, MisEmpleadosActivity.class.getName());
+
+                startActivity(intentEmpleado);
+            }
+        });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -94,88 +106,15 @@ public class MisEmpleadosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
+
+    public void abrirActivityBuscarEmpleado(View view){
+        Intent intent = new Intent(this, BuscarEmpleadoActivity.class);
+        intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
+        startActivity(intent);
+    }
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_search, menu);
-        MenuItem menuItem = menu.findItem(R.id.menuItemsearch);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(final String newText) {
-                if (null != newText && !"".equals(newText)) {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    Query firebaseQuery = databaseReference.child(Constantes.USUARIO_FIREBASE_BD).orderByChild("nombre").startAt("#" + newText);
-                    firebaseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            listUsuarios = new ArrayList<Usuario>();
-                            for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                final Usuario usuario = child.getValue(Usuario.class);
-                                if (usuario.getNombre().trim().toLowerCase().contains(newText.trim().toLowerCase())) {
-                                    PerfilesXUsuario perfilesXUsuario = usuario.getPerfilEmpleado();
-                                    if ("S".equals(perfilesXUsuario.getActivo())) {
-                                        listUsuarios.add(usuario);
-                                    }
-
-                                }
-                            }
-                            progressBar.setVisibility(View.GONE);
-                            AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
-                            listView.setAdapter(adapterMisEmpleados);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            progressBar.setVisibility(View.GONE);
-
-                        }
-                    });
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setMessage("Agregar Empleado");
-                            builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Usuario usuario = listUsuarios.get(position);
-                                    DatabaseReference databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
-                                    usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
-                                    usuario.setNitNegocioEmpleador(miNegocio.getNitNegocio());
-                                    databaseReferenceEmpleado.setValue(usuario);
-                                    getEmpleadosXNegocio();
-                                    Toast.makeText(context, "Se agrego empleado a tu negocio",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getEmpleadosXNegocio();
-                                }
-                            });
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        }
-
-                    });
-
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    getEmpleadosXNegocio();
-
-                }
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+    public void onResume(){
+        super.onResume();
+        getEmpleadosXNegocio();
     }
 }

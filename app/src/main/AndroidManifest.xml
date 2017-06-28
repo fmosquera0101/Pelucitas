@@ -59,8 +59,17 @@
             android:name=".services.CargarImagenMiNegocioIntentService"
             android:exported="false" />
 
-        <activity android:name=".MisEmpleadosActivity"
-            android:label="Empleados"></activity>
+        <activity
+            android:name=".MisEmpleadosActivity"
+            android:label="Mis Empleados" />
+        <activity
+            android:name=".adapters.BuscarEmpleadoActivity"
+            android:label="Buscar Empleados" />
+        <activity
+            android:name=".CalendarAgendaXEmpleadoActivity"
+            android:label="Agenda Empleado" />
+        <activity android:name=".ListaAgendaXDiaActivity"
+            android:label="Agenda dia x"></activity>
     </application>
 
 </manifest>

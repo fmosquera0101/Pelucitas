@@ -35,6 +35,7 @@ public interface Constantes {
     public static final String CALL_FROM_ACTIVITY_EDITARMINEGOCIO = "CALL_FROM_ACTIVITY_EDITARMINEGOCIO";
     public static final String NIT_MINEGOCIO = "NIT_MINEGOCIO";
     public static final String CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL = "CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL";
+    public static final String CALL_FROM_ACTIVITY_MISEMPLEADOS = "CALL_FROM_ACTIVITY_MISEMPLEADOS";
 
     public static final String CALL_FROM_ACTIVITY_HOME = "CALL_FROM_ACTIVITY_HOME";
 
@@ -69,4 +70,5 @@ public interface Constantes {
     public static final int SELECT_FILE = 1;
     public static final String BYTE_ARRAY_IMAGEN_MI_NEGOCIO = "BYTE_ARRAY_IMAGEN_MI_NEGOCIO";
 
+    public static final String SN_READONLY_INFORMACION_USUARIO = "SN_READONLY_INFORMACION_USUARIO";
 }

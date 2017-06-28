@@ -2,18 +2,17 @@ package co.com.fredymosqueralemus.pelucitas;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -75,9 +74,23 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
             linearLayoutEditarCancelarEdicion.setVisibility(View.VISIBLE);
             usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
             settearViewsFromUsuario(usuario);
+            if("S".equals(intent.getStringExtra(Constantes.SN_READONLY_INFORMACION_USUARIO))){
+                settViewsUsuarioReadOnly();
+            }
         }else {
             linearLayoutRegistrarInfoUsuairo.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void settViewsUsuarioReadOnly() {
+        etxtCedulaIdentificacion.setEnabled(false);
+        etxtCedulaIdentificacion.setTypeface(null, Typeface.BOLD);
+        etxtNombre.setEnabled(false);
+        etxtApellidos.setEnabled(false);
+        etxtTelefono.setEnabled(false);
+        etxtFechaNacimiento.setEnabled(false);
+        linearLayoutEditarCancelarEdicion.setVisibility(View.GONE);
+        linearLayoutRegistrarInfoUsuairo.setVisibility(View.GONE);
     }
 
     private void iniciarlizarViews(){
