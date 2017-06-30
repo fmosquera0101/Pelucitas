@@ -8,10 +8,18 @@
     tools:context="co.com.fredymosqueralemus.pelucitas.ListaAgendaXDiaActivity">
 
     <ProgressBar
-        android:id="@+id/progressBar_ListaAgendaXDiaActivity"
+        android:id="@+id/progressbar_ListaAgendaXDiaActivity"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtv_mensaje_noagenda_ListaAgendaXDiaActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_noagenda"
+        android:visibility="gone"
+        android:gravity="center"/>
 
     <ListView
         android:id="@+id/listview_fragment_ListaAgendaXDiaActivity"

@@ -18,8 +18,8 @@
             android:columnCount="2">
             <ImageView
                 android:id="@+id/imagen_hora_agendaxdia_layout_listview_agendaxdia"
-                android:layout_width="70dp"
-                android:layout_height="80dp"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
                 android:src="@drawable/ic_access_time_black_24dp"
                 />
 
@@ -28,20 +28,22 @@
                 android:layout_height="wrap_content"
                 android:rowCount="4"
                 android:columnCount="1"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center">
                 <TextView
-                    android:id="@+id/nombre_empleado_layout_layout_listview_agendaxdia"
+                    android:id="@+id/hora_agenda_layout_layout_listview_agendaxdia"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
                     android:text="@string/str_hora"
+
                     />
                 <TextView
-                    android:id="@+id/telefono_empleado_layout_listview_agendaxdia"
+                    android:id="@+id/snreservado_agenda_layout_listview_agendaxdia"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@string/str_reservado"
-                    android:layout_width="220dp" />
+                    android:layout_width="220dp"
+                    />
             </GridLayout>
         </GridLayout>
         <ImageView

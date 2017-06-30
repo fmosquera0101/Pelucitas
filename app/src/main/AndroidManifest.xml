@@ -63,7 +63,7 @@
             android:name=".MisEmpleadosActivity"
             android:label="Mis Empleados" />
         <activity
-            android:name=".adapters.BuscarEmpleadoActivity"
+            android:name=".BuscarEmpleadoActivity"
             android:label="Buscar Empleados" />
         <activity
             android:name=".CalendarAgendaXEmpleadoActivity"

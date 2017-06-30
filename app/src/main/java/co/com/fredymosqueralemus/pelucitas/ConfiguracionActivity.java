@@ -36,6 +36,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
     }
     public void miCuenta(View view){
         Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
+        intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
         startActivity(intent);
 
     }

@@ -16,6 +16,7 @@ public interface Constantes {
     public static final String DIRECCIONES_X_USUARIO_FIREBASE_BD = "direccionesXUsuario";
     public static final String DIRECCIONES_X_NEGOCIO_FIREBASE_BD = "direccionesXNegocio";
     public static final String HORARIOS_X_NEGOCIO_FIREBASE_BD = "horariosXNegocio";
+    public static final String AGENDA_X_EMPLEADOS = "agendaxEmpleado";
 
     public static final String MINEGOCIO_FIREBASE_BD = "negocios";
     public static final String TIPOS_NEGOCIOS_FIREBASE_BD = "tiposnegocios";
@@ -71,4 +72,12 @@ public interface Constantes {
     public static final String BYTE_ARRAY_IMAGEN_MI_NEGOCIO = "BYTE_ARRAY_IMAGEN_MI_NEGOCIO";
 
     public static final String SN_READONLY_INFORMACION_USUARIO = "SN_READONLY_INFORMACION_USUARIO";
+
+    public static final String AGENDA_X_NEGOCIO_OBJECT = "AGENDA_X_NEGOCIO_OBJECT";
+
+    public static final String STR_DIA_AGENDA = "STR_DIA_AGENDA";
+    public static final String STR_FECHA_AGENDA = "STR_FECHA_AGENDA";
+
+    public static final String  CALL_TO_AGREGAR_AGENDA_XEMPLEADO = "CALL_TO_AGREGAR_AGENDA_XEMPLEADO";
+    public static final String  CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY = "CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY" ;
 }

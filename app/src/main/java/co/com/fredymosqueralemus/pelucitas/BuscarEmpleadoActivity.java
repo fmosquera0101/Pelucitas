@@ -1,4 +1,4 @@
-package co.com.fredymosqueralemus.pelucitas.adapters;
+package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;

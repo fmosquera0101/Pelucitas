@@ -6,13 +6,17 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import co.com.fredymosqueralemus.pelucitas.ConfiguracionActivity;
+import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 
@@ -75,5 +79,9 @@ public class Utilidades {
         return strbDireccion.toString();
 
 
+    }
+
+    public boolean callToAgregarAgendaEmpleado(Intent intent){
+        return ConfiguracionActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY));
     }
 }

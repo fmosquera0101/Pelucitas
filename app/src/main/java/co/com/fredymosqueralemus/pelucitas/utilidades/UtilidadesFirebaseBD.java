@@ -1,9 +1,12 @@
 package co.com.fredymosqueralemus.pelucitas.utilidades;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
@@ -106,5 +109,9 @@ public class UtilidadesFirebaseBD {
     public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, Usuario usuario){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.USUARIO_FIREBASE_BD).
                 child(usuario.getCedulaIdentificacion()).child("MiPerfil" + usuario.getCedulaIdentificacion());
+    }
+    public static void insertarAgendaXEmpleadoFirebaseBD(AgendaXEmpleado agendaXEmpleado){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(agendaXEmpleado.getUidEmpleado()).child(agendaXEmpleado.getFechaAgenda()).push().setValue(agendaXEmpleado);
     }
 }

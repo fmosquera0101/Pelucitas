@@ -153,6 +153,7 @@
                 android:layout_gravity="center"
                 />
             </LinearLayout>
+
         <include layout="@layout/linea_separador"/>
 </LinearLayout>
 </LinearLayout>
