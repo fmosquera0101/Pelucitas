@@ -119,7 +119,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
 
     public void editarInformacionMiNegocio(View view) {
         MiNegocio miNegocioEdicion = getInformacionMiNegocioFromViews();
-        miNegocioEdicion.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        miNegocioEdicion.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocioEdicion.getUidAdministrador()));
         databaseReference.child(miNegocioEdicion.getKeyChild()).setValue(miNegocioEdicion);
         finish();
@@ -134,10 +134,10 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
             TipoNegocio tipoNegocio = new TipoNegocio();
             tipoNegocio.setTipoNegocio(spnTipoNegocio.getSelectedItem().toString());
             tipoNegocio.setNitNegocio(miNegocio.getNitNegocio());
-            tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             tipoNegocio.setFechaModificacion(null);
             miNegocio.setTipoNegocio(tipoNegocio);
-            miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             miNegocio.setFechaModificacion(null);
             miNegocio.setUidAdministrador(mFirebaseUser.getUid());
 

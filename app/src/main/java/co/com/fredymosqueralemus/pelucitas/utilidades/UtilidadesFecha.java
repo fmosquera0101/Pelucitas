@@ -11,22 +11,22 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 
 public class UtilidadesFecha {
 
-    public static String convertirDateAString(Date dateFecha){
-        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(Constantes.FORMAT_DDMMYYYYHHMMSS);
+    public static String convertirDateAString(Date dateFecha, String formatoFecha){
+        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
         return simpleDateFormat.format(dateFecha);
     }
-    public static Date convertirStringADate(String strFecha){
+    public static Date convertirStringADate(String strFecha, String formatoFecha){
         Date fechaConvertida = null;
         try {
-            MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(Constantes.FORMAT_DDMMYYYYHHMMSS);
+            MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
             fechaConvertida =  simpleDateFormat.parse(strFecha);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return fechaConvertida;
     }
-    public static Date formatearDate(Date fecha){
-        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(Constantes.FORMAT_DDMMYYYYHHMMSS);
+    public static Date formatearDate(Date fecha, String formatoFecha){
+        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
         String strFecha =  simpleDateFormat.format(fecha);
         Date fechaConvertida = null;
         try {
@@ -43,10 +43,10 @@ public class UtilidadesFecha {
      * @return
      * Created by Fredy Mosquera Lemus on 8/02/17.
      */
-    public static boolean isFechaddmmyyyy(String strFecha){
+    public static boolean isFechaddmmyyyy(String strFecha, String formatoFecha){
         Date fechaConvertida = null;
         try {
-            MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(Constantes.FORMAT_DDMMYYYYHHMMSS);
+            MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
             fechaConvertida =  simpleDateFormat.parse(strFecha);
             if (null != fechaConvertida){
                 return true;

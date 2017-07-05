@@ -9,8 +9,10 @@ import java.io.Serializable;
 public class TipoNegocio implements Serializable{
     private String tipoNegocio;
     private String nitNegocio;
+    private int idImagen;
     private String fechaInsercion;
     private String fechaModificacion;
+
 
     public TipoNegocio(){}
 
@@ -28,6 +30,14 @@ public class TipoNegocio implements Serializable{
 
     public void setNitNegocio(String nitNegocio) {
         this.nitNegocio = nitNegocio;
+    }
+
+    public int getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(int idImagen) {
+        this.idImagen = idImagen;
     }
 
     public String getFechaInsercion() {

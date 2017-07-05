@@ -62,6 +62,16 @@ public class InicioActivity extends AppCompatActivity {
         actionBarDrawerToggle = getActionBarDrawerToggle();
         actionBarDrawerToggle.syncState();
         navigationView = getNavigationView();
+        if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
+            Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
+                    Toast.LENGTH_SHORT ).show();
+        }else{
+
+            FragmentManager mFragmentManager = getSupportFragmentManager();
+            Fragment mFragment = new InicioFragmentTiposDeNegocios();
+            getSupportActionBar().setTitle(getString(R.string.str_inicio));
+            mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
+        }
 
     }
 
@@ -130,6 +140,16 @@ public class InicioActivity extends AppCompatActivity {
                 }else{
                 mFragment = new FragmentListviewMisnegocios();
                 getSupportActionBar().setTitle(getString(R.string.str_misnegocios));
+                }
+                break;
+
+            case R.id.menuitem_inicio:
+                if(!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)){
+                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
+                            Toast.LENGTH_SHORT ).show();
+                }else{
+                    mFragment = new InicioFragmentTiposDeNegocios();
+                    getSupportActionBar().setTitle(getString(R.string.str_inicio));
                 }
                 break;
 

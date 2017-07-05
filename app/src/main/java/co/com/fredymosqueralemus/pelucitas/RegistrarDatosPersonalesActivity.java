@@ -112,7 +112,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
             DatabaseReference databaseReference = getDatabaseReference(firebaseUser.getUid());
             usuario = new Usuario();
             usuario = getUsuarioFromViews(usuario);
-            usuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            usuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             usuario.setFechaModificacion(null);
             databaseReference.setValue(usuario);
             abrirActivityRegistrarDireccion(usuario);
@@ -123,7 +123,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
         if(!isAlgunCampoDatosPersonalesVacio()) {
             DatabaseReference databaseReference = getDatabaseReference(firebaseUser.getUid());
             usuario = getUsuarioFromViews(usuario);
-            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             databaseReference.setValue(usuario);
             finish();
         }
@@ -206,7 +206,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
             etxtFechaNacimiento.requestFocus();
             etxtFechaNacimiento.setError(getString(R.string.error_campo_requerido));
             return true;
-        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString()))){
+        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString(), Constantes.FORMAT_DDMMYYYYHHMMSS))){
             etxtFechaNacimiento.requestFocus();
             etxtFechaNacimiento.setError(getString(R.string.error_fechanacimiento_novalida));
             return true;
@@ -253,7 +253,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
 
     }
     private void actualizarEditTextFechaNacimiento(Calendar calendar) {
-        etxtFechaNacimiento.setText(UtilidadesFecha.convertirDateAString(calendar.getTime()));
+        etxtFechaNacimiento.setText(UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYY));
     }
 
     /**
@@ -266,7 +266,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
      */
     private boolean esfechaNacimientoValida(Date fechaNacimiento){
         boolean isFechaValida = true;
-        Date fechaHoy = UtilidadesFecha.formatearDate(new Date());
+        Date fechaHoy = UtilidadesFecha.formatearDate(new Date(), Constantes.FORMAT_DDMMYYYY);
         if (fechaNacimiento.equals(fechaHoy) || fechaNacimiento.after(fechaHoy)){
             return false;
         }

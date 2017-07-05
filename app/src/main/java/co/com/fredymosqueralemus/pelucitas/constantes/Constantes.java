@@ -28,6 +28,9 @@ public interface Constantes {
 
     public static final String FORMAT_DDMMYYYYHHMMSS = "dd/MM/yyyy HH:mm:ss";
 
+    public static final String FORMAT_DDMMYYYY= "dd/MM/yyyy";
+    public static final String FORMAT_YYYYMMDD= "yyyy/MM/dd";
+
     public static final String PETTERN_VALIDA_CORREO = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 

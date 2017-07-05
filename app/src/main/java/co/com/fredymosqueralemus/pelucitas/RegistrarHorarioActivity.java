@@ -73,7 +73,7 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
 
             if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                 miNegocio.setHorarioNegocio(formularioRegistrarHorario.getHorario());
-                miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                 databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
                 finish();

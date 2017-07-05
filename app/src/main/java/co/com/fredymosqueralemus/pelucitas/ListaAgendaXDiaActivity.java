@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.database.DataSnapshot;
@@ -97,30 +98,38 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         if(item == android.R.id.home){
             onBackPressed();
         }else if(item == R.id.menuitem_agregar_agenda_xdia){
-            Calendar calendar = Calendar.getInstance();
+            final Calendar calendar = Calendar.getInstance();
             final int hora = calendar.get(Calendar.HOUR_OF_DAY);
             final int minutos = calendar.get(Calendar.MINUTE);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    StringBuilder strbHoraAgenda = new StringBuilder();
-                    strbHoraAgenda.append(hourOfDay);
-                    strbHoraAgenda.append(":");
-                    strbHoraAgenda.append(minute);
-                    AgendaXEmpleado agendaXEmpleado = new AgendaXEmpleado();
-                    agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
-                    agendaXEmpleado.setHoraReserva(strbHoraAgenda.toString());
-                    agendaXEmpleado.setSnReservado(Constantes.NO);
-                    agendaXEmpleado.setUidEmpleado(usuario.getUid());
-                    agendaXEmpleado.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
-                    UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
-                    getAgendaXEmpleadoXDia();
-                    txtvMensajeNoagenda.setVisibility(View.GONE);
+            String strFechaAgenda = String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA));
+            Date dateFechaAgenda = UtilidadesFecha.convertirStringADate(strFechaAgenda, Constantes.FORMAT_DDMMYYYY);
+            Date dateFechaHoy =  UtilidadesFecha.formatearDate(calendar.getTime(), Constantes.FORMAT_DDMMYYYY);
 
-                }
-            }, hora, minutos, true);
-            timePickerDialog.setTitle(getString(R.string.str_seleccionar_hora_agenda));
-            timePickerDialog.show();
+            if(dateFechaAgenda.equals(dateFechaHoy) || dateFechaAgenda.after(dateFechaHoy)) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        StringBuilder strbHoraAgenda = new StringBuilder();
+                        strbHoraAgenda.append(hourOfDay);
+                        strbHoraAgenda.append(":");
+                        strbHoraAgenda.append(minute);
+                        AgendaXEmpleado agendaXEmpleado = new AgendaXEmpleado();
+                        agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
+                        agendaXEmpleado.setHoraReserva(strbHoraAgenda.toString());
+                        agendaXEmpleado.setSnReservado(Constantes.NO);
+                        agendaXEmpleado.setUidEmpleado(usuario.getUid());
+                        agendaXEmpleado.setFechaInsercion(UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                        UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
+                        getAgendaXEmpleadoXDia();
+                        txtvMensajeNoagenda.setVisibility(View.GONE);
+
+                    }
+                }, hora, minutos, true);
+                timePickerDialog.setTitle(getString(R.string.str_seleccionar_hora_agenda));
+                timePickerDialog.show();
+            }else{
+                Toast.makeText(context, getString(R.string.str_no_se_puede_agregar_agenda_para_este_dia), Toast.LENGTH_SHORT).show();
+            }
 
         }
         return super.onOptionsItemSelected(menuItem);

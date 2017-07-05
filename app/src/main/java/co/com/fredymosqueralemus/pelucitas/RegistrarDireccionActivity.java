@@ -203,14 +203,14 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 String nitMiMegocio = miNegocio.getNitNegocio();
                 Direccion direccionNegocio = getDireccion(new Direccion());
                 direccionNegocio.setNitIdentificacionNegocio(nitMiMegocio);
-                direccionNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+                direccionNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                 direccionNegocio.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
                 databaseReference.setValue(direccionNegocio);
                 miNegocio.setDireccion(direccionNegocio);
 
                 if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
-                    miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                    miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                     databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
                     databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
                     finish();
@@ -222,12 +222,12 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
                 Direccion direccionUsuario = getDireccion(usuario.getDireccion());
                 direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
-                direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+                direccionUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                 direccionUsuario.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
                 databaseReference.setValue(direccionUsuario);
 
-                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                 usuario.setDireccion(direccionUsuario);
 
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
@@ -309,10 +309,10 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
             Date fechaHoy = new Date();
             Direccion direccionUsuario = getDireccion(usuario.getDireccion());
             direccionUsuario.setKeyUidUsuario(firebaseUser.getUid());
-            direccionUsuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
+            direccionUsuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXUsuario(firebaseUser.getUid()));
             databaseReference.setValue(direccionUsuario);
-            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy));
+            usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechaHoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
             usuario.setDireccion(direccionUsuario);
             databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
             databaseReference.setValue(usuario);
@@ -324,11 +324,11 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         if (!isAlgunCampoFormularioDireccionVacio()) {
             Direccion direccionNegocio = getDireccion(new Direccion());
             direccionNegocio.setNitIdentificacionNegocio(miNegocio.getNitNegocio());
-            direccionNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            direccionNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
             databaseReference.setValue(direccionNegocio);
             miNegocio.setDireccion(direccionNegocio);
-            miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
             databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
 

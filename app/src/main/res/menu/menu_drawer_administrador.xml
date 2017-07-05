@@ -2,6 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <item
+        android:id="@+id/menuitem_group_inicio"
+        android:title="@string/title_menu_inicio"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_inicio"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="@string/title_menu_inicio"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_inicio_localizar"
+                    android:icon="@drawable/ic_place_black_24dp"
+                    android:title="@string/title_menu_localizar"
+                    >
+                </item>
+
+            </group>
+
+        </menu>
+    </item>
 
     <item
         android:id="@+id/menuitem_administrarcuenta"

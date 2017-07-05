@@ -92,9 +92,9 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
     protected void guardarPerfilUsuario(String usuarioUid) {
 
         if (AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))) {
-            perfilesXUsuarioAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            perfilesXUsuarioAdministrador.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             usuario.setPerfilAdministrador(perfilesXUsuarioAdministrador);
-            perfilesXUsuarioEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+            perfilesXUsuarioEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             usuario.setPerfilEmpleado(perfilesXUsuarioEmpleado);
 
             insertarPerfilEmpleado(perfilesXUsuarioEmpleado);
@@ -102,7 +102,7 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         } else {
             PerfilesXUsuario perfilesXUsuario = new PerfilesXUsuario();
             perfilesXUsuario.setFechaModificacion(null);
-            perfilesXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+            perfilesXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             insertarPerfilEmpleado(perfilesXUsuario);
             insertarPerfilAdministrador(perfilesXUsuario);
         }
@@ -119,7 +119,7 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         }
         usuario.setPerfilEmpleado(perfilesXUsuario);
         DatabaseReference databaseReference = getDatabaseReference(usuario.getUid());
-        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         databaseReference.setValue(usuario);
     }
 
@@ -132,7 +132,7 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
         }
         usuario.setPerfilAdministrador(perfilesXUsuario);
         DatabaseReference databaseReference = getDatabaseReference(usuario.getUid());
-        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+        usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         databaseReference.setValue(usuario);
     }
 

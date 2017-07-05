@@ -117,7 +117,7 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Usuario usuario = listUsuarios.get(position);
                                     DatabaseReference databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
-                                    usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                                    usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     usuario.setNitNegocioEmpleador(miNegocio.getNitNegocio());
                                     databaseReferenceEmpleado.setValue(usuario);
                                     Toast.makeText(context, "Se agrego empleado a tu negocio",

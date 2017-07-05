@@ -135,5 +135,13 @@
     <string name="str_tituloactivitylistagenda">Agenda para el dia</string>
     <string name="str_agregaragenda">Agregar agenda</string>
     <string name="str_seleccionar_hora_agenda">Seleccionar Hora</string>
+    <string name="str_disponible">Disponible</string>
+    <string name="str_no_se_puede_agregar_agenda_para_este_dia">No se puede agregar agenda para este dia</string>
+    <string name="title_menu_inicio">Inicio</string>
+    <string name="title_menu_localizar">Localizar</string>
+    <string name="str_tiponegocio_salonbelleza">Salon de belleza</string>
+    <string name="str_tiponegocio_peluqueria">Peluqueria</string>
+    <string name="str_tiponegocio_barberia">Barberia</string>
+    <string name="str_inicio">Inicio</string>
 
 </resources>

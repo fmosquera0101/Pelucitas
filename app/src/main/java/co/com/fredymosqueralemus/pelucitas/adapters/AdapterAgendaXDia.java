@@ -56,7 +56,7 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
             itemHolderAgendaXEmpleado.txvSnReservado.setText(context.getString(R.string.str_reservado));
         }else{
             itemHolderAgendaXEmpleado.imvIconAgendaXdia.setImageResource(R.drawable.ic_access_time_black_24dp);
-            itemHolderAgendaXEmpleado.txvSnReservado.setText("");
+            itemHolderAgendaXEmpleado.txvSnReservado.setText(context.getString(R.string.str_disponible));
         }
         itemHolderAgendaXEmpleado.txvHoraAgenda.setText(agendaXEmpleado.getHoraReserva());
 

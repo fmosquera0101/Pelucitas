@@ -93,14 +93,14 @@ public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
                 if (null == imagenModelo) {
                     imagenModelo = new ImagenModelo();
                     imagenModelo.setNombreImagen("usuario" + usuario.getCedulaIdentificacion());
-                    imagenModelo.setFechaCreacion(UtilidadesFecha.convertirDateAString(fechahoy));
-                    imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(fechahoy));
+                    imagenModelo.setFechaCreacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
+                    imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
                 } else {
-                    imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(fechahoy));
+                    imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
                 }
 
                 usuario.setImagenModelo(imagenModelo);
-                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechahoy));
+                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
                 databaseReferenceMiNegocio.setValue(usuario);

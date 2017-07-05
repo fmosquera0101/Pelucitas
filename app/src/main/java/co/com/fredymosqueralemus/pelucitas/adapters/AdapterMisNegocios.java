@@ -2,13 +2,6 @@ package co.com.fredymosqueralemus.pelucitas.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,24 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.signature.StringSignature;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
-import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
-import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
-import co.com.fredymosqueralemus.pelucitas.horario.Horario;
-import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;

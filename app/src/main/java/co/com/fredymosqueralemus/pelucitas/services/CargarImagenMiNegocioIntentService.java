@@ -86,10 +86,10 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
                     if (null == imagenModelo) {
                         imagenModelo = new ImagenModelo();
                         imagenModelo.setNombreImagen("MiImagenPerfil" + miNegocio.getNitNegocio());
-                        imagenModelo.setFechaCreacion(UtilidadesFecha.convertirDateAString(new Date()));
-                        imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                        imagenModelo.setFechaCreacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                        imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                     } else {
-                        imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(new Date()));
+                        imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                     }
 
                     miNegocio.setImagenModelo(imagenModelo);

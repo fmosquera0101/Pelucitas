@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 
 /**
@@ -277,7 +278,7 @@ public class FormularioRegistrarHorario{
         horario.setDiasLaborales(getDias().trim());
         horario.setHoraInicial(etHoraInicio.getText().toString());
         horario.setHoraFinal(etHoraFin.getText().toString());
-        horario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date()));
+        horario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         horario.setFechaModificacion(null);
         return horario;
     }
