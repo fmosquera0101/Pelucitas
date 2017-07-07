@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context="co.com.fredymosqueralemus.pelucitas.InicioFragmentTiposDeNegocios">
+    tools:context="co.com.fredymosqueralemus.pelucitas.FragmentInicioTiposDeNegocios">
 
     <ListView
         android:id="@+id/listview_tipos_de_negocios_InicioFragmentTiposDeNegocios"

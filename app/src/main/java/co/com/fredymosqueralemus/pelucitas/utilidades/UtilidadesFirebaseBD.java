@@ -8,6 +8,8 @@ import com.google.firebase.storage.StorageReference;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 /**
@@ -113,5 +115,9 @@ public class UtilidadesFirebaseBD {
     public static void insertarAgendaXEmpleadoFirebaseBD(AgendaXEmpleado agendaXEmpleado){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(agendaXEmpleado.getUidEmpleado()).child(agendaXEmpleado.getFechaAgenda()).push().setValue(agendaXEmpleado);
+    }
+    public static StorageReference getReferenceImagenTiposNegocios(StorageReference storageReference, TiposDeNegocio tiposDeNegocio){
+        return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.PELUCITAS_SETTINGS).child(Constantes.IMAGENES_LISTVIEW_INICIO)
+                .child(tiposDeNegocio.getImagenModelo().getNombreImagen()+".jpg");
     }
 }

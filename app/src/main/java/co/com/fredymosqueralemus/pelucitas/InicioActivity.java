@@ -68,7 +68,7 @@ public class InicioActivity extends AppCompatActivity {
         }else{
 
             FragmentManager mFragmentManager = getSupportFragmentManager();
-            Fragment mFragment = new InicioFragmentTiposDeNegocios();
+            Fragment mFragment = new FragmentInicioTiposDeNegocios();
             getSupportActionBar().setTitle(getString(R.string.str_inicio));
             mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
         }
@@ -148,7 +148,7 @@ public class InicioActivity extends AppCompatActivity {
                     Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
                 }else{
-                    mFragment = new InicioFragmentTiposDeNegocios();
+                    mFragment = new FragmentInicioTiposDeNegocios();
                     getSupportActionBar().setTitle(getString(R.string.str_inicio));
                 }
                 break;

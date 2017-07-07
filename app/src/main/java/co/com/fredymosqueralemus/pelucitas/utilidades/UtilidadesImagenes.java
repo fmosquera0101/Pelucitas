@@ -21,6 +21,8 @@ import java.io.File;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 /**
@@ -46,6 +48,13 @@ public class UtilidadesImagenes {
         }
 
     }
+    public static void cargarImagenTiposNegocios(ImageView imageView, TiposDeNegocio tiposDeNegocio, Context context, StorageReference storageReference){
+        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenTiposNegocios(storageReference, tiposDeNegocio);
+        ImagenModelo imagenModelo = tiposDeNegocio.getImagenModelo();
+        if(null != imagenModelo) {
+            cargarImagenConGlideNoCrop(context, storageReferenceImagenes, imagenModelo, imageView);
+        }
+    }
     private static void cargarImagenConGlide(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
         Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
                 centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
@@ -58,6 +67,13 @@ public class UtilidadesImagenes {
                     }
                 });
     }
+
+    private static void cargarImagenConGlideNoCrop(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
+        Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
+                into(imageView);
+    }
+
 
     public static File getFileImagenMiNegocio(MiNegocio miNegocio){
         return new File(getPathImagenMiNegoico(miNegocio));
