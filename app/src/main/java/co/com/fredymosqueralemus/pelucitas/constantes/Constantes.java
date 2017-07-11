@@ -26,6 +26,7 @@ public interface Constantes {
     public static final String TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD = "barberia";
     public static final String TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD = "peluqueria";
     public static final String TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD = "salondebelleza";
+    public static final String MINEGOCIO_X_ADMON_FIREBASE_BD = "negociosXAdministrador";
 
     public static final String EMPLEADOS_X_NEGOCIO = "empleadosXNegocio";
 
@@ -86,4 +87,6 @@ public interface Constantes {
 
     public static final String  CALL_TO_AGREGAR_AGENDA_XEMPLEADO = "CALL_TO_AGREGAR_AGENDA_XEMPLEADO";
     public static final String  CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY = "CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY" ;
+
+    public static final String TIPO_NEGOCIO_SELECCIONADO = "TIPO_NEGOCIO_SELECCIONADO";
 }

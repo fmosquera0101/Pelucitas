@@ -82,9 +82,9 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(nitNegocio));
                 Horario horario = formularioRegistrarHorario.getHorario();
                 databaseReference.setValue(horario);
-                miNegocio.setHorarioNegocio(horario);
+                /*miNegocio.setHorarioNegocio(horario);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
-                databaseReference.push().setValue(miNegocio);
+                databaseReference.push().setValue(miNegocio);*/
                 iraHome();
             }
 

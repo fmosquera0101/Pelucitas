@@ -207,7 +207,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
                 direccionNegocio.setFechaModificacion(null);
                 databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(nitMiMegocio));
                 databaseReference.setValue(direccionNegocio);
-                miNegocio.setDireccion(direccionNegocio);
+                //miNegocio.setDireccion(direccionNegocio);
 
                 if (AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))) {
                     miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));

@@ -14,17 +14,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.NegocioXAdministrador;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
+import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -47,6 +54,9 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private Intent intent;
     private MiNegocio miNegocio;
+    private Context context;
+
+    private SharedPreferencesSeguro sharedPreferencesSeguro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firebaseDatabase = FirebaseDatabase.getInstance();
         intent = getIntent();
+        context = this;
+        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(context, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
 
         etxtNitNegocio = (EditText) findViewById(R.id.nit_negocio_etxt_registrarminegocio);
         etxtNombreNegocio = (EditText) findViewById(R.id.nombre_negocio_etxt_registrarminegocio);
@@ -109,8 +121,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     }
 
     public void registrarInformacionMiNegocio(View view) {
-        MiNegocio miNegocioRegistro = getInformacionMiNegocioFromViews();
-        abrirActivityRegistrarDireccionMiNegocio(miNegocioRegistro);
+        registrarInformacionMiNegocio();
     }
 
     public void cancelarEdicionMiNegocio(View view) {
@@ -118,39 +129,69 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     }
 
     public void editarInformacionMiNegocio(View view) {
-        MiNegocio miNegocioEdicion = getInformacionMiNegocioFromViews();
+        MiNegocio miNegocioEdicion = registrarInformacionMiNegocio();
         miNegocioEdicion.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocioEdicion.getUidAdministrador()));
         databaseReference.child(miNegocioEdicion.getKeyChild()).setValue(miNegocioEdicion);
         finish();
     }
 
-    private MiNegocio getInformacionMiNegocioFromViews() {
+    private MiNegocio registrarInformacionMiNegocio() {
         if (!isAlgunCampoFormularioDireccionVacio()) {
-            DatabaseReference databaseReference;
+
+
+
             miNegocio.setNitNegocio(etxtNitNegocio.getText().toString().trim());
             miNegocio.setNombreNegocio(etxtNombreNegocio.getText().toString().trim());
             miNegocio.setTelefonoNegocio(etxtTelefono.getText().toString().trim());
-            TipoNegocio tipoNegocio = new TipoNegocio();
-            tipoNegocio.setTipoNegocio(spnTipoNegocio.getSelectedItem().toString());
-            tipoNegocio.setNitNegocio(miNegocio.getNitNegocio());
-            tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-            tipoNegocio.setFechaModificacion(null);
-            miNegocio.setTipoNegocio(tipoNegocio);
+
+            //miNegocio.setTipoNegocio(tipoNegocio);
             miNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             miNegocio.setFechaModificacion(null);
             miNegocio.setUidAdministrador(mFirebaseUser.getUid());
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    MiNegocio miNegocioFromFirebase = dataSnapshot.getValue(MiNegocio.class);
+                    if(null == miNegocioFromFirebase || !miNegocio.getNitNegocio().equals(miNegocioFromFirebase.getNitNegocio())){
+                        DatabaseReference databaseReferenceInsertarMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
+                        databaseReferenceInsertarMiNegocio.setValue(miNegocio);
+                        NegocioXAdministrador negocioXAdministrador = new NegocioXAdministrador();
+                        negocioXAdministrador.setNitNegocio(miNegocio.getNitNegocio());
+                        negocioXAdministrador.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                        DatabaseReference databaseReferenceInsertarMiNegocioXAdmon = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocioXAdmon(sharedPreferencesSeguro.getString(Constantes.USERUID)));
+                        databaseReferenceInsertarMiNegocioXAdmon.child(negocioXAdministrador.getNitNegocio()).setValue(negocioXAdministrador);
 
-            if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])) {
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                databaseReference.setValue(tipoNegocio);
-            } else if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[2])) {
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                databaseReference.setValue(tipoNegocio);
-            } else if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[3])) {
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
-                databaseReference.setValue(tipoNegocio);
-            }
+                        DatabaseReference databaseReference  = FirebaseDatabase.getInstance().getReference();
+                        TipoNegocio tipoNegocio = new TipoNegocio();
+                        tipoNegocio.setTipoNegocio(spnTipoNegocio.getSelectedItem().toString());
+                        tipoNegocio.setNitNegocio(miNegocio.getNitNegocio());
+                        tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                        tipoNegocio.setFechaModificacion(null);
+                        if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])) {
+                            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                            databaseReference.setValue(tipoNegocio);
+                        } else if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[2])) {
+                            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                            databaseReference.setValue(tipoNegocio);
+                        } else if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[3])) {
+                            databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
+                            databaseReference.setValue(tipoNegocio);
+                        }
+                        abrirActivityRegistrarDireccionMiNegocio(miNegocio);
+                    }else {
+                        Toast.makeText(context, "No se puede insertar este negocio, el nit ya se encuentra registrado, por favor intenta con otro nit", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
 
 
         }

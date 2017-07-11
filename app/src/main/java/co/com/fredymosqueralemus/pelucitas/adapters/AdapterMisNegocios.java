@@ -9,11 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
+import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -43,7 +51,7 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         View view = convertView;
-        ItemHolderlMisNegocios itemHolderlMisNegocios;
+        final ItemHolderlMisNegocios itemHolderlMisNegocios;
         if(null == view){
             LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
             itemHolderlMisNegocios = new ItemHolderlMisNegocios();
@@ -60,9 +68,34 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         MiNegocio miNegocio = lstMisNegocios.get(position);
 
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
-        itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(miNegocio.getDireccion())+", "+miNegocio.getDireccion().getDatosAdicionales());
-        itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(miNegocio.getHorarioNegocio()));
-        itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constantes.DIRECCIONES_X_NEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Direccion direccionNegocio = dataSnapshot.getValue(Direccion.class);
+                itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(direccionNegocio)+", "+direccionNegocio.getDatosAdicionales());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference.child(Constantes.HORARIOS_X_NEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Horario horarioNegocio = dataSnapshot.getValue(Horario.class);
+                itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(horarioNegocio));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+       // itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
         UtilidadesImagenes.cargarImagenMiNegocio(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
 
         return  view;

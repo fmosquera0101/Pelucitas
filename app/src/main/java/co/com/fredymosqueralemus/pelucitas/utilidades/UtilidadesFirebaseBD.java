@@ -73,11 +73,20 @@ public class UtilidadesFirebaseBD {
         return strbNodoInserPerfilAdministrador.toString();
 
     }
-    public static String getUrlInsercionMiNegocio(String usuarioUid){
+    public static String getUrlInsercionMiNegocio(String nitNegocio){
         StringBuilder strbNodoInsercionMiNegocio = new StringBuilder();
         strbNodoInsercionMiNegocio.append(Constantes.MINEGOCIO_FIREBASE_BD);
         strbNodoInsercionMiNegocio.append("/");
-        strbNodoInsercionMiNegocio.append(usuarioUid);
+        strbNodoInsercionMiNegocio.append(nitNegocio);
+        strbNodoInsercionMiNegocio.append("/");
+        return strbNodoInsercionMiNegocio.toString();
+    }
+
+    public static String getUrlInsercionMiNegocioXAdmon(String uidAdministrador){
+        StringBuilder strbNodoInsercionMiNegocio = new StringBuilder();
+        strbNodoInsercionMiNegocio.append(Constantes.MINEGOCIO_X_ADMON_FIREBASE_BD);
+        strbNodoInsercionMiNegocio.append("/");
+        strbNodoInsercionMiNegocio.append(uidAdministrador);
         strbNodoInsercionMiNegocio.append("/");
         return strbNodoInsercionMiNegocio.toString();
     }

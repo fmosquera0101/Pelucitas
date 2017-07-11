@@ -23,17 +23,21 @@ import java.util.List;
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisNegocios;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.NegocioXAdministrador;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 
 
-public class FragmentListviewMisnegocios extends Fragment {
+public class AdministrarMisNegociosFragment extends Fragment {
 
     private ListView listView;
     private List<MiNegocio> lstMisNegocios;
     private DatabaseReference databaseReference;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
     private ProgressBar progressBar;
+    private long childreCount = 0;
+    private long cantidadChildren = 0;
 
     public void FragmentListviewMisnegocios(){
 
@@ -53,18 +57,41 @@ public class FragmentListviewMisnegocios extends Fragment {
 
     private void poblarListViewMisNegocios(){
 
-        databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Constantes.MINEGOCIO_X_ADMON_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstMisNegocios = new ArrayList<MiNegocio>();
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    MiNegocio miNegocio = child.getValue(MiNegocio.class);
-                    miNegocio.setKeyChild(child.getKey());
-                    lstMisNegocios.add(miNegocio);
+                childreCount = dataSnapshot.getChildrenCount();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    final NegocioXAdministrador negocioXAdministrador = child.getValue(NegocioXAdministrador.class);
+
+
+                    databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(negocioXAdministrador.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
+
+                            lstMisNegocios.add(miNegocio);
+                            if(cantidadChildren == childreCount) {
+                                AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(), R.layout.layout_listview_misnegocios, lstMisNegocios);
+                                listView.setAdapter(adapterMisNegocios);
+                                progressBar.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
+                    cantidadChildren++;
+
                 }
-                AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(),R.layout.layout_listview_misnegocios, lstMisNegocios);
-                listView.setAdapter(adapterMisNegocios);
-                progressBar.setVisibility(View.GONE);
+                if(childreCount == 0){
+                    progressBar.setVisibility(View.GONE);
+                }
 
             }
 

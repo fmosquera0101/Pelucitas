@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterTiposDeNegocios;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 
 
-public class FragmentInicioTiposDeNegocios extends Fragment {
+public class InicioTiposDeNegociosFragment extends Fragment {
 
     private Context context;
 
@@ -29,7 +30,7 @@ public class FragmentInicioTiposDeNegocios extends Fragment {
     private List<TiposDeNegocio> tiposDeNegocios;
     private FragmentActivity fragmentActivity;
 
-    public FragmentInicioTiposDeNegocios() {
+    public InicioTiposDeNegociosFragment() {
         // Required empty public constructor
     }
 
@@ -60,7 +61,7 @@ public class FragmentInicioTiposDeNegocios extends Fragment {
 
         tiposDeNegocio.setNombreTipoNegocio(getString(R.string.str_tiponegocio_barberia));
         ImagenModelo imagenModelo = new ImagenModelo();
-        imagenModelo.setNombreImagen("barberia");
+        imagenModelo.setNombreImagen(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD);
         tiposDeNegocio.setImagenModelo(imagenModelo);
         lstTiposDeNegocio.add(tiposDeNegocio);
 
@@ -69,14 +70,14 @@ public class FragmentInicioTiposDeNegocios extends Fragment {
         tiposDeNegocio= new TiposDeNegocio();
         tiposDeNegocio.setNombreTipoNegocio(getString(R.string.str_tiponegocio_peluqueria));
         imagenModelo = new ImagenModelo();
-        imagenModelo.setNombreImagen("peluqueria");
+        imagenModelo.setNombreImagen(Constantes.TIPOS_NEGOCIOS_PELUQUERIA_FIREBASE_BD);
         tiposDeNegocio.setImagenModelo(imagenModelo);
         lstTiposDeNegocio.add(tiposDeNegocio);
 
         tiposDeNegocio= new TiposDeNegocio();
         tiposDeNegocio.setNombreTipoNegocio(getString(R.string.str_tiponegocio_salonbelleza));
         imagenModelo = new ImagenModelo();
-        imagenModelo.setNombreImagen("salondebelleza");
+        imagenModelo.setNombreImagen(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD);
         tiposDeNegocio.setImagenModelo(imagenModelo);
         lstTiposDeNegocio.add(tiposDeNegocio);
 
@@ -99,7 +100,10 @@ public class FragmentInicioTiposDeNegocios extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
-                Fragment mFragment = new FragmentListviewMisnegocios();
+                Fragment mFragment = new VisualizarTiposDeNegociosFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("TIPO_NEGOCIO_SELECCIONADO", tiposDeNegocios.get(position).getImagenModelo().getNombreImagen());
+                mFragment.setArguments(bundle);
                 ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tiposDeNegocios.get(position).getNombreTipoNegocio()+"s");
                 mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).addToBackStack(null).commit();
             }

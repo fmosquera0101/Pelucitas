@@ -68,7 +68,7 @@ public class InicioActivity extends AppCompatActivity {
         }else{
 
             FragmentManager mFragmentManager = getSupportFragmentManager();
-            Fragment mFragment = new FragmentInicioTiposDeNegocios();
+            Fragment mFragment = new InicioTiposDeNegociosFragment();
             getSupportActionBar().setTitle(getString(R.string.str_inicio));
             mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
         }
@@ -138,7 +138,7 @@ public class InicioActivity extends AppCompatActivity {
                     Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
                 }else{
-                mFragment = new FragmentListviewMisnegocios();
+                mFragment = new AdministrarMisNegociosFragment();
                 getSupportActionBar().setTitle(getString(R.string.str_misnegocios));
                 }
                 break;
@@ -148,7 +148,7 @@ public class InicioActivity extends AppCompatActivity {
                     Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT ).show();
                 }else{
-                    mFragment = new FragmentInicioTiposDeNegocios();
+                    mFragment = new InicioTiposDeNegociosFragment();
                     getSupportActionBar().setTitle(getString(R.string.str_inicio));
                 }
                 break;
