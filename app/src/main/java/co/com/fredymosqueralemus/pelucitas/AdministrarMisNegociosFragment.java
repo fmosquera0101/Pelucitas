@@ -39,12 +39,19 @@ public class AdministrarMisNegociosFragment extends Fragment {
     private long childreCount = 0;
     private long cantidadChildren = 0;
 
-    public void FragmentListviewMisnegocios(){
+    public void FragmentListviewMisnegocios() {
 
     }
+
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState){
-        View view =  layoutInflater.inflate(R.layout.fragment_listview_misnegocios, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = layoutInflater.inflate(R.layout.fragment_listview_misnegocios, container, false);
         listView = (ListView) view.findViewById(R.id.listview_fragment_listview_misnegocios);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_fragmentListviewMisnegocios);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(getContext(), Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
@@ -55,24 +62,22 @@ public class AdministrarMisNegociosFragment extends Fragment {
         return view;
     }
 
-    private void poblarListViewMisNegocios(){
+    private void poblarListViewMisNegocios() {
 
-        databaseReference.child(Constantes.MINEGOCIO_X_ADMON_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Constantes.MINEGOCIO_X_ADMON_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).limitToLast(100).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstMisNegocios = new ArrayList<MiNegocio>();
                 childreCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     final NegocioXAdministrador negocioXAdministrador = child.getValue(NegocioXAdministrador.class);
-
-
-                    databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(negocioXAdministrador.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference();
+                    databaseReference1.child(Constantes.MINEGOCIO_FIREBASE_BD).child(negocioXAdministrador.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-
                             lstMisNegocios.add(miNegocio);
-                            if(cantidadChildren == childreCount) {
+                            if (cantidadChildren == childreCount) {
                                 AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(), R.layout.layout_listview_misnegocios, lstMisNegocios);
                                 listView.setAdapter(adapterMisNegocios);
                                 progressBar.setVisibility(View.GONE);
@@ -89,7 +94,7 @@ public class AdministrarMisNegociosFragment extends Fragment {
                     cantidadChildren++;
 
                 }
-                if(childreCount == 0){
+                if (childreCount == 0) {
                     progressBar.setVisibility(View.GONE);
                 }
 
@@ -112,11 +117,7 @@ public class AdministrarMisNegociosFragment extends Fragment {
         });
 
 
+    }
 
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        poblarListViewMisNegocios();
-    }
+
 }

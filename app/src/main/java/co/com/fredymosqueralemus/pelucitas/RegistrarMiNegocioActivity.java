@@ -131,8 +131,8 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
     public void editarInformacionMiNegocio(View view) {
         MiNegocio miNegocioEdicion = registrarInformacionMiNegocio();
         miNegocioEdicion.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocioEdicion.getUidAdministrador()));
-        databaseReference.child(miNegocioEdicion.getKeyChild()).setValue(miNegocioEdicion);
+        DatabaseReference databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocioEdicion.getNitNegocio()));
+        databaseReference.setValue(miNegocioEdicion);
         finish();
     }
 
@@ -156,7 +156,7 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
                     MiNegocio miNegocioFromFirebase = dataSnapshot.getValue(MiNegocio.class);
                     if(null == miNegocioFromFirebase || !miNegocio.getNitNegocio().equals(miNegocioFromFirebase.getNitNegocio())){
                         DatabaseReference databaseReferenceInsertarMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
-                        databaseReferenceInsertarMiNegocio.setValue(miNegocio);
+
                         NegocioXAdministrador negocioXAdministrador = new NegocioXAdministrador();
                         negocioXAdministrador.setNitNegocio(miNegocio.getNitNegocio());
                         negocioXAdministrador.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
@@ -169,6 +169,10 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
                         tipoNegocio.setNitNegocio(miNegocio.getNitNegocio());
                         tipoNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                         tipoNegocio.setFechaModificacion(null);
+
+                        miNegocio.setTipoNegocio(tipoNegocio);
+                        databaseReferenceInsertarMiNegocio.setValue(miNegocio);
+
                         if (tipoNegocio.getTipoNegocio().equals(arrayTiposNegocios[1])) {
                             databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionTiposNegocio(Constantes.TIPOS_NEGOCIOS_BARBERIA_FIREBASE_BD, tipoNegocio.getNitNegocio()));
                             databaseReference.setValue(tipoNegocio);

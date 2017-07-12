@@ -61,7 +61,7 @@ public class AdapterMisEmpleados extends ArrayAdapter<Usuario> {
         itemHolderMisEmpleados.txtvNombreEmpleado.setText(empleado.getNombre());
         itemHolderMisEmpleados.txtvTelefono.setText(empleado.getTelefono());
         itemHolderMisEmpleados.txtvEmail.setText(empleado.getEmail());
-        UtilidadesImagenes.cargarImagenPerfilUsuario(itemHolderMisEmpleados.imageView, empleado, context, storageReference);
+        UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderMisEmpleados.imageView, empleado, context, storageReference);
         return  view;
     }
 

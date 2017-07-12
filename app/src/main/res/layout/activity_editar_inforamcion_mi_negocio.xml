@@ -9,13 +9,16 @@
     tools:context="co.com.fredymosqueralemus.pelucitas.EditarInforamcionMiNegocioActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="250dp">
 
         <ImageView
             android:id="@+id/imagen_miperfil_activity_editar_informacion_minegocio"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
             android:src="@drawable/ic_add_a_photo_black_24dp"
+
+            android:scaleType="centerCrop"
+
             android:onClick="seleccionarImagenMiNegocio"/>
     </LinearLayout>
 

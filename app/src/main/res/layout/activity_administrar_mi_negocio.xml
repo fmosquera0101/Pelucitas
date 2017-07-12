@@ -13,56 +13,88 @@
     android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiNegocioActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
         android:onClick="editarInformacionMiNegocio"
         >
-        <GridLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:rowCount="1"
-            android:columnCount="2">
+            android:layout_height="250dp">
+
             <ImageView
                 android:id="@+id/imagen_minegocio_activity_administrarminegocio"
-                android:layout_width="70dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp"
-                />
-
-            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/ic_add_a_photo_black_24dp"
+
+                android:scaleType="centerCrop"
+
+                android:onClick="seleccionarImagenMiNegocio"/>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardUseCompatPadding="true">
+            <RelativeLayout
+                android:id="@+id/editar_informacionminegocio_activity_editar_informacion_minegocio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center">
-                <TextView
-                    android:id="@+id/nombrenegocio_activity_administrarminegocio"
-                    android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="editarInformacionBasicaMiNegocio">
+                <GridLayout
                     android:layout_width="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/str_minegocio"
-                    />
-                <TextView
-                    android:id="@+id/nitnegocio_activity_administrarminegocio"
                     android:layout_height="wrap_content"
-                    android:layout_width="220dp"
-                    android:text="@string/str_nit"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    />
-                <TextView
-                    android:id="@+id/tipo_negocio_activity_administrarminegocio"
+                    android:rowCount="1"
+                    android:columnCount="2">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/nombrenegocio_activity_administrarminegocio"
+                            android:layout_height="20dp"
+                            android:text="@string/str_minegocio"
+                            android:layout_width="220dp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/nitnegocio_activity_administrarminegocio"
+                            android:layout_height="20dp"
+                            android:text="@string/str_nit"
+                            android:layout_width="220dp" />
+                        <TextView
+                            android:id="@+id/tipo_negocio_activity_administrarminegocio"
+                            android:layout_height="20dp"
+                            android:text="@string/str_telefono"
+                            android:layout_width="220dp" />
+
+                        <TextView
+                            android:id="@+id/telefono_negocio_activity_administrarminegocio"
+                            android:layout_height="20dp"
+                            android:text="@string/str_tiponegocio"
+                            android:layout_width="220dp" />
+
+                    </LinearLayout>
+                </GridLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@string/str_tiponegocio"
-                    android:layout_width="220dp" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_editar_black_24dp"
+                    />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-            </LinearLayout>
-        </GridLayout>
-    </RelativeLayout>
+
     <include layout="@layout/linea_separador"/>
 
     <LinearLayout

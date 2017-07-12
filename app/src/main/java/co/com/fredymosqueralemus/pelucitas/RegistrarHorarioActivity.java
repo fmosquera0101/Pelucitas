@@ -50,12 +50,13 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             btnRegistrarHorario.setText(getString(R.string.str_editar));
             getSupportActionBar().setTitle(getString(R.string.str_editarhorario));
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addValueEventListener(new ValueEventListener() {
+            databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(miNegocio.getNitNegocio()));
+            databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
-                    formularioRegistrarHorario.setCheckedDias(miNegocio.getHorarioNegocio());
-                    formularioRegistrarHorario.settearHorarioLaboral(miNegocio.getHorarioNegocio());
+                    Horario horarioXNegocio = dataSnapshot.getValue(Horario.class);
+                    formularioRegistrarHorario.setCheckedDias(horarioXNegocio);
+                    formularioRegistrarHorario.settearHorarioLaboral(horarioXNegocio);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -74,8 +75,10 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
             if(AdministrarMiNegocioActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMINEGOCIO))){
                 miNegocio.setHorarioNegocio(formularioRegistrarHorario.getHorario());
                 miNegocio.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
-                databaseReference.child(miNegocio.getKeyChild()).setValue(miNegocio);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
+                databaseReference.setValue(miNegocio);
+                databaseReference = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(miNegocio.getNitNegocio()));
+                databaseReference.setValue(formularioRegistrarHorario.getHorario());
                 finish();
             }else{
                 String nitNegocio = miNegocio.getNitNegocio();

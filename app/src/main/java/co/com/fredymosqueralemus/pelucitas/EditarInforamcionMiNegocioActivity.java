@@ -78,7 +78,7 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     }
     private void obtenerInformacionMiNegocio(){
         if(null != miNegocio){
-            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).child(miNegocio.getKeyChild()).addListenerForSingleValueEvent(
+            databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,7 +87,7 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
                             txvNitNegocio.setText(getString(R.string.str_nit)+": "+miNegocio.getNitNegocio());
                             txvTelefonoNegocio.setText(getString(R.string.str_telefono)+": "+miNegocio.getTelefonoNegocio());
                             txvTipoNegocio.setText(getString(R.string.str_tiponegocio)+": "+miNegocio.getTipoNegocio().getTipoNegocio());
-                            UtilidadesImagenes.cargarImagenMiNegocio(imgvImagenMiNegocio, miNegocio, context, storageReference);
+                            UtilidadesImagenes.cargarImagenMiNegocioNoCircular(imgvImagenMiNegocio, miNegocio, context, storageReference);
                         }
 
                         @Override

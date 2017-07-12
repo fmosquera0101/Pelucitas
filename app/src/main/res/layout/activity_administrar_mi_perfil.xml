@@ -25,10 +25,10 @@
         >
     <ImageView
         android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_add_a_photo_black_24dp"
         />
     <TextView

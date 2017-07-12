@@ -100,8 +100,8 @@ public class TaskCargarImagenMiNegocio extends AsyncTask<Void, Void, Void> {
 
                 miNegocio.setImagenModelo(imagenModelo);
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getUidAdministrador()));
-                databaseReferenceMiNegocio.child(miNegocio.getKeyChild()).setValue(miNegocio);
+                DatabaseReference databaseReferenceMiNegocio = firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInsercionMiNegocio(miNegocio.getNitNegocio()));
+                databaseReferenceMiNegocio.setValue(miNegocio);
 
                 mBuilder.setContentTitle("Carga de Pelucitas finalizada");
                 mBuilder.setContentText(context.getString(R.string.str_toca_ver_opciones));
@@ -109,7 +109,7 @@ public class TaskCargarImagenMiNegocio extends AsyncTask<Void, Void, Void> {
                 notificationManager.notify(id, mBuilder.build());
 
                 try {
-                    UtilidadesImagenes.cargarImagenMiNegocio(imageView, miNegocio, context, storageReference);
+                    UtilidadesImagenes.cargarImagenMiNegocioNoCircular(imageView, miNegocio, context, storageReference);
                 } catch (Exception e) {
 
                 }

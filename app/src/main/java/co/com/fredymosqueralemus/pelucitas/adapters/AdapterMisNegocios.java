@@ -68,8 +68,8 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
         MiNegocio miNegocio = lstMisNegocios.get(position);
 
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(Constantes.DIRECCIONES_X_NEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Direccion direccionNegocio = dataSnapshot.getValue(Direccion.class);
@@ -82,7 +82,8 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             }
         });
 
-        databaseReference.child(Constantes.HORARIOS_X_NEGOCIO_FIREBASE_BD).child(miNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(miNegocio.getNitNegocio()));
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Horario horarioNegocio = dataSnapshot.getValue(Horario.class);
@@ -95,8 +96,8 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             }
         });
 
-       // itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
-        UtilidadesImagenes.cargarImagenMiNegocio(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
+        itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
+        UtilidadesImagenes.cargarImagenMiNegocioCircular(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);
 
         return  view;
 

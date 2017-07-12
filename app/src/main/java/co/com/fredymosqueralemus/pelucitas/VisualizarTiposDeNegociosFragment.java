@@ -70,6 +70,7 @@ public class VisualizarTiposDeNegociosFragment extends Fragment {
                 childreCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     final TipoNegocio tipoNegocio = child.getValue(TipoNegocio.class);
+
                     databaseReference.child(Constantes.MINEGOCIO_FIREBASE_BD).child(tipoNegocio.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {

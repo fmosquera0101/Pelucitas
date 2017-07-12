@@ -12,8 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -21,7 +19,6 @@ import java.io.File;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
-import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
@@ -31,11 +28,20 @@ import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 public class UtilidadesImagenes {
 
-    public static void cargarImagenMiNegocio(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
+    public static void cargarImagenMiNegocioNoCircular(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
         final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
         ImagenModelo imagenModelo = miNegocio.getImagenModelo();
         if(null != imagenModelo) {
-            cargarImagenConGlide(context, storageReferenceImagenes, imagenModelo, imageView);
+            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
+        }
+
+    }
+
+    public static void cargarImagenMiNegocioCircular(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
+        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+        ImagenModelo imagenModelo = miNegocio.getImagenModelo();
+        if(null != imagenModelo) {
+            cargarImagenConGlideCircular(context, storageReferenceImagenes, imagenModelo, imageView);
         }
 
     }
@@ -44,7 +50,16 @@ public class UtilidadesImagenes {
         final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario);
         ImagenModelo imagenModelo = usuario.getImagenModelo();
         if(null != imagenModelo) {
-            cargarImagenConGlide(context, storageReferenceImagenes, imagenModelo, imageView);
+            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
+        }
+
+    }
+
+    public static void cargarImagenPerfilUsuarioCircular(ImageView imageView, Usuario usuario, Context context, StorageReference storageReference) {
+        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario);
+        ImagenModelo imagenModelo = usuario.getImagenModelo();
+        if(null != imagenModelo) {
+            cargarImagenConGlideCircular(context, storageReferenceImagenes, imagenModelo, imageView);
         }
 
     }
@@ -52,10 +67,10 @@ public class UtilidadesImagenes {
         final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenTiposNegocios(storageReference, tiposDeNegocio);
         ImagenModelo imagenModelo = tiposDeNegocio.getImagenModelo();
         if(null != imagenModelo) {
-            cargarImagenConGlideNoCrop(context, storageReferenceImagenes, imagenModelo, imageView);
+            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
         }
     }
-    private static void cargarImagenConGlide(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
+    private static void cargarImagenConGlideCircular(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
         Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap().
                 centerCrop().diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
                 into(new BitmapImageViewTarget(imageView) {
@@ -68,7 +83,7 @@ public class UtilidadesImagenes {
                 });
     }
 
-    private static void cargarImagenConGlideNoCrop(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
+    private static void cargarImagenConGlideNoCircular(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
         Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
                 into(imageView);
