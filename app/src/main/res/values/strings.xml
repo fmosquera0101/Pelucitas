@@ -143,5 +143,9 @@
     <string name="str_tiponegocio_peluqueria">Peluqueria</string>
     <string name="str_tiponegocio_barberia">Barberia</string>
     <string name="str_inicio">Inicio</string>
+    <string name="str_agendar">Agendar</string>
+    <string name="str_reservar">Reservar</string>
+    <string name="str_descripcionnegocio">Descripcion del negocio (Maximo 500 caracteres)</string>
+    <string name="str_mensaje_error_nityaingresado">No se puede insertar este negocio, el nit ya se encuentra registrado, por favor intenta con otro nit</string>
 
 </resources>

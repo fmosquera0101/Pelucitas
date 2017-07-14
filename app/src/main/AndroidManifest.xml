@@ -60,7 +60,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".MisEmpleadosActivity"
+            android:name=".AdministrarMisEmpleadosActivity"
             android:label="Mis Empleados" />
         <activity
             android:name=".BuscarEmpleadoActivity"
@@ -68,8 +68,11 @@
         <activity
             android:name=".CalendarAgendaXEmpleadoActivity"
             android:label="Agenda Empleado" />
-        <activity android:name=".ListaAgendaXDiaActivity"
-            android:label="Agenda dia x"></activity>
+        <activity
+            android:name=".ListaAgendaXDiaActivity"
+            android:label="Agenda dia x" />
+        <activity android:name=".VerNegocioParaAgendarActivity" />
+        <activity android:name=".VerEmpleadosParaAgendarActivity"></activity>
     </application>
 
 </manifest>

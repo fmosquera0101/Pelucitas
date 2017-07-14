@@ -36,6 +36,7 @@ public class VisualizarTiposDeNegociosFragment extends Fragment {
     private DatabaseReference databaseReference;
     private long childreCount = 0;
     private long cantidadChildren = 0;
+
     public VisualizarTiposDeNegociosFragment() {
         // Required empty public constructor
     }
@@ -77,7 +78,7 @@ public class VisualizarTiposDeNegociosFragment extends Fragment {
                             MiNegocio miNegocio = dataSnapshot.getValue(MiNegocio.class);
                             miNegocio.setTipoNegocio(tipoNegocio);
                             lstMisNegocios.add(miNegocio);
-                            if(cantidadChildren == childreCount) {
+                            if (cantidadChildren == childreCount) {
                                 AdapterMisNegocios adapterMisNegocios = new AdapterMisNegocios(getContext(), R.layout.layout_listview_misnegocios, lstMisNegocios);
                                 listView.setAdapter(adapterMisNegocios);
                                 progressBar.setVisibility(View.GONE);
@@ -94,7 +95,7 @@ public class VisualizarTiposDeNegociosFragment extends Fragment {
                     cantidadChildren++;
 
                 }
-                if(childreCount == 0){
+                if (childreCount == 0) {
                     progressBar.setVisibility(View.GONE);
                 }
 
@@ -110,7 +111,7 @@ public class VisualizarTiposDeNegociosFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), AdministrarMiNegocioActivity.class);
+                Intent intent = new Intent(getContext(), VerNegocioParaAgendarActivity.class);
                 intent.putExtra(Constantes.MINEGOCIO_OBJECT, lstMisNegocios.get(position));
                 startActivity(intent);
             }

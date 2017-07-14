@@ -111,7 +111,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     }
 
     public void listarEmpleados(View view) {
-        Intent intent = new Intent(this, MisEmpleadosActivity.class);
+        Intent intent = new Intent(this, AdministrarMisEmpleadosActivity.class);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);

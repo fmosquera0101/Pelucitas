@@ -24,7 +24,7 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
-public class MisEmpleadosActivity extends AppCompatActivity {
+public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
 
     private ListView listView;
     private ProgressBar progressBar;
@@ -78,7 +78,7 @@ public class MisEmpleadosActivity extends AppCompatActivity {
                 Usuario usuario = listUsuarios.get(position);
                 Intent intentEmpleado = new Intent(context, AdministrarMiPerfilActivity.class);
                 intentEmpleado.putExtra(Constantes.USUARIO_OBJECT, usuario);
-                intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, MisEmpleadosActivity.class.getName());
+                intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, AdministrarMisEmpleadosActivity.class.getName());
 
                 startActivity(intentEmpleado);
             }

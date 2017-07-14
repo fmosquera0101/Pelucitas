@@ -61,7 +61,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         intent = getIntent();
         context = this;
         inicializarViews();
-        if(MisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
+        if(AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
             getSupportActionBar().setTitle("Informacion Empleado");
             usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
             settearInformacionUsuario();
@@ -219,7 +219,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     @Override
     public void  onStart(){
         super.onStart();
-        if(!MisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
+        if(!AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
             obtenerInformacionUsuarioFromFirebase();
         }
     }

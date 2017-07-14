@@ -66,35 +66,45 @@ public class AdapterMisNegocios extends ArrayAdapter<MiNegocio> {
             itemHolderlMisNegocios = (ItemHolderlMisNegocios) view.getTag();
         }
         MiNegocio miNegocio = lstMisNegocios.get(position);
-
         itemHolderlMisNegocios.txtNombreNegocio.setText(miNegocio.getNombreNegocio());
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Direccion direccionNegocio = dataSnapshot.getValue(Direccion.class);
-                itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(direccionNegocio)+", "+direccionNegocio.getDatosAdicionales());
-            }
+        DatabaseReference databaseReference;
+        Direccion direccion = miNegocio.getDireccion();
+        if(null == direccion) {
+            databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Direccion direccion  = dataSnapshot.getValue(Direccion.class);
+                    itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(direccion) + ", " + direccion.getDatosAdicionales());
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }else{
+            itemHolderlMisNegocios.txtDireccionNegocio.setText(Utilidades.getStrDireccion(direccion) + ", " + direccion.getDatosAdicionales());
+        }
+        Horario horario = miNegocio.getHorarioNegocio();
+        if(null == horario){
+            databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(miNegocio.getNitNegocio()));
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Horario horario = dataSnapshot.getValue(Horario.class);
+                    itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(horario));
+                }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionHorariosXNegocios(miNegocio.getNitNegocio()));
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Horario horarioNegocio = dataSnapshot.getValue(Horario.class);
-                itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(horarioNegocio));
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }else{
+            itemHolderlMisNegocios.txtHorarioNegocio.setText(Utilidades.getStrHorario(horario));
+        }
 
-            }
-        });
 
         itemHolderlMisNegocios.txtTipoNegocio.setText(miNegocio.getTipoNegocio().getTipoNegocio());
         UtilidadesImagenes.cargarImagenMiNegocioCircular(itemHolderlMisNegocios.imageView, miNegocio, context, storageReference);

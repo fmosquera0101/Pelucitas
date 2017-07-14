@@ -27,6 +27,8 @@ public class MiNegocio implements Serializable {
     private String keyChild;
     private ImagenModelo imagenModelo;
 
+    private String descripcionNegocio;
+
     public MiNegocio(){
 
     }
@@ -117,5 +119,13 @@ public class MiNegocio implements Serializable {
 
     public void setImagenModelo(ImagenModelo imagenModelo) {
         this.imagenModelo = imagenModelo;
+    }
+
+    public String getDescripcionNegocio() {
+        return descripcionNegocio;
+    }
+
+    public void setDescripcionNegocio(String descripcionNegocio) {
+        this.descripcionNegocio = descripcionNegocio;
     }
 }
