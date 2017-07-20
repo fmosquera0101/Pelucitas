@@ -147,5 +147,7 @@
     <string name="str_reservar">Reservar</string>
     <string name="str_descripcionnegocio">Descripcion del negocio (Maximo 500 caracteres)</string>
     <string name="str_mensaje_error_nityaingresado">No se puede insertar este negocio, el nit ya se encuentra registrado, por favor intenta con otro nit</string>
+    <string name="str_tiponegocio_salones_de_belleza">Salones de belleza</string>
+    <string name="str_activity_empleados">Empleados</string>
 
 </resources>

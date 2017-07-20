@@ -21,8 +21,10 @@ import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.EmpleadosXNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
 
@@ -31,7 +33,9 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
     private List<Usuario> listUsuarios;
     private Context context;
     private Intent intent;
-    MiNegocio miNegocio;
+    private MiNegocio miNegocio;
+    private long childrenCount = 0;
+    private long cantidadChildren = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +50,43 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
         getEmpleadosXNegocio();
     }
 
-    private void getEmpleadosXNegocio(){
-        DatabaseReference databaseReferenceEmpleados = FirebaseDatabase.getInstance().getReference(Constantes.USUARIO_FIREBASE_BD);
-        databaseReferenceEmpleados.orderByChild("nombre").addListenerForSingleValueEvent(new ValueEventListener() {
+    private void getEmpleadosXNegocio() {
+        DatabaseReference databaseReferenceNegoXEmpleados = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
+        databaseReferenceNegoXEmpleados.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listUsuarios = new ArrayList<Usuario>();
+                childrenCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Usuario usuario = child.getValue(Usuario.class);
-                    if(miNegocio.getNitNegocio().equals(usuario.getNitNegocioEmpleador())){
-                        listUsuarios.add(usuario);
-                    }
+                    EmpleadosXNegocio empleadosXNegocio = child.getValue(EmpleadosXNegocio.class);
+                    DatabaseReference databaseReferenceEmpleados = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(empleadosXNegocio.getUidUsario()));
+                    databaseReferenceEmpleados.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                            if (miNegocio.getNitNegocio().equals(usuario.getNitNegocioEmpleador())) {
+                                listUsuarios.add(usuario);
+                            }
+                            if (childrenCount == cantidadChildren) {
+                                AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
+                                listView.setAdapter(adapterMisEmpleados);
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    cantidadChildren++;
 
                 }
-                progressBar.setVisibility(View.GONE);
-                AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
-                listView.setAdapter(adapterMisEmpleados);
+                if (childrenCount == 0) {
+                    progressBar.setVisibility(View.GONE);
+                }
+
 
             }
 
@@ -84,6 +108,7 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int item = menuItem.getItemId();
@@ -94,14 +119,15 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
     }
 
 
-    public void abrirActivityBuscarEmpleado(View view){
+    public void abrirActivityBuscarEmpleado(View view) {
         Intent intent = new Intent(this, BuscarEmpleadoActivity.class);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        getEmpleadosXNegocio();
     }
+
 }

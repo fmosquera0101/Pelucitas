@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ import java.util.List;
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.EmpleadosXNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
@@ -78,7 +80,7 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if (null != newText && !"".equals(newText)) {
+                if (!TextUtils.isEmpty(newText)) {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     Query firebaseQuery = databaseReference.child(Constantes.USUARIO_FIREBASE_BD).orderByChild("nombre").startAt("#" + newText);
                     firebaseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -120,6 +122,12 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
                                     usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     usuario.setNitNegocioEmpleador(miNegocio.getNitNegocio());
                                     databaseReferenceEmpleado.setValue(usuario);
+                                    databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
+                                    EmpleadosXNegocio empleadosXNegocio = new EmpleadosXNegocio();
+                                    empleadosXNegocio.setCedulaUsuario(usuario.getCedulaIdentificacion());
+                                    empleadosXNegocio.setUidUsario(usuario.getUid());
+                                    empleadosXNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                    databaseReferenceEmpleado.push().setValue(empleadosXNegocio);
                                     Toast.makeText(context, "Se agrego empleado a tu negocio",
                                             Toast.LENGTH_SHORT).show();
                                     finish();

@@ -110,6 +110,14 @@ public class UtilidadesFirebaseBD {
         strbHorariosXnegocio.append("/");
         return strbHorariosXnegocio.toString();
     }
+    public static String getUrlInserccionEmpleadosXNegocio(String nitNegocio){
+        StringBuilder strbEmpXNegocios = new StringBuilder();
+        strbEmpXNegocios.append(Constantes.EMPLEADOS_X_NEGOCIO);
+        strbEmpXNegocios.append("/");
+        strbEmpXNegocios.append(nitNegocio);
+        strbEmpXNegocios.append("/");
+        return  strbEmpXNegocios.toString();
+    }
     public static StorageReference getFirebaseStorageFromUrl(){
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);

@@ -19,7 +19,6 @@
             android:orientation="vertical">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp">
@@ -42,31 +41,66 @@
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
-            <include layout="@layout/linea_separador"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/descripcionnegocio_VerNegocioParaAgendarActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp" />
+
+
+                        </LinearLayout>
+                    </GridLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+            <include layout="@layout/linea_separador" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp"
-               >
+                android:padding="16dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_phone_black_24dp"
-                    />
+                    android:src="@drawable/ic_phone_black_24dp" />
 
                 <TextView
                     android:id="@+id/telefono_negocio_VerNegocioParaAgendarActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/str_telefono"
-                    android:textSize="15dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:textSize="15dp" />
             </LinearLayout>
-            <include layout="@layout/linea_separador"/>
 
+            <include layout="@layout/linea_separador" />
 
 
             <LinearLayout
@@ -79,8 +113,7 @@
 
                     android:layout_width="20dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_direccion_black_24dp"
-                    />
+                    android:src="@drawable/ic_direccion_black_24dp" />
 
                 <TextView
                     android:id="@+id/direccionnegocio_VerNegocioParaAgendarActivity"
@@ -90,22 +123,21 @@
                     android:textSize="15dp" />
 
             </LinearLayout>
-            <include layout="@layout/linea_separador"/>
+
+            <include layout="@layout/linea_separador" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp"
-               >
+                android:padding="16dp">
 
                 <ImageView
 
                     android:layout_width="20dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_horario_black_24dp"
-                    />
+                    android:src="@drawable/ic_horario_black_24dp" />
 
                 <TextView
                     android:id="@+id/horario_negocio_VerNegocioParaAgendarActivity"
@@ -114,55 +146,19 @@
                     android:text="@string/str_horario"
                     android:textSize="15dp" />
             </LinearLayout>
-            <include layout="@layout/linea_separador"/>
+
+            <include layout="@layout/linea_separador" />
 
 
-
-
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="2dp"
-                card_view:cardUseCompatPadding="true">
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/descripcionnegocio_VerNegocioParaAgendarActivity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15dp" />
-
-
-                    </LinearLayout>
-                </GridLayout>
-
-            </android.support.v7.widget.CardView>
         </LinearLayout>
+
 
         <Button
             android:id="@+id/button_reservar_VerNegocioParaAgendarActivity"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/str_reservar"
-            android:onClick="reservarCita"/>
+            android:onClick="reservarCita"
+            android:text="@string/str_reservar" />
 
     </LinearLayout>
 </ScrollView>

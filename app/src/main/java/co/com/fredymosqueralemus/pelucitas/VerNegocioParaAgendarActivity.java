@@ -112,7 +112,7 @@ public class VerNegocioParaAgendarActivity extends AppCompatActivity {
     }
 
     public void reservarCita(View view){
-        Intent intent = new Intent(this, AdministrarMisEmpleadosActivity.class);
+        Intent intent = new Intent(this, VerListaEmpleadosParaReservarActivity.class);
         intent.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
         startActivity(intent);
     }

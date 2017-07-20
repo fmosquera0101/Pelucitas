@@ -72,7 +72,12 @@
             android:name=".ListaAgendaXDiaActivity"
             android:label="Agenda dia x" />
         <activity android:name=".VerNegocioParaAgendarActivity" />
-        <activity android:name=".VerEmpleadosParaAgendarActivity"></activity>
+        <activity android:name=".VerEmpleadosParaAgendarActivity" />
+        <activity android:name=".VerNegociosXTipoParaReservarActivity" />
+        <activity
+            android:name=".VerListaEmpleadosParaReservarActivity"
+            android:label="@string/str_activity_empleados" />
+        <activity android:name=".VerPerfilEmpleadoParaAgendarActivity"></activity>
     </application>
 
 </manifest>

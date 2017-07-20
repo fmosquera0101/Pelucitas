@@ -2,6 +2,7 @@ package co.com.fredymosqueralemus.pelucitas;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -65,8 +66,6 @@ public class InicioTiposDeNegociosFragment extends Fragment {
         tiposDeNegocio.setImagenModelo(imagenModelo);
         lstTiposDeNegocio.add(tiposDeNegocio);
 
-
-
         tiposDeNegocio= new TiposDeNegocio();
         tiposDeNegocio.setNombreTipoNegocio(getString(R.string.str_tiponegocio_peluqueria));
         imagenModelo = new ImagenModelo();
@@ -80,9 +79,6 @@ public class InicioTiposDeNegociosFragment extends Fragment {
         imagenModelo.setNombreImagen(Constantes.TIPOS_NEGOCIOS_SALONESDEBELLEZA_FIREBASE_BD);
         tiposDeNegocio.setImagenModelo(imagenModelo);
         lstTiposDeNegocio.add(tiposDeNegocio);
-
-
-
 
 
         return  lstTiposDeNegocio;
@@ -99,13 +95,9 @@ public class InicioTiposDeNegociosFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
-                Fragment mFragment = new VisualizarTiposDeNegociosFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("TIPO_NEGOCIO_SELECCIONADO", tiposDeNegocios.get(position).getImagenModelo().getNombreImagen());
-                mFragment.setArguments(bundle);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(tiposDeNegocios.get(position).getNombreTipoNegocio()+"s");
-                mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).addToBackStack(null).commit();
+                Intent intent = new Intent(context, VerNegociosXTipoParaReservarActivity.class);
+                intent.putExtra(Constantes.TIPO_NEGOCIO_SELECCIONADO, tiposDeNegocios.get(position).getImagenModelo().getNombreImagen());
+                startActivity(intent);
             }
         });
     }
