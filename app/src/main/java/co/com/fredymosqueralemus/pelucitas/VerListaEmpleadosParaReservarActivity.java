@@ -228,9 +228,10 @@ public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Usuario usuario = listUsuarios.get(position);
-                Intent intentEmpleado = new Intent(context, VerPerfilEmpleadoParaAgendarActivity.class);
+                Intent intentEmpleado = new Intent(context, CalendarAgendaXEmpleadoActivity.class);
                 intentEmpleado.putExtra(Constantes.USUARIO_OBJECT, usuario);
                 intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, AdministrarMisEmpleadosActivity.class.getName());
+                intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR, VerListaEmpleadosParaReservarActivity.class.getName());
 
                 startActivity(intentEmpleado);
             }

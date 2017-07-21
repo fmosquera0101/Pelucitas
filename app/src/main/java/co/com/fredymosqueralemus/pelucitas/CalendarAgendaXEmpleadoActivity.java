@@ -41,6 +41,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                 intentAgendaXdia.putExtra(Constantes.STR_FECHA_AGENDA, UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD));
                 intentAgendaXdia.putExtra(Constantes.USUARIO_OBJECT, usuario);
                 intentAgendaXdia.putExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO, intent.getStringExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO));
+                intentAgendaXdia.putExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR, intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR));
                 startActivity(intentAgendaXdia);
             }
         });

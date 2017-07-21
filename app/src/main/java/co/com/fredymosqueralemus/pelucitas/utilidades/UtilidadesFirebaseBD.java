@@ -118,6 +118,18 @@ public class UtilidadesFirebaseBD {
         strbEmpXNegocios.append("/");
         return  strbEmpXNegocios.toString();
     }
+    public static String getUrlInsercionAgendaXEmpleado(AgendaXEmpleado agendaXEmpleado){
+        StringBuilder strbAgendaXEmpleado = new StringBuilder();
+        strbAgendaXEmpleado.append(Constantes.AGENDA_X_EMPLEADOS);
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXEmpleado.getUidEmpleado());
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXEmpleado.getFechaAgenda());
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXEmpleado.getHoraReserva());
+
+        return  strbAgendaXEmpleado.toString();
+    }
     public static StorageReference getFirebaseStorageFromUrl(){
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);
@@ -130,8 +142,8 @@ public class UtilidadesFirebaseBD {
                 child(usuario.getCedulaIdentificacion()).child("MiPerfil" + usuario.getCedulaIdentificacion());
     }
     public static void insertarAgendaXEmpleadoFirebaseBD(AgendaXEmpleado agendaXEmpleado){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(agendaXEmpleado.getUidEmpleado()).child(agendaXEmpleado.getFechaAgenda()).push().setValue(agendaXEmpleado);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
+        databaseReference.setValue(agendaXEmpleado);
     }
     public static StorageReference getReferenceImagenTiposNegocios(StorageReference storageReference, TiposDeNegocio tiposDeNegocio){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.PELUCITAS_SETTINGS).child(Constantes.IMAGENES_LISTVIEW_INICIO)

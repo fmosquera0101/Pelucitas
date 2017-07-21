@@ -1,5 +1,7 @@
 package co.com.fredymosqueralemus.pelucitas.constantes;
 
+import java.io.Serializable;
+
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
  */
@@ -89,4 +91,6 @@ public interface Constantes {
     public static final String  CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY = "CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY" ;
 
     public static final String TIPO_NEGOCIO_SELECCIONADO = "TIPO_NEGOCIO_SELECCIONADO";
+
+    public static final String CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR = "CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR";
 }

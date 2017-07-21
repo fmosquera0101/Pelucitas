@@ -12,14 +12,14 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     tools:context="co.com.fredymosqueralemus.pelucitas.VerPerfilEmpleadoParaAgendarActivity">
 
     <LinearLayout
-        android:id="@+id/linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil"
+        android:id="@+id/linear_layout_opciones_VerPerfilEmpleadoParaAgendarActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
         >
         <ImageView
-            android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
+            android:id="@+id/imagenmiperfil_VerPerfilEmpleadoParaAgendarActivity"
             android:adjustViewBounds="true"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -27,7 +27,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:src="@drawable/ic_add_a_photo_black_24dp"
             />
         <TextView
-            android:id="@+id/nombreusuario_activity_administrarmiperfil"
+            android:id="@+id/nombreusuario_VerPerfilEmpleadoParaAgendarActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mi nombre"
@@ -35,7 +35,14 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:textAlignment="center"
             android:textSize="25dp" />
         <TextView
-            android:id="@+id/correo_activity_administrarmiperfil"
+            android:id="@+id/telefono_VerPerfilEmpleadoParaAgendarActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_telefono"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/correo_VerPerfilEmpleadoParaAgendarActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/str_correo"
@@ -44,7 +51,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 
         <include layout="@layout/linea_separador"/>
         <LinearLayout
-            android:id="@+id/layout_veragenda_empleado_activity_administrarmiperfil"
+            android:id="@+id/layout_veragenda_empleado_VerPerfilEmpleadoParaAgendarActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -52,7 +59,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:onClick="verAgendaEmpleado"
             >
             <ImageView
-                android:id="@+id/imagen_agenda_activity_administrarmiperfil"
+                android:id="@+id/imagen_agenda_activity_VerPerfilEmpleadoParaAgendarActivity"
                 android:layout_width="20dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_event_black_24dp"

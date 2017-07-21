@@ -19,4 +19,5 @@ public class MiSimpleDateFormat extends SimpleDateFormat {
         }
         return miSimpleDateFormatInstance;
     }
+
 }

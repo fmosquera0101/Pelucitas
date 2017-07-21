@@ -1,6 +1,7 @@
 package co.com.fredymosqueralemus.pelucitas.utilidades;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
@@ -12,13 +13,13 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 public class UtilidadesFecha {
 
     public static String convertirDateAString(Date dateFecha, String formatoFecha){
-        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatoFecha);
         return simpleDateFormat.format(dateFecha);
     }
     public static Date convertirStringADate(String strFecha, String formatoFecha){
         Date fechaConvertida = null;
         try {
-            MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatoFecha);
             fechaConvertida =  simpleDateFormat.parse(strFecha);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -26,7 +27,7 @@ public class UtilidadesFecha {
         return fechaConvertida;
     }
     public static Date formatearDate(Date fecha, String formatoFecha){
-        MiSimpleDateFormat simpleDateFormat = MiSimpleDateFormat.getInstance(formatoFecha);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatoFecha);
         String strFecha =  simpleDateFormat.format(fecha);
         Date fechaConvertida = null;
         try {
