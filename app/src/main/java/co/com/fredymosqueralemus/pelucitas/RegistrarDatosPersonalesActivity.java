@@ -49,14 +49,13 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseUser firebaseUser;
 
-    private Intent intent;
     private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_datos_personales);
         mAuth = FirebaseAuth.getInstance();
-        intent = getIntent();
+        Intent intent = getIntent();
 
         iniciarlizarViews();
         mostrarDatePickerEditTextFechaNacimiento();
@@ -155,7 +154,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
         miUsuario.setEmail(firebaseUser.getEmail());
         return miUsuario;
     }
-    public void abrirActivityRegistrarDireccion(Usuario usuario){
+    private void abrirActivityRegistrarDireccion(Usuario usuario){
         Intent mIntent = new Intent(this, RegistrarDireccionActivity.class);
         mIntent.putExtra(Constantes.USUARIO_OBJECT, usuario);
         startActivity(mIntent);

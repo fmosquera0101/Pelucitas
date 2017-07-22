@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ public class InicioTiposDeNegociosFragment extends Fragment {
 
     private ListView listView;
     private List<TiposDeNegocio> tiposDeNegocios;
-    private FragmentActivity fragmentActivity;
 
     public InicioTiposDeNegociosFragment() {
         // Required empty public constructor
@@ -87,7 +84,7 @@ public class InicioTiposDeNegociosFragment extends Fragment {
 
     @Override
     public void onAttach(Context activity) {
-        fragmentActivity = (FragmentActivity) activity;
+        FragmentActivity fragmentActivity = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 

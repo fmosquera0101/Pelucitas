@@ -35,11 +35,11 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
 
-    Context context;
-    byte[] dataImage;
-    Usuario usuario;
-    ImageView imageView;
-    StorageReference storageReference;
+    private Context context;
+    private byte[] dataImage;
+    private Usuario usuario;
+    private ImageView imageView;
+    private StorageReference storageReference;
 
     public TaskCargarImagenMiPerfil(Context context, byte[] dataImage, Usuario usuario, ImageView imageView) {
         this.context = context;

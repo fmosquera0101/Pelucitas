@@ -19,7 +19,6 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
-import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.direccion.Direccion;
 import co.com.fredymosqueralemus.pelucitas.horario.Horario;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;

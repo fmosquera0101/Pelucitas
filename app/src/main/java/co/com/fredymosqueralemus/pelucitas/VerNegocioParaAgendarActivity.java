@@ -32,9 +32,6 @@ public class VerNegocioParaAgendarActivity extends AppCompatActivity {
     private TextView textvHorario;
     private TextView textvDescripcionNegocio;
 
-    private ImageView imageViewImagenMiNegoco;
-
-    private Intent intent;
     private MiNegocio miNegocio;
 
     @Override
@@ -47,9 +44,9 @@ public class VerNegocioParaAgendarActivity extends AppCompatActivity {
         textvTelefono = (TextView) findViewById(R.id.telefono_negocio_VerNegocioParaAgendarActivity);
         textvHorario = (TextView) findViewById(R.id.horario_negocio_VerNegocioParaAgendarActivity);
         textvDescripcionNegocio = (TextView) findViewById(R.id.descripcionnegocio_VerNegocioParaAgendarActivity);
-        imageViewImagenMiNegoco = (ImageView) findViewById(R.id.imagen_minegocio_VerNegocioParaAgendarActivity);
+        ImageView imageViewImagenMiNegoco = (ImageView) findViewById(R.id.imagen_minegocio_VerNegocioParaAgendarActivity);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         settearInformacionEnViewsMiNegocio(miNegocio);
         StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();

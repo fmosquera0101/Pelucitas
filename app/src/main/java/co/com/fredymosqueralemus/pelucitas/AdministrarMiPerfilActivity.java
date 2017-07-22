@@ -155,7 +155,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     }
 
 
-    public void seleccionarImagenPerfil() {
+    private void seleccionarImagenPerfil() {
         seleccionarImagen = new SeleccionarImagen(context, this);
         imgvImagenPerfilUsuario.setOnClickListener(new View.OnClickListener() {
             @Override

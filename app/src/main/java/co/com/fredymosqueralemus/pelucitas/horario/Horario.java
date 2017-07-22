@@ -1,7 +1,6 @@
 package co.com.fredymosqueralemus.pelucitas.horario;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Fredy Mosquera Lemus on 2/02/17.

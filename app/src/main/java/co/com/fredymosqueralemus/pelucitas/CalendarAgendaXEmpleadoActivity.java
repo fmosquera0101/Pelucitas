@@ -15,7 +15,6 @@ import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 
 public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
-    private CalendarView calendarViewAgenda;
     private Intent intent;
     private Context context;
     private Usuario usuario;
@@ -28,7 +27,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         intent = getIntent();
         context = this;
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
-        calendarViewAgenda = (CalendarView) findViewById(R.id.calendar_agenda_CalendarAgendaXEmpleadoActivity);
+        CalendarView calendarViewAgenda = (CalendarView) findViewById(R.id.calendar_agenda_CalendarAgendaXEmpleadoActivity);
 
         calendarViewAgenda.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

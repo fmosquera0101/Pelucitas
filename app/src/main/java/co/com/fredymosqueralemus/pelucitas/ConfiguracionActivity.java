@@ -1,6 +1,5 @@
 package co.com.fredymosqueralemus.pelucitas;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -15,8 +14,8 @@ import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeg
 
 public class ConfiguracionActivity extends AppCompatActivity {
 
-    SharedPreferencesSeguro sharedPreferencesSeguro;
-    FirebaseAuth mAuth;
+    private SharedPreferencesSeguro sharedPreferencesSeguro;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

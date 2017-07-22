@@ -29,7 +29,6 @@ import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisNegocios;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class VerNegociosXTipoParaReservarActivity extends AppCompatActivity {
 
@@ -39,7 +38,6 @@ public class VerNegociosXTipoParaReservarActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private long childreCount = 0;
     private long cantidadChildren = 0;
-    private Intent intent;
     private Context context;
 
     @Override
@@ -50,7 +48,7 @@ public class VerNegociosXTipoParaReservarActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressbar_VerNegociosXTipoParaReservarActivity);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        intent = getIntent();
+        Intent intent = getIntent();
         context = this;
         StringBuilder strbTipoNegocio = new StringBuilder();
         strbTipoNegocio.append(intent.getStringExtra(Constantes.TIPO_NEGOCIO_SELECCIONADO));

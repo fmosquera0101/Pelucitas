@@ -35,11 +35,11 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class TaskCargarImagenMiNegocio extends AsyncTask<Void, Void, Void> {
 
-    Context context;
-    byte[] dataImage;
-    MiNegocio miNegocio;
-    ImageView imageView;
-    StorageReference storageReference;
+    private Context context;
+    private byte[] dataImage;
+    private MiNegocio miNegocio;
+    private ImageView imageView;
+    private StorageReference storageReference;
 
     public TaskCargarImagenMiNegocio(Context context, byte[] dataImage, MiNegocio miNegocio, ImageView imageView) {
         this.context = context;

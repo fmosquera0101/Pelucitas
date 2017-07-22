@@ -42,11 +42,9 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private TextView txvNitMiNegocio;
     private TextView txvTipoNegocio;
 
-    private Intent intent;
     private Context context;
     private MiNegocio miNegocio;
 
-    private SharedPreferencesSeguro sharedPreferencesSeguro;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private SeleccionarImagen seleccionarImagenMiNegocio;
@@ -58,12 +56,12 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_administrar_mi_negocio);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        intent = getIntent();
+        Intent intent = getIntent();
         context = this;
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         seleccionarImagenMiNegocio = new SeleccionarImagen(context, this);
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
-        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+        SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         imgvMiNegocio = (ImageView) findViewById(R.id.imagen_minegocio_activity_administrarminegocio);
         txvNombreMiNegocio = (TextView) findViewById(R.id.nombrenegocio_activity_administrarminegocio);
         txvNitMiNegocio = (TextView) findViewById(R.id.nitnegocio_activity_administrarminegocio);
@@ -194,10 +192,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
         Toast.makeText(context, "Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones",
                 Toast.LENGTH_SHORT).show();
-        /*Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
-        intenCargarImgagen.putExtra(Constantes.BYTE_ARRAY_IMAGEN_MI_NEGOCIO, dataImage);
-        intenCargarImgagen.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
-        startService(intenCargarImgagen);*/
         new TaskCargarImagenMiNegocio(context, dataImage, miNegocio, imgvMiNegocio).execute();
 
     }

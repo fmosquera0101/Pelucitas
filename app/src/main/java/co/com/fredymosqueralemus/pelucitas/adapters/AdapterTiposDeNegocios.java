@@ -15,7 +15,6 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
-import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;

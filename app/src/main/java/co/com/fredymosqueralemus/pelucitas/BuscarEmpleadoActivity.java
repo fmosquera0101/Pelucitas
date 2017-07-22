@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -43,8 +42,7 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
     private ListView listView;
     private List<Usuario> listUsuarios;
     private Context context;
-    private Intent intent;
-    MiNegocio miNegocio;
+    private MiNegocio miNegocio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = (ListView) findViewById(R.id.listview_fragment_BuscarEmpleadoActivity);
         context = this;
-        intent = getIntent();
+        Intent intent = getIntent();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
     }
 

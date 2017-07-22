@@ -12,19 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
-import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 /**
  * Created by fredymosqueralemus on 29/06/17.
@@ -35,7 +27,6 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
     private Context context;
     private int idLayout;
     private List<AgendaXEmpleado> lstAgendaXEmpleado;
-    private ItemHolderAgendaXEmpleado itemHolderAgendaXEmpleado;
 
     public AdapterAgendaXDia(Context context, int idLayout, List<AgendaXEmpleado> lstAgendaXEmpleado) {
         super(context, idLayout, lstAgendaXEmpleado);
@@ -49,6 +40,7 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
+        ItemHolderAgendaXEmpleado itemHolderAgendaXEmpleado;
         if (null == view) {
             LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
             view = layoutInflater.inflate(idLayout, parent, false);

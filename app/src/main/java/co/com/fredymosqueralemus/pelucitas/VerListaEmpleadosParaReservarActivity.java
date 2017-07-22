@@ -1,9 +1,7 @@
 package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,17 +13,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
@@ -34,7 +29,6 @@ import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.EmpleadosXNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
@@ -43,7 +37,6 @@ public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private List<Usuario> listUsuarios;
     private Context context;
-    private Intent intent;
     private MiNegocio miNegocio;
     private long childrenCount = 0;
     private long cantidadChildren = 0;
@@ -57,7 +50,7 @@ public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_empleados_VerListaEmpleadosParaReservarActivity);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_VerListaEmpleadosParaReservarActivity);
         context = this;
-        intent = getIntent();
+        Intent intent = getIntent();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         getEmpleadosXNegocio();
     }

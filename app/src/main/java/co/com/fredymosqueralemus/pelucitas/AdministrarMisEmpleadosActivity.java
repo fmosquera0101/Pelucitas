@@ -32,7 +32,6 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private List<Usuario> listUsuarios;
     private Context context;
-    private Intent intent;
     private MiNegocio miNegocio;
     private long childrenCount = 0;
     private long cantidadChildren = 0;
@@ -45,7 +44,7 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_fragment_MisEmpleadosActivity);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_MisEmpleadosActivity);
         context = this;
-        intent = getIntent();
+        Intent intent = getIntent();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         getEmpleadosXNegocio();
     }

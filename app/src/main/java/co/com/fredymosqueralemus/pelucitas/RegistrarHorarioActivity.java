@@ -27,7 +27,6 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class RegistrarHorarioActivity extends AppCompatActivity {
     private FormularioRegistrarHorario formularioRegistrarHorario;
-    private FirebaseAuth mAuth;
     private Intent intent;
     private MiNegocio miNegocio;
 
@@ -41,7 +40,7 @@ public class RegistrarHorarioActivity extends AppCompatActivity {
         SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         btnRegistrarHorario = (Button) findViewById(R.id.siguiente_btn_registrarhorariolayout);
         formularioRegistrarHorario = new FormularioRegistrarHorario(this, RegistrarHorarioActivity.this);
         formularioRegistrarHorario.addClickListenerCheckBoxesDias();

@@ -1,6 +1,5 @@
 package co.com.fredymosqueralemus.pelucitas;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
            });
         }
     }
-    public void abrirHomeActivity(){
+    private void abrirHomeActivity(){
         /*Intent mIntent = new Intent(this, HomeActivity.class);
         mIntent.putExtra(Constantes.CALL_FROM_LOGINACTIVITY, LoginActivity.class.getName());
         startActivity(mIntent);*/

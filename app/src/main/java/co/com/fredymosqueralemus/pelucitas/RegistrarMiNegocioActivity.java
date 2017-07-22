@@ -83,13 +83,13 @@ public class RegistrarMiNegocioActivity extends AppCompatActivity {
 
     }
 
-    public static void settearTiposNegocios(Spinner spnTipoNegocio, Context context) {
+    private static void settearTiposNegocios(Spinner spnTipoNegocio, Context context) {
         ArrayAdapter<CharSequence> arrayAdapterTiposNegocio = ArrayAdapter.createFromResource(context, R.array.arraystr_tiposnegocio, android.R.layout.simple_spinner_item);
         arrayAdapterTiposNegocio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoNegocio.setAdapter(arrayAdapterTiposNegocio);
     }
 
-    public static int getTipoNegocioSeleccionado(String[] arrayTiposNegocios, MiNegocio miNegocio) {
+    private static int getTipoNegocioSeleccionado(String[] arrayTiposNegocios, MiNegocio miNegocio) {
         int i = 0;
         for (String strTipo : arrayTiposNegocios) {
             if (strTipo.equals(miNegocio.getTipoNegocio().getTipoNegocio())) {

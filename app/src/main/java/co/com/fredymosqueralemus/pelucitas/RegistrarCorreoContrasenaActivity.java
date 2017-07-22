@@ -30,7 +30,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText etxtCorreo;
     private EditText etxtContrasena;
-    SharedPreferencesSeguro sharedPreferencesSeguro;
+    private SharedPreferencesSeguro sharedPreferencesSeguro;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
         }
 
     }
-    public void crearUsuarioConCorreoContrasena(final String correo, final String contrasena){
+    private void crearUsuarioConCorreoContrasena(final String correo, final String contrasena){
         mAuth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(this,
                 new OnCompleteListener<AuthResult>() {
                     @Override
@@ -73,7 +73,7 @@ public class RegistrarCorreoContrasenaActivity extends AppCompatActivity {
                 });
     }
 
-    public void abrirActivityRegistrarDatosPersonales(){
+    private void abrirActivityRegistrarDatosPersonales(){
         Intent mIntent = new Intent(this, RegistrarDatosPersonalesActivity.class);
         startActivity(mIntent);
         finish();

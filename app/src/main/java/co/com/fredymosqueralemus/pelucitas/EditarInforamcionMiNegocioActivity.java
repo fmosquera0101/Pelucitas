@@ -38,7 +38,6 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
 
 
-    private Intent intent;
     private Context context;
     private MiNegocio miNegocio;
 
@@ -51,17 +50,16 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private SeleccionarImagen seleccionarImagenMiNegocio;
-    private FirebaseDatabase firebaseDatabase;
-    SharedPreferencesSeguro sharedPreferencesSeguro;
+    private SharedPreferencesSeguro sharedPreferencesSeguro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_inforamcion_mi_negocio);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        intent = getIntent();
+        Intent intent = getIntent();
         context = this;
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);

@@ -1,7 +1,5 @@
 package co.com.fredymosqueralemus.pelucitas.constantes;
 
-import java.io.Serializable;
-
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
  */

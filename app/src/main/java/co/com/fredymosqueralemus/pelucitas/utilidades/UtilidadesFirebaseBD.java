@@ -8,7 +8,6 @@ import com.google.firebase.storage.StorageReference;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
-import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 

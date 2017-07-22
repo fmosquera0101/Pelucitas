@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
-
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
  */

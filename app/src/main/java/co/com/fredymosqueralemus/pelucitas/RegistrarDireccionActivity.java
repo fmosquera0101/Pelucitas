@@ -55,7 +55,6 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
 
     private Intent intent;
     private MiNegocio miNegocio;
-    private SharedPreferencesSeguro sharedPreferencesSeguro;
     private Usuario usuario;
 
     @Override
@@ -64,7 +63,7 @@ public class RegistrarDireccionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_direccion);
         mAuth = FirebaseAuth.getInstance();
         intent = getIntent();
-        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+        SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         firebaseDatabase = FirebaseDatabase.getInstance();
         inicializarViews();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {

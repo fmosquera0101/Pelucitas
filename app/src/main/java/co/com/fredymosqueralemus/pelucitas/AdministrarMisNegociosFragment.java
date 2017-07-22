@@ -24,7 +24,6 @@ import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisNegocios;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.NegocioXAdministrador;
-import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.TipoNegocio;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 
@@ -38,16 +37,6 @@ public class AdministrarMisNegociosFragment extends Fragment {
     private ProgressBar progressBar;
     private long childreCount = 0;
     private long cantidadChildren = 0;
-
-    public void FragmentListviewMisnegocios() {
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {

@@ -16,24 +16,18 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 public class VerPerfilEmpleadoParaAgendarActivity extends AppCompatActivity {
 
-    private ImageView imgvImagenPerfilEmpleado;
-    private TextView txtvNombreEmpleado;
-    private TextView txtvTelefonoEmpleado;
-    private TextView txtvCorreoEmpleado;
-
-    private Intent intent;
     private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_perfil_empleado_para_agendar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        imgvImagenPerfilEmpleado = (ImageView) findViewById(R.id.imagenmiperfil_VerPerfilEmpleadoParaAgendarActivity);
-        txtvNombreEmpleado = (TextView) findViewById(R.id.nombreusuario_VerPerfilEmpleadoParaAgendarActivity);
-        txtvTelefonoEmpleado = (TextView) findViewById(R.id.telefono_VerPerfilEmpleadoParaAgendarActivity);
-        txtvCorreoEmpleado = (TextView) findViewById(R.id.correo_VerPerfilEmpleadoParaAgendarActivity);
+        ImageView imgvImagenPerfilEmpleado = (ImageView) findViewById(R.id.imagenmiperfil_VerPerfilEmpleadoParaAgendarActivity);
+        TextView txtvNombreEmpleado = (TextView) findViewById(R.id.nombreusuario_VerPerfilEmpleadoParaAgendarActivity);
+        TextView txtvTelefonoEmpleado = (TextView) findViewById(R.id.telefono_VerPerfilEmpleadoParaAgendarActivity);
+        TextView txtvCorreoEmpleado = (TextView) findViewById(R.id.correo_VerPerfilEmpleadoParaAgendarActivity);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
         UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilEmpleado, usuario, this, UtilidadesFirebaseBD.getFirebaseStorageFromUrl());
         txtvNombreEmpleado.setText(usuario.getNombre());
