@@ -205,6 +205,9 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
                     getAgendaXEmpleadoXDia();
                     txtvMensajeNoagenda.setVisibility(View.GONE);
+                    lstAgendaXEmpleado.add(agendaXEmpleado);
+                    addAdapterAgendaXDia(lstAgendaXEmpleado);
+
                 } else {
                     Toast.makeText(context, getString(R.string.str_mensaje_error_ingresarhoraagenda), Toast.LENGTH_SHORT).show();
                 }
@@ -223,7 +226,9 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                agendaXEmpleado.setReservadoPor(getReservadoPor(usuario));
+                if(null != usuario){
+                    agendaXEmpleado.setReservadoPor(getReservadoPor(usuario));
+                }
                 lstAgendaXEmpleado.add(agendaXEmpleado);
                 if (childreCount == cantidadChildren) {
                     addAdapterAgendaXDia(lstAgendaXEmpleado);
