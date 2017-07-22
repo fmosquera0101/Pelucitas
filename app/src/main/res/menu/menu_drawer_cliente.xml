@@ -1,4 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/menuitem_group_inicio"
+        android:title="@string/title_menu_inicio"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_inicio"
+                    android:icon="@drawable/ic_home_black_24dp"
+                    android:title="@string/title_menu_inicio"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_inicio_localizar"
+                    android:icon="@drawable/ic_place_black_24dp"
+                    android:title="@string/title_menu_localizar"
+                    >
+                </item>
+
+            </group>
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menuitem_administrarcuenta"
+        android:title="@string/title_menu_micuenta"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_micuenta"
+                    android:icon="@drawable/ic_person_outline_black_24dp"
+                    android:title="@string/title_menu_micuenta"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_crearcuenta"
+                    android:icon="@drawable/ic_person_add_black_24dp"
+                    android:title="@string/title_menu_crearcuenta"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_iniciarsesion"
+                    android:icon="@drawable/ic_arrow_forward_black_24dp"
+                    android:title="@string/title_menu_iniciarsesion"
+                    >
+                </item>
+            </group>
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menuitem_perfiladministrador_etiquetaconfiguracion"
+        android:title="@string/title_menu_configuracion"
+        >
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_configuracion"
+                    android:icon="@drawable/ic_settings_black_24dp"
+                    android:title="@string/title_menu_configuracion">
+                </item>
+
+            </group>
+
+        </menu>
+    </item>
+
+
 </menu>

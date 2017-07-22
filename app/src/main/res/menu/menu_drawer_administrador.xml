@@ -33,13 +33,19 @@
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menuitem_perfiladministrador_crearcuenta"
+                    android:id="@+id/menuitem_micuenta"
+                    android:icon="@drawable/ic_person_outline_black_24dp"
+                    android:title="@string/title_menu_micuenta"
+                    >
+                </item>
+                <item
+                    android:id="@+id/menuitem_crearcuenta"
                     android:icon="@drawable/ic_person_add_black_24dp"
                     android:title="@string/title_menu_crearcuenta"
                     >
                 </item>
                 <item
-                    android:id="@+id/menuitem_perfiladministrador_iniciarsesion"
+                    android:id="@+id/menuitem_iniciarsesion"
                     android:icon="@drawable/ic_arrow_forward_black_24dp"
                     android:title="@string/title_menu_iniciarsesion"
                     >
@@ -78,7 +84,7 @@
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menuitem_perfiladministrador_configuracion"
+                    android:id="@+id/menuitem_configuracion"
                     android:icon="@drawable/ic_settings_black_24dp"
                     android:title="@string/title_menu_configuracion">
                 </item>

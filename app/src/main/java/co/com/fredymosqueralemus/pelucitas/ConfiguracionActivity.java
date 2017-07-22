@@ -34,12 +34,6 @@ public class ConfiguracionActivity extends AppCompatActivity {
         finish();
 
     }
-    public void miCuenta(View view){
-        Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
-        intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
-        startActivity(intent);
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int item = menuItem.getItemId();

@@ -48,7 +48,6 @@ public interface Constantes {
     public static final String CALL_FROM_ACTIVITY_MISEMPLEADOS = "CALL_FROM_ACTIVITY_MISEMPLEADOS";
 
     public static final String CALL_FROM_ACTIVITY_HOME = "CALL_FROM_ACTIVITY_HOME";
-
     public static final String CALL_FROM_LOGINACTIVITY = "CALL_FROM_LOGINACTIVITY";
 
     //Constantes numericas

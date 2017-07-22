@@ -23,7 +23,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/layout_header_drawer"
-        app:menu="@menu/menu_drawer_administrador"
         >
 
     </android.support.design.widget.NavigationView>
