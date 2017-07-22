@@ -139,34 +139,6 @@ public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
                         }
                     });
 
-                   /* DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    Query firebaseQuery = databaseReference.child(Constantes.USUARIO_FIREBASE_BD).orderByChild("nombre").startAt("#" + newText);
-                    firebaseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            listUsuarios = new ArrayList<Usuario>();
-                            for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                final Usuario usuario = child.getValue(Usuario.class);
-                                if (usuario.getNombre().trim().toLowerCase().contains(newText.trim().toLowerCase())) {
-                                    PerfilesXUsuario perfilesXUsuario = usuario.getPerfilEmpleado();
-                                    if ("S".equals(perfilesXUsuario.getActivo())) {
-                                        listUsuarios.add(usuario);
-                                    }
-
-                                }
-                            }
-
-                            AdapterMisEmpleados adapterMisEmpleados = new AdapterMisEmpleados(context, R.layout.layout_listview_misempleados, listUsuarios);
-                            listView.setAdapter(adapterMisEmpleados);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-
-                        }
-                    });*/
 
                 } else {
                     listUsuarios.clear();

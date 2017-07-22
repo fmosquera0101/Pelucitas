@@ -47,6 +47,8 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
     private Usuario usuario;
     private List<AgendaXEmpleado> lstAgendaXEmpleado;
     private AgendaXEmpleado agendaXEmpleado;
+    private long childreCount = 0;
+    private long cantidadChildren = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,6 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         txtvMensajeNoagenda = (TextView) findViewById(R.id.txtv_mensaje_noagenda_ListaAgendaXDiaActivity);
         listviewFragmentListaAgendaXDiaActivity = (ListView) findViewById(R.id.listview_fragment_ListaAgendaXDiaActivity);
 
-
         getAgendaXEmpleadoXDia();
         addOnclickListenerLisViewAgenda();
     }
@@ -72,16 +73,27 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
+                childreCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
-                    lstAgendaXEmpleado.add(agendaXEmpleado);
+                    final AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
+                    if (callToAdministrarAgenda()) {
+                        getReservadoPorAgendaEmpleado(agendaXEmpleado);
+                    } else {
+                        lstAgendaXEmpleado.add(agendaXEmpleado);
+                    }
                 }
-                if (lstAgendaXEmpleado.isEmpty()) {
-                    txtvMensajeNoagenda.setVisibility(View.VISIBLE);
+
+                if (!callToAdministrarAgenda()) {
+                    addAdapterAgendaXDia(lstAgendaXEmpleado);
                 }
-                AdapterAgendaXDia adapterAgendaXDia = new AdapterAgendaXDia(context, R.layout.layout_listview_agendaxdia, lstAgendaXEmpleado);
-                listviewFragmentListaAgendaXDiaActivity.setAdapter(adapterAgendaXDia);
-                progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
+
+                if (childreCount == 0) {
+                    if (lstAgendaXEmpleado.isEmpty()) {
+                        txtvMensajeNoagenda.setVisibility(View.VISIBLE);
+                        progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
+                    }
+                }
+
             }
 
             @Override
@@ -93,7 +105,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
 
     }
 
-    private void addOnclickListenerLisViewAgenda(){
+    private void addOnclickListenerLisViewAgenda() {
         if (callToReservaAgenda()) {
             listviewFragmentListaAgendaXDiaActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -102,8 +114,8 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                     if (!Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("Desea Reservar agenda para "+ agendaXEmpleado.getHoraReserva()+"?");
-                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        builder.setMessage("Desea Reservar agenda para " + agendaXEmpleado.getHoraReserva() + "?");
+                        builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
@@ -128,7 +140,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                             }
                         });
 
-                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.str_cancelar), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -158,6 +170,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         if (item == android.R.id.home) {
             onBackPressed();
         } else if (item == R.id.menuitem_agregar_agenda_xdia) {
+
             final Calendar calendar = Calendar.getInstance();
             final int hora = calendar.get(Calendar.HOUR_OF_DAY);
             final int minutos = calendar.get(Calendar.MINUTE);
@@ -169,40 +182,11 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        StringBuilder strbHoraAgenda = new StringBuilder();
-                        strbHoraAgenda.append(hourOfDay);
-                        strbHoraAgenda.append(":");
-                        strbHoraAgenda.append(UtilidadesFecha.agregarCeroMinutosTimePicker(minute));
-
-                        agendaXEmpleado = new AgendaXEmpleado();
-                        agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
-                        agendaXEmpleado.setHoraReserva(strbHoraAgenda.toString());
-                        agendaXEmpleado.setSnReservado(Constantes.NO);
-                        agendaXEmpleado.setUidEmpleado(usuario.getUid());
-                        agendaXEmpleado.setFechaInsercion(UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
-                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                AgendaXEmpleado agendaFromFB = dataSnapshot.getValue(AgendaXEmpleado.class);
-                                if (null == agendaFromFB) {
-                                    UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
-                                    getAgendaXEmpleadoXDia();
-                                } else {
-                                    Toast.makeText(context, "No se puede ingesar esta hora en la agenda, esta hora ya se inserto, intenta con otra", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                        txtvMensajeNoagenda.setVisibility(View.GONE);
-
+                        agendaXEmpleado = getAgendaXEmpleadoFromDatePicker(hourOfDay, minute, calendar);
+                        getAgendaXEmpleadoParavalidarAgendaIngresada(agendaXEmpleado);
                     }
                 }, hora, minutos, true);
+
                 timePickerDialog.setTitle(getString(R.string.str_seleccionar_hora_agenda));
                 timePickerDialog.show();
             } else {
@@ -213,11 +197,99 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
+    private void getAgendaXEmpleadoParavalidarAgendaIngresada(final AgendaXEmpleado agendaXEmpleado) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                AgendaXEmpleado agendaFromFB = dataSnapshot.getValue(AgendaXEmpleado.class);
+                if (null == agendaFromFB) {
+                    UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
+                    getAgendaXEmpleadoXDia();
+                    txtvMensajeNoagenda.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(context, getString(R.string.str_mensaje_error_ingresarhoraagenda), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getReservadoPorAgendaEmpleado(final AgendaXEmpleado agendaXEmpleado) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(agendaXEmpleado.getUidUsuarioReserva()));
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                agendaXEmpleado.setReservadoPor(getReservadoPor(usuario));
+                lstAgendaXEmpleado.add(agendaXEmpleado);
+                if (childreCount == cantidadChildren) {
+                    addAdapterAgendaXDia(lstAgendaXEmpleado);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+        cantidadChildren++;
+    }
+
+    private void addAdapterAgendaXDia(List<AgendaXEmpleado> lstAgendaXEmpleado) {
+        if (!lstAgendaXEmpleado.isEmpty()) {
+            AdapterAgendaXDia adapterAgendaXDia = new AdapterAgendaXDia(context, R.layout.layout_listview_agendaxdia, lstAgendaXEmpleado);
+            listviewFragmentListaAgendaXDiaActivity.setAdapter(adapterAgendaXDia);
+            progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
+        } else {
+            txtvMensajeNoagenda.setVisibility(View.VISIBLE);
+            progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
+        }
+    }
+
+    private AgendaXEmpleado getAgendaXEmpleadoFromDatePicker(int hourOfDay, int minute, Calendar calendar) {
+        AgendaXEmpleado agendaXEmpleado = new AgendaXEmpleado();
+        agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
+        agendaXEmpleado.setHoraReserva(getHoraReserva(hourOfDay, minute));
+        agendaXEmpleado.setSnReservado(Constantes.NO);
+        agendaXEmpleado.setUidEmpleado(usuario.getUid());
+        agendaXEmpleado.setFechaInsercion(UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+        return agendaXEmpleado;
+
+    }
+
+    private String getHoraReserva(int hourOfDay, int minute) {
+        StringBuilder strbHoraAgenda = new StringBuilder();
+        strbHoraAgenda.append(hourOfDay);
+        strbHoraAgenda.append(":");
+        strbHoraAgenda.append(UtilidadesFecha.agregarCeroMinutosTimePicker(minute));
+        return strbHoraAgenda.toString();
+    }
+
+    private String getReservadoPor(Usuario usuario) {
+        StringBuilder strbReservado = new StringBuilder();
+        strbReservado.append(context.getString(R.string.str_reservado)).append(" por: ");
+        strbReservado.append(usuario.getNombre()).append(" ").append(usuario.getApellidos());
+        strbReservado.append(", ").append(context.getString(R.string.str_telefono)).append(": ");
+        strbReservado.append(usuario.getTelefono());
+        return strbReservado.toString();
+    }
+
     private boolean callToAgregarAgendaEmpleado() {
         return ConfiguracionActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO));
     }
 
     private boolean callToReservaAgenda() {
         return VerListaEmpleadosParaReservarActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR));
+    }
+
+    private boolean callToAdministrarAgenda() {
+        return AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL));
     }
 }

@@ -149,5 +149,7 @@
     <string name="str_mensaje_error_nityaingresado">No se puede insertar este negocio, el nit ya se encuentra registrado, por favor intenta con otro nit</string>
     <string name="str_tiponegocio_salones_de_belleza">Salones de belleza</string>
     <string name="str_activity_empleados">Empleados</string>
+    <string name="str_mensaje_error_ingresarhoraagenda">No se puede ingesar esta hora en la agenda, esta hora ya se inserto, intenta con otra</string>
+    <string name="str_aceptar">Aceptar</string>
 
 </resources>

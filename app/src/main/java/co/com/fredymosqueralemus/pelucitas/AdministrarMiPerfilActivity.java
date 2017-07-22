@@ -227,6 +227,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         Intent intentAgenda = new Intent(this, CalendarAgendaXEmpleadoActivity.class);
         intentAgenda.putExtra(Constantes.USUARIO_OBJECT, usuario);
         intentAgenda.putExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO,  intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY));
+        intentAgenda.putExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL, AdministrarMiPerfilActivity.class.getName());
         startActivity(intentAgenda);
     }
 

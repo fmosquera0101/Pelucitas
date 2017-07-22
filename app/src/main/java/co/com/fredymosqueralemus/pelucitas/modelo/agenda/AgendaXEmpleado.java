@@ -17,6 +17,7 @@ public class AgendaXEmpleado implements Serializable {
     private String uidEmpleado;
     private String fechaInsercion;
     private String fechaModificacion;
+    private String reservadoPor;
 
     public String getFechaAgenda() {
         return fechaAgenda;
@@ -80,5 +81,13 @@ public class AgendaXEmpleado implements Serializable {
 
     public void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getReservadoPor() {
+        return reservadoPor;
+    }
+
+    public void setReservadoPor(String reservadoPor) {
+        this.reservadoPor = reservadoPor;
     }
 }
