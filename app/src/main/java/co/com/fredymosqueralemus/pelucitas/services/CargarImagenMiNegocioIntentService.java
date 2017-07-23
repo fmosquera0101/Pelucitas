@@ -48,6 +48,7 @@ public class CargarImagenMiNegocioIntentService extends IntentService {
             StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
 
             final int id = 1;
+
             final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
             mBuilder.setSmallIcon(R.drawable.ic_notification_24dp);
             mBuilder.setContentTitle("Carga de Pelucitas");

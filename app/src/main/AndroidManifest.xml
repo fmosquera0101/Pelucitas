@@ -77,7 +77,11 @@
         <activity
             android:name=".VerListaEmpleadosParaReservarActivity"
             android:label="@string/str_activity_empleados" />
-        <activity android:name=".VerPerfilEmpleadoParaAgendarActivity"></activity>
+        <activity android:name=".VerPerfilEmpleadoParaAgendarActivity" />
+
+        <service
+            android:name=".services.NotificadorReservaAgendaService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

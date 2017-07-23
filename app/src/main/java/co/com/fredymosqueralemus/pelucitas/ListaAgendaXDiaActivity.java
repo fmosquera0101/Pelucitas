@@ -32,6 +32,7 @@ import java.util.List;
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterAgendaXDia;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
+import co.com.fredymosqueralemus.pelucitas.modelo.reserva.ReservaXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -62,7 +63,11 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         listviewFragmentListaAgendaXDiaActivity = (ListView) findViewById(R.id.listview_fragment_ListaAgendaXDiaActivity);
 
         getAgendaXEmpleadoXDia();
-        addOnclickListenerLisViewAgenda();
+        if (callToReservaAgenda()) {
+            addOnclickListenerLisViewAgenda();
+        } else {
+            setOnItemLongClickListenerLisView();
+        }
     }
 
     private void getAgendaXEmpleadoXDia() {
@@ -104,53 +109,99 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
     }
 
     private void addOnclickListenerLisViewAgenda() {
-        if (callToReservaAgenda()) {
-            listviewFragmentListaAgendaXDiaActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final AgendaXEmpleado agendaXEmpleado = lstAgendaXEmpleado.get(position);
-                    if (!Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("Desea Reservar agenda para " + agendaXEmpleado.getHoraReserva() + "?");
-                        builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
-                                databaseReferenceReservar.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        AgendaXEmpleado agendaReserva = dataSnapshot.getValue(AgendaXEmpleado.class);
-                                        agendaReserva.setSnReservado(Constantes.SI);
-                                        agendaReserva.setCedulaUsuarioReserva(usuario.getCedulaIdentificacion());
-                                        agendaReserva.setUidUsuarioReserva(usuario.getUid());
-                                        agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                        UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
-                                        getAgendaXEmpleadoXDia();
+        listviewFragmentListaAgendaXDiaActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final AgendaXEmpleado agendaXEmpleado = lstAgendaXEmpleado.get(position);
+                if (!Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
 
-                                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Desea Reservar agenda para " + agendaXEmpleado.getHoraReserva() + "?");
+                    builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
+                            databaseReferenceReservar.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    AgendaXEmpleado agendaReserva = dataSnapshot.getValue(AgendaXEmpleado.class);
+                                    agendaReserva.setSnReservado(Constantes.SI);
+                                    agendaReserva.setCedulaUsuarioReserva(usuario.getCedulaIdentificacion());
+                                    agendaReserva.setUidUsuarioReserva(usuario.getUid());
+                                    agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                    UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
+                                    getAgendaXEmpleadoXDia();
+                                    ReservaXUsuario reservaXUsuario = new ReservaXUsuario();
+                                    reservaXUsuario.setUidUsuarioReserva(usuario.getUid());
+                                    reservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
+                                    reservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                    reservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
+                                    DatabaseReference dbr = FirebaseDatabase.getInstance().getReference();
+                                    dbr.child("reservasXEmpleado").child(agendaXEmpleado.getUidEmpleado()).push().setValue(reservaXUsuario);
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
 
-                                    }
-                                });
-                            }
-                        });
+                                }
 
-                        builder.setNegativeButton(getString(R.string.str_cancelar), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
+                                }
+                            });
+                        }
+                    });
 
-                    }
+                    builder.setNegativeButton(getString(R.string.str_cancelar), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
                 }
-            });
-        }
+            }
+        });
+
+    }
+
+    private void setOnItemLongClickListenerLisView() {
+        listviewFragmentListaAgendaXDiaActivity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                final AgendaXEmpleado agendaXEmpleado = lstAgendaXEmpleado.get(position);
+                if (!Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Desea eliminar la siguente agenda: " + agendaXEmpleado.getHoraReserva() + "?");
+                    builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
+                            databaseReferenceReservar.setValue(null);
+                            lstAgendaXEmpleado.remove(position);
+                            addAdapterAgendaXDia(lstAgendaXEmpleado);
+                        }
+                    });
+
+                    builder.setNegativeButton(getString(R.string.str_cancelar), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+                }
+
+
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -226,7 +277,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                if(null != usuario){
+                if (null != usuario) {
                     agendaXEmpleado.setReservadoPor(getReservadoPor(usuario));
                 }
                 lstAgendaXEmpleado.add(agendaXEmpleado);

@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.services.NotificadorReservaAgendaService;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -46,6 +47,8 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         Intent mItent = getIntent();
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+        Intent intentService = new Intent(this, NotificadorReservaAgendaService.class);
+        startService(intentService);
         mAuth = FirebaseAuth.getInstance();
         if (!LoginActivity.class.getName().equals(mItent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_HOME)) && Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
             mAuth.signInWithEmailAndPassword(sharedPreferencesSeguro.getString(Constantes.CORREO), sharedPreferencesSeguro.getString(Constantes.CONTRASENA)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -74,7 +77,7 @@ public class InicioActivity extends AppCompatActivity {
             settearMenuXPerfilUsuario();
             FragmentManager mFragmentManager = getSupportFragmentManager();
             Fragment mFragment = new InicioTiposDeNegociosFragment();
-            getSupportActionBar().setTitle(getString(R.string.str_inicio));
+            getSupportActionBar().setTitle(getString(R.string.app_name));
             mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
         } else {
             Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
