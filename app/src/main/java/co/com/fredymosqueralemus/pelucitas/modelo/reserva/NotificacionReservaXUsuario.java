@@ -17,6 +17,7 @@ public class NotificacionReservaXUsuario implements Serializable {
     private String fechaModificacion;
     private String keyUidHoraAgenda;
     private long estado;
+    private String keyUidEmpleadoDuenoAgenda;
 
     public void ReservaXUsuario(){
 
@@ -70,6 +71,14 @@ public class NotificacionReservaXUsuario implements Serializable {
         this.estado = estado;
     }
 
+    public String getKeyUidEmpleadoDuenoAgenda() {
+        return keyUidEmpleadoDuenoAgenda;
+    }
+
+    public void setKeyUidEmpleadoDuenoAgenda(String keyUidEmpleadoDuenoAgenda) {
+        this.keyUidEmpleadoDuenoAgenda = keyUidEmpleadoDuenoAgenda;
+    }
+
     public Map<String, Object> toMap(){
         Map<String, Object> mapNotificacionesObject = new HashMap<String, Object>();
         mapNotificacionesObject.put("fechaAgenda", fechaAgenda);
@@ -78,6 +87,7 @@ public class NotificacionReservaXUsuario implements Serializable {
         mapNotificacionesObject.put("fechaModificacion", fechaModificacion);
         mapNotificacionesObject.put("keyUidHoraAgenda", keyUidHoraAgenda);
         mapNotificacionesObject.put("estado", estado);
+        mapNotificacionesObject.put("keyUidEmpleadoDuenoAgenda", keyUidEmpleadoDuenoAgenda);
         return mapNotificacionesObject;
     }
 }

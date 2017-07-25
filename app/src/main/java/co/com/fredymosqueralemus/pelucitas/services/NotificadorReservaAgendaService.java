@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.ListaAgendaXDiaActivity;
@@ -66,37 +67,53 @@ public class NotificadorReservaAgendaService extends Service {
             firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(firebaseAuth.getCurrentUser().getUid())).
                     orderByChild("estado").equalTo(0).addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
                     if (null != dataSnapshot) {
-                        NotificacionReservaXUsuario notificacionReservaXUsuario = dataSnapshot.getValue(NotificacionReservaXUsuario.class);
+                        final String keyNotificacionActual = dataSnapshot.getKey();
+                        final NotificacionReservaXUsuario notificacionReservaXUsuario = dataSnapshot.getValue(NotificacionReservaXUsuario.class);
 
-                        int id = 1;
-                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-                        mBuilder.setSmallIcon(R.drawable.ic_event_busy_black_24dp);
-                        Intent resultIntent = new Intent(context, ListaAgendaXDiaActivity.class);
-                        Usuario usuario = new Usuario();
-                        usuario.setUid(notificacionReservaXUsuario.getUidUsuarioReserva());
-                        resultIntent.putExtra(Constantes.USUARIO_OBJECT, usuario);
-                        resultIntent.putExtra(Constantes.STR_FECHA_AGENDA, notificacionReservaXUsuario.getFechaAgenda());
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(notificacionReservaXUsuario.getUidUsuarioReserva()));
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Usuario usuarioReserva = dataSnapshot.getValue(Usuario.class);
+                                int id = 1;
+                                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+                                mBuilder.setSmallIcon(R.drawable.ic_event_busy_black_24dp);
+                                Intent resultIntent = new Intent(context, ListaAgendaXDiaActivity.class);
+                                Usuario empleadoDuenoAgenda = new Usuario();
+                                empleadoDuenoAgenda.setUid(notificacionReservaXUsuario.getKeyUidEmpleadoDuenoAgenda());
+                                resultIntent.putExtra(Constantes.USUARIO_OBJECT, empleadoDuenoAgenda);
+                                resultIntent.putExtra(Constantes.STR_FECHA_AGENDA, notificacionReservaXUsuario.getFechaAgenda());
+                                resultIntent.putExtra(Constantes.CALL_FROM_NOTIFICADORRESERVAAGENDA, NotificadorReservaAgendaService.class.getName());
 
 
 
-                        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
-                        taskStackBuilder.addNextIntent(new Intent(context, InicioActivity.class));
-                        taskStackBuilder.addNextIntent(resultIntent);
+                                TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
+                                taskStackBuilder.addNextIntent(new Intent(context, InicioActivity.class));
+                                taskStackBuilder.addNextIntent(resultIntent);
 
-                        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                        mBuilder.setContentIntent(pendingIntent);
-                        mBuilder.setAutoCancel(true);
-                        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                                mBuilder.setContentIntent(pendingIntent);
+                                mBuilder.setAutoCancel(true);
+                                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        mBuilder.setProgress(0, 0, true);
-                        notificationManager.notify(id, mBuilder.build());
-                        mBuilder.setContentTitle("Tienes una cita agendada");
-                        mBuilder.setContentText(getString(R.string.str_toca_ver_opciones));
-                        mBuilder.setProgress(0, 0, false);
-                        notificationManager.notify(id, mBuilder.build());
-                        actualizarEstadoNotifiacion(dataSnapshot.getKey());
+                                mBuilder.setProgress(0, 0, true);
+                                notificationManager.notify(id, mBuilder.build());
+                                mBuilder.setContentTitle("Tienes una cita agendada de: "+usuarioReserva.getNombre()+" "+usuarioReserva.getApellidos());
+                                mBuilder.setContentText("Para el dia: "+notificacionReservaXUsuario.getFechaAgenda()+" "+notificacionReservaXUsuario.getKeyUidHoraAgenda());
+                                mBuilder.setProgress(0, 0, false);
+                                notificationManager.notify(id, mBuilder.build());
+                                actualizarEstadoNotifiacion(keyNotificacionActual);
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
 
                     }
                 }
@@ -126,8 +143,8 @@ public class NotificadorReservaAgendaService extends Service {
     }
 
     private void actualizarEstadoNotifiacion(String keyNotificacion) {
-        firebaseDatabase.getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(firebaseAuth.getCurrentUser().getUid())).
-                child(keyNotificacion).child("estado").setValue(1);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(firebaseAuth.getCurrentUser().getUid()));
+        databaseReference.child(keyNotificacion).child("estado").setValue(1);
     }
 
 }

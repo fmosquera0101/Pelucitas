@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,7 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.reserva.NotificacionReservaXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.services.NotificadorReservaAgendaService;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -46,11 +48,13 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
     private ListView listviewFragmentListaAgendaXDiaActivity;
     private Intent intent;
     private Context context;
-    private Usuario usuario;
+    private Usuario empleado;
     private List<AgendaXEmpleado> lstAgendaXEmpleado;
     private AgendaXEmpleado agendaXEmpleado;
     private long childreCount = 0;
     private long cantidadChildren = 0;
+    private FirebaseAuth firebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,8 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         context = this;
-        usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+        firebaseAuth = FirebaseAuth.getInstance();
+        empleado = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
         getSupportActionBar().setTitle(getString(R.string.str_tituloactivitylistagenda) + " " + String.valueOf(intent.getSerializableExtra(Constantes.STR_DIA_AGENDA)));
         progressbarListaAgendaXDiaActivity = (ProgressBar) findViewById(R.id.progressbar_ListaAgendaXDiaActivity);
         txtvMensajeNoagenda = (TextView) findViewById(R.id.txtv_mensaje_noagenda_ListaAgendaXDiaActivity);
@@ -75,7 +80,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
 
     private void getAgendaXEmpleadoXDia() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(usuario.getUid()).child(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA))).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(empleado.getUid()).child(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA))).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
@@ -130,8 +135,8 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     AgendaXEmpleado agendaReserva = dataSnapshot.getValue(AgendaXEmpleado.class);
                                     agendaReserva.setSnReservado(Constantes.SI);
-                                    agendaReserva.setCedulaUsuarioReserva(usuario.getCedulaIdentificacion());
-                                    agendaReserva.setUidUsuarioReserva(usuario.getUid());
+                                    agendaReserva.setCedulaUsuarioReserva(empleado.getCedulaIdentificacion());
+                                    agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
                                     agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
                                     getAgendaXEmpleadoXDia();
@@ -141,10 +146,11 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                     String pushKey = dbr.push().getKey();
 
                                     NotificacionReservaXUsuario notificacionReservaXUsuario = new NotificacionReservaXUsuario();
-                                    notificacionReservaXUsuario.setUidUsuarioReserva(usuario.getUid());
+                                    notificacionReservaXUsuario.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
                                     notificacionReservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
                                     notificacionReservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     notificacionReservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
+                                    notificacionReservaXUsuario.setKeyUidEmpleadoDuenoAgenda(agendaXEmpleado.getUidEmpleado());
 
                                     Map<String, Object> mapNotificaciones = notificacionReservaXUsuario.toMap();
                                     Map<String, Object> childActualizaciones = new HashMap<String, Object>();
@@ -332,7 +338,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
         agendaXEmpleado.setHoraReserva(getHoraReserva(hourOfDay, minute));
         agendaXEmpleado.setSnReservado(Constantes.NO);
-        agendaXEmpleado.setUidEmpleado(usuario.getUid());
+        agendaXEmpleado.setUidEmpleado(empleado.getUid());
         agendaXEmpleado.setFechaInsercion(UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYYHHMMSS));
         return agendaXEmpleado;
 
@@ -364,6 +370,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
     }
 
     private boolean callToAdministrarAgenda() {
-        return AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL));
+        return AdministrarMiPerfilActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_ADMINISTRARMIPERFIL))
+                || NotificadorReservaAgendaService.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_NOTIFICADORRESERVAAGENDA));
     }
 }

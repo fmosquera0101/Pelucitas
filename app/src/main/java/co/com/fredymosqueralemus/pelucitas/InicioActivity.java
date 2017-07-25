@@ -76,11 +76,8 @@ public class InicioActivity extends AppCompatActivity {
 
         if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
             settearMenuXPerfilUsuario();
-
         } else {
             navigationView.inflateMenu(R.menu.menu_drawer_cliente);
-            Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                    Toast.LENGTH_SHORT).show();
         }
 
         FragmentManager mFragmentManager = getSupportFragmentManager();

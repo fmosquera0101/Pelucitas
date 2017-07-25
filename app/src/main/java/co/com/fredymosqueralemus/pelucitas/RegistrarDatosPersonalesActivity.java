@@ -205,7 +205,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
             etxtFechaNacimiento.requestFocus();
             etxtFechaNacimiento.setError(getString(R.string.error_campo_requerido));
             return true;
-        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString(), Constantes.FORMAT_DDMMYYYYHHMMSS))){
+        }else if(!esfechaNacimientoValida(UtilidadesFecha.convertirStringADate(etxtFechaNacimiento.getText().toString(), Constantes.FORMAT_DDMMYYYY))){
             etxtFechaNacimiento.requestFocus();
             etxtFechaNacimiento.setError(getString(R.string.error_fechanacimiento_novalida));
             return true;
