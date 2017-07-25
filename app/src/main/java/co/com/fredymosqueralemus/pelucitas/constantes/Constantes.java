@@ -30,6 +30,8 @@ public interface Constantes {
 
     public static final String EMPLEADOS_X_NEGOCIO = "empleadosXNegocio";
 
+    public static final String NOTIFICACIONES = "notificaciones";
+
     public static final String FORMAT_DDMMYYYYHHMMSS = "dd/MM/yyyy HH:mm:ss";
 
     public static final String FORMAT_DDMMYYYY= "dd/MM/yyyy";

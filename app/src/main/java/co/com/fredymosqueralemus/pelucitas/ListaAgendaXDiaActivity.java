@@ -22,17 +22,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterAgendaXDia;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
-import co.com.fredymosqueralemus.pelucitas.modelo.reserva.ReservaXUsuario;
+import co.com.fredymosqueralemus.pelucitas.modelo.reserva.NotificacionReservaXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -132,13 +135,30 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                     agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
                                     getAgendaXEmpleadoXDia();
-                                    ReservaXUsuario reservaXUsuario = new ReservaXUsuario();
-                                    reservaXUsuario.setUidUsuarioReserva(usuario.getUid());
-                                    reservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
-                                    reservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                    reservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
-                                    DatabaseReference dbr = FirebaseDatabase.getInstance().getReference();
-                                    dbr.child("reservasXEmpleado").child(agendaXEmpleado.getUidEmpleado()).push().setValue(reservaXUsuario);
+
+
+                                    DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
+                                    String pushKey = dbr.push().getKey();
+
+                                    NotificacionReservaXUsuario notificacionReservaXUsuario = new NotificacionReservaXUsuario();
+                                    notificacionReservaXUsuario.setUidUsuarioReserva(usuario.getUid());
+                                    notificacionReservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
+                                    notificacionReservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                    notificacionReservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
+
+                                    Map<String, Object> mapNotificaciones = notificacionReservaXUsuario.toMap();
+                                    Map<String, Object> childActualizaciones = new HashMap<String, Object>();
+                                    childActualizaciones.put(pushKey, mapNotificaciones);
+                                    dbr.setPriority(ServerValue.TIMESTAMP);
+                                    dbr.updateChildren(childActualizaciones, new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                            if(null == databaseError){
+
+                                            }
+                                        }
+                                    });
+
 
 
                                 }

@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.services.NotificadorReservaAgendaService;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
@@ -75,14 +76,17 @@ public class InicioActivity extends AppCompatActivity {
 
         if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
             settearMenuXPerfilUsuario();
-            FragmentManager mFragmentManager = getSupportFragmentManager();
-            Fragment mFragment = new InicioTiposDeNegociosFragment();
-            getSupportActionBar().setTitle(getString(R.string.app_name));
-            mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
+
         } else {
+            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
             Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                     Toast.LENGTH_SHORT).show();
         }
+
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        Fragment mFragment = new InicioTiposDeNegociosFragment();
+        getSupportActionBar().setTitle(getString(R.string.app_name));
+        mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
 
     }
 
@@ -218,7 +222,8 @@ public class InicioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                if ("S".equals(usuario.getPerfilEmpleado().getActivo())) {
+                PerfilesXUsuario perfilEmpleado = null != usuario ? usuario.getPerfilEmpleado() : null;
+                if (null != perfilEmpleado && "S".equals(perfilEmpleado.getActivo())) {
                     navigationView.inflateMenu(R.menu.menu_drawer_administrador);
                 } else {
                     navigationView.inflateMenu(R.menu.menu_drawer_cliente);

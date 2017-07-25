@@ -1,18 +1,22 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.reserva;
 
+import java.io.ObjectInput;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by fredymosqueralemus on 23/07/17.
  */
 
-public class ReservaXUsuario implements Serializable {
+public class NotificacionReservaXUsuario implements Serializable {
 
     private String fechaAgenda;
     private String uidUsuarioReserva;
     private String fechaInsercion;
     private String fechaModificacion;
     private String keyUidHoraAgenda;
+    private long estado;
 
     public void ReservaXUsuario(){
 
@@ -56,5 +60,24 @@ public class ReservaXUsuario implements Serializable {
 
     public void setKeyUidHoraAgenda(String keyUidHoraAgenda) {
         this.keyUidHoraAgenda = keyUidHoraAgenda;
+    }
+
+    public long getEstado() {
+        return estado;
+    }
+
+    public void setEstado(long estado) {
+        this.estado = estado;
+    }
+
+    public Map<String, Object> toMap(){
+        Map<String, Object> mapNotificacionesObject = new HashMap<String, Object>();
+        mapNotificacionesObject.put("fechaAgenda", fechaAgenda);
+        mapNotificacionesObject.put("uidUsuarioReserva", uidUsuarioReserva);
+        mapNotificacionesObject.put("fechaInsercion", fechaInsercion);
+        mapNotificacionesObject.put("fechaModificacion", fechaModificacion);
+        mapNotificacionesObject.put("keyUidHoraAgenda", keyUidHoraAgenda);
+        mapNotificacionesObject.put("estado", estado);
+        return mapNotificacionesObject;
     }
 }

@@ -129,6 +129,15 @@ public class UtilidadesFirebaseBD {
 
         return  strbAgendaXEmpleado.toString();
     }
+
+    public static String getUrlInserccionNofiticaciones(String userUID){
+        StringBuilder strbNotificaciones = new StringBuilder();
+        strbNotificaciones.append(Constantes.NOTIFICACIONES);
+        strbNotificaciones.append("/");
+        strbNotificaciones.append(userUID);
+
+        return strbNotificaciones.toString();
+    }
     public static StorageReference getFirebaseStorageFromUrl(){
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);
