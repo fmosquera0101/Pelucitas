@@ -65,21 +65,24 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
         }
         AgendaXEmpleado agendaXEmpleado = lstAgendaXEmpleado.get(position);
         if (Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(agendaXEmpleado.getUidUsuarioReserva()));
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Usuario usuarioReserva = dataSnapshot.getValue(Usuario.class);
-                    StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
-                    UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imvIconAgendaXdia, usuarioReserva, context, storageReference);
-                }
+            if(agendaXEmpleado.isPuedeVerimagenReservaAgenda()) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(agendaXEmpleado.getUidUsuarioReserva()));
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Usuario usuarioReserva = dataSnapshot.getValue(Usuario.class);
+                        StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
+                        UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imvIconAgendaXdia, usuarioReserva, context, storageReference);
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-
+                    }
+                });
+            }else{
+                itemHolderAgendaXEmpleado.imvIconAgendaXdia.setImageResource(R.drawable.ic_event_available_black_24dp);
+            }
             if (!TextUtils.isEmpty(agendaXEmpleado.getReservadoPor())) {
                 itemHolderAgendaXEmpleado.txvSnReservado.setText(agendaXEmpleado.getReservadoPor());
             } else {

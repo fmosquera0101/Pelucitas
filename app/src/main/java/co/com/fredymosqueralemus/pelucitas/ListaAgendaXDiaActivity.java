@@ -55,7 +55,6 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
     private long cantidadChildren = 0;
     private FirebaseAuth firebaseAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,15 +69,16 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
         txtvMensajeNoagenda = (TextView) findViewById(R.id.txtv_mensaje_noagenda_ListaAgendaXDiaActivity);
         listviewFragmentListaAgendaXDiaActivity = (ListView) findViewById(R.id.listview_fragment_ListaAgendaXDiaActivity);
 
-        getAgendaXEmpleadoXDia();
-        if (callToReservaAgenda()) {
-            addOnclickListenerLisViewAgenda();
-        } else {
+        if (callToAdministrarAgenda()) {
+            getAgendaXEmpleadoParaAdministrar();
             setOnItemLongClickListenerLisView();
+        } else if (callToReservaAgenda()) {
+            getAgendaXEmpleadoParaReservar();
+            addOnclickListenerLisViewAgenda();
         }
     }
 
-    private void getAgendaXEmpleadoXDia() {
+    private void getAgendaXEmpleadoParaReservar() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(empleado.getUid()).child(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA))).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -86,18 +86,41 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                 lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
                 childreCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    final AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
-                    if (callToAdministrarAgenda()) {
-                        getReservadoPorAgendaEmpleado(agendaXEmpleado);
-                    } else {
-                        lstAgendaXEmpleado.add(agendaXEmpleado);
-                    }
+                    AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
+                    agendaXEmpleado.setPuedeVerimagenReservaAgenda(false);
+                    lstAgendaXEmpleado.add(agendaXEmpleado);
+
+                }
+                addAdapterAgendaXDia(lstAgendaXEmpleado);
+                if (lstAgendaXEmpleado.isEmpty()) {
+                    txtvMensajeNoagenda.setVisibility(View.VISIBLE);
+                    progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
+
                 }
 
-                if (!callToAdministrarAgenda()) {
-                    addAdapterAgendaXDia(lstAgendaXEmpleado);
-                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void getAgendaXEmpleadoParaAdministrar() {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(empleado.getUid()).child(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA))).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
+                childreCount = dataSnapshot.getChildrenCount();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
+                    agendaXEmpleado.setPuedeVerimagenReservaAgenda(true);
+                    getReservadoPorAgendaEmpleado(agendaXEmpleado);
+                }
                 if (childreCount == 0) {
                     if (lstAgendaXEmpleado.isEmpty()) {
                         txtvMensajeNoagenda.setVisibility(View.VISIBLE);
@@ -112,8 +135,6 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void addOnclickListenerLisViewAgenda() {
@@ -139,7 +160,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                     agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
                                     agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
-                                    getAgendaXEmpleadoXDia();
+                                    getAgendaXEmpleadoParaAdministrar();
 
 
                                     DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
@@ -159,12 +180,11 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                     dbr.updateChildren(childActualizaciones, new DatabaseReference.CompletionListener() {
                                         @Override
                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                            if(null == databaseError){
+                                            if (null == databaseError) {
 
                                             }
                                         }
                                     });
-
 
 
                                 }
@@ -280,7 +300,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                 AgendaXEmpleado agendaFromFB = dataSnapshot.getValue(AgendaXEmpleado.class);
                 if (null == agendaFromFB) {
                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
-                    getAgendaXEmpleadoXDia();
+                    getAgendaXEmpleadoParaAdministrar();
                     txtvMensajeNoagenda.setVisibility(View.GONE);
                     lstAgendaXEmpleado.add(agendaXEmpleado);
                     addAdapterAgendaXDia(lstAgendaXEmpleado);

@@ -90,7 +90,6 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
             usuario.setPerfilAdministrador(perfilesXUsuarioAdministrador);
             perfilesXUsuarioEmpleado.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
             usuario.setPerfilEmpleado(perfilesXUsuarioEmpleado);
-
             insertarPerfilEmpleado(perfilesXUsuarioEmpleado);
             insertarPerfilAdministrador(perfilesXUsuarioAdministrador);
         } else {
@@ -135,6 +134,8 @@ public class RegistrarPerfilUsuarioActivity extends AppCompatActivity {
     }
 
     private void abrirActivityHome() {
+        Intent intent = new Intent(this, InicioActivity.class);
+        startActivity(intent);
         finish();
     }
 

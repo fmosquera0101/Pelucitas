@@ -1,5 +1,6 @@
 package co.com.fredymosqueralemus.pelucitas;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,8 +41,10 @@ public class InicioActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseUser firebaseUser;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,41 +54,50 @@ public class InicioActivity extends AppCompatActivity {
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         Intent intentService = new Intent(this, NotificadorReservaAgendaService.class);
         startService(intentService);
-        mAuth = FirebaseAuth.getInstance();
-        if (!LoginActivity.class.getName().equals(mItent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_HOME)) && Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
-            mAuth.signInWithEmailAndPassword(sharedPreferencesSeguro.getString(Constantes.CORREO), sharedPreferencesSeguro.getString(Constantes.CONTRASENA)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(InicioActivity.this, R.string.str_nohasiniciadosesion, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-            }
-        };
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layouthome);
-        actionBarDrawerToggle = getActionBarDrawerToggle();
-        actionBarDrawerToggle.syncState();
-        navigationView = getNavigationView();
-
-        if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-            settearMenuXPerfilUsuario();
+        firebaseAuth = FirebaseAuth.getInstance();
+        context = this;
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (null == firebaseUser) {
+            Intent intent = new Intent(context, LoginActivity.class);
+            startActivity(intent);
+            finish();
         } else {
-            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+            if (!LoginActivity.class.getName().equals(mItent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_HOME)) && Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
+                firebaseAuth.signInWithEmailAndPassword(sharedPreferencesSeguro.getString(Constantes.CORREO), sharedPreferencesSeguro.getString(Constantes.CONTRASENA)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+
+            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                }
+            };
+
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layouthome);
+            actionBarDrawerToggle = getActionBarDrawerToggle();
+            actionBarDrawerToggle.syncState();
+            navigationView = getNavigationView();
+
+            if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
+                settearMenuXPerfilUsuario();
+            } else {
+                navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+            }
+
+            FragmentManager mFragmentManager = getSupportFragmentManager();
+            Fragment mFragment = new InicioTiposDeNegociosFragment();
+            getSupportActionBar().setTitle(getString(R.string.app_name));
+            mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
+
         }
-
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        Fragment mFragment = new InicioTiposDeNegociosFragment();
-        getSupportActionBar().setTitle(getString(R.string.app_name));
-        mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
-
     }
 
     @Override
@@ -202,35 +215,46 @@ public class InicioActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
+        firebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         if (mAuthStateListener != null) {
-            mAuth.removeAuthStateListener(mAuthStateListener);
+            firebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        navigationView.getMenu().clear();
+        settearMenuXPerfilUsuario();
+    }
+
     private void settearMenuXPerfilUsuario() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(sharedPreferencesSeguro.getString(Constantes.USERUID)));
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                PerfilesXUsuario perfilEmpleado = null != usuario ? usuario.getPerfilEmpleado() : null;
-                if (null != perfilEmpleado && "S".equals(perfilEmpleado.getActivo())) {
-                    navigationView.inflateMenu(R.menu.menu_drawer_administrador);
-                } else {
-                    navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+        if (null == firebaseUser) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                    PerfilesXUsuario perfilEmpleado = null != usuario ? usuario.getPerfilEmpleado() : null;
+                    if (null != perfilEmpleado && "S".equals(perfilEmpleado.getActivo())) {
+                        navigationView.inflateMenu(R.menu.menu_drawer_administrador);
+                    } else {
+                        navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } else {
+            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+        }
     }
 }

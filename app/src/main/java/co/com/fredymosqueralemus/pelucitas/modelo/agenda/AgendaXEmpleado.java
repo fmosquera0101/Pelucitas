@@ -18,6 +18,8 @@ public class AgendaXEmpleado implements Serializable {
     private String fechaInsercion;
     private String fechaModificacion;
     private String reservadoPor;
+    private boolean isPuedeVerimagenReservaAgenda;
+
 
     public String getFechaAgenda() {
         return fechaAgenda;
@@ -89,5 +91,13 @@ public class AgendaXEmpleado implements Serializable {
 
     public void setReservadoPor(String reservadoPor) {
         this.reservadoPor = reservadoPor;
+    }
+
+    public boolean isPuedeVerimagenReservaAgenda() {
+        return isPuedeVerimagenReservaAgenda;
+    }
+
+    public void setPuedeVerimagenReservaAgenda(boolean puedeVerimagenReservaAgenda) {
+        isPuedeVerimagenReservaAgenda = puedeVerimagenReservaAgenda;
     }
 }

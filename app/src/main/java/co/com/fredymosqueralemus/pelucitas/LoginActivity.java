@@ -1,5 +1,6 @@
 package co.com.fredymosqueralemus.pelucitas;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-
         etxtCorreo = (EditText) findViewById(R.id.correo_etxt_loginlayout);
         etxtContrasena = (EditText) findViewById(R.id.contrasena_etxt_loginlayout);
 
@@ -66,9 +66,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     private void abrirHomeActivity(){
-        /*Intent mIntent = new Intent(this, HomeActivity.class);
+        Intent mIntent = new Intent(this, InicioActivity.class);
         mIntent.putExtra(Constantes.CALL_FROM_LOGINACTIVITY, LoginActivity.class.getName());
-        startActivity(mIntent);*/
+        startActivity(mIntent);
         finish();
     }
     private boolean isCorreoValido(String correo){
@@ -110,5 +110,9 @@ public class LoginActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+    public void crearcuenta(View view){
+        Intent intent = new Intent(this, RegistrarCorreoContrasenaActivity.class);
+        startActivity(intent);
     }
 }
