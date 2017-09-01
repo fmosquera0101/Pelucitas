@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 import co.com.fredymosqueralemus.pelucitas.InicioActivity;
 import co.com.fredymosqueralemus.pelucitas.ListaAgendaXDiaActivity;
 import co.com.fredymosqueralemus.pelucitas.R;
@@ -27,6 +29,7 @@ import co.com.fredymosqueralemus.pelucitas.modelo.reserva.NotificacionReservaXUs
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 /**
@@ -86,8 +89,9 @@ public class NotificadorReservaAgendaService extends Service {
                                 resultIntent.putExtra(Constantes.USUARIO_OBJECT, empleadoDuenoAgenda);
                                 resultIntent.putExtra(Constantes.STR_FECHA_AGENDA, notificacionReservaXUsuario.getFechaAgenda());
                                 resultIntent.putExtra(Constantes.CALL_FROM_NOTIFICADORRESERVAAGENDA, NotificadorReservaAgendaService.class.getName());
-
-
+                                Date fechaAgenda = UtilidadesFecha.convertirStringADate(notificacionReservaXUsuario.getFechaAgenda(), Constantes.FORMAT_YYYYMMDD);
+                                String strFechaAgenda = UtilidadesFecha.convertirDateAString(fechaAgenda, Constantes.FORMAT_DDMMYYYY );
+                                resultIntent.putExtra(Constantes.STR_DIA_AGENDA, strFechaAgenda);
 
                                 TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
                                 taskStackBuilder.addNextIntent(new Intent(context, InicioActivity.class));
@@ -101,7 +105,8 @@ public class NotificadorReservaAgendaService extends Service {
                                 mBuilder.setProgress(0, 0, true);
                                 notificationManager.notify(id, mBuilder.build());
                                 mBuilder.setContentTitle("Tienes una cita agendada de: "+usuarioReserva.getNombre()+" "+usuarioReserva.getApellidos());
-                                mBuilder.setContentText("Para el dia: "+notificacionReservaXUsuario.getFechaAgenda()+" "+notificacionReservaXUsuario.getKeyUidHoraAgenda());
+
+                                mBuilder.setContentText("Para el dia: "+strFechaAgenda+" "+notificacionReservaXUsuario.getKeyUidHoraAgenda());
                                 mBuilder.setProgress(0, 0, false);
                                 notificationManager.notify(id, mBuilder.build());
                                 actualizarEstadoNotifiacion(keyNotificacionActual);

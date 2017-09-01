@@ -2,6 +2,8 @@ package co.com.fredymosqueralemus.pelucitas.modelo.agenda;
 
 import java.io.Serializable;
 
+import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+
 /**
  * Representa el modelo de la agenda del empleado
  * Created by fredymosqueralemus on 28/06/17.
@@ -19,6 +21,7 @@ public class AgendaXEmpleado implements Serializable {
     private String fechaModificacion;
     private String reservadoPor;
     private boolean isPuedeVerimagenReservaAgenda;
+    private Usuario usuario;
 
 
     public String getFechaAgenda() {
@@ -99,5 +102,13 @@ public class AgendaXEmpleado implements Serializable {
 
     public void setPuedeVerimagenReservaAgenda(boolean puedeVerimagenReservaAgenda) {
         isPuedeVerimagenReservaAgenda = puedeVerimagenReservaAgenda;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

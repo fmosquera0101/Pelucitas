@@ -160,7 +160,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                                     agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
                                     agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
-                                    getAgendaXEmpleadoParaAdministrar();
+                                    getAgendaXEmpleadoParaReservar();
 
 
                                     DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
@@ -325,6 +325,7 @@ public class ListaAgendaXDiaActivity extends AppCompatActivity {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 if (null != usuario) {
                     agendaXEmpleado.setReservadoPor(getReservadoPor(usuario));
+                    agendaXEmpleado.setUsuario(usuario);
                 }
                 lstAgendaXEmpleado.add(agendaXEmpleado);
                 if (childreCount == cantidadChildren) {
