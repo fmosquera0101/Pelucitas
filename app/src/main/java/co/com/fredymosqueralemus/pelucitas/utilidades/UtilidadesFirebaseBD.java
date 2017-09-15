@@ -129,6 +129,18 @@ public class UtilidadesFirebaseBD {
 
         return  strbAgendaXEmpleado.toString();
     }
+    public static String getUrlInsercionAgendaXCliente(AgendaXEmpleado agendaXCliente){
+        StringBuilder strbAgendaXEmpleado = new StringBuilder();
+        strbAgendaXEmpleado.append(Constantes.TURNOS_X_CLIENTE);
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXCliente.getUidEmpleado());
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXCliente.getFechaAgenda());
+        strbAgendaXEmpleado.append("/");
+        strbAgendaXEmpleado.append(agendaXCliente.getHoraReserva());
+
+        return  strbAgendaXEmpleado.toString();
+    }
 
     public static String getUrlInserccionNofiticaciones(String userUID){
         StringBuilder strbNotificaciones = new StringBuilder();
@@ -156,5 +168,10 @@ public class UtilidadesFirebaseBD {
     public static StorageReference getReferenceImagenTiposNegocios(StorageReference storageReference, TiposDeNegocio tiposDeNegocio){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.PELUCITAS_SETTINGS).child(Constantes.IMAGENES_LISTVIEW_INICIO)
                 .child(tiposDeNegocio.getImagenModelo().getNombreImagen()+".jpg");
+    }
+
+    public static void insertarAgendaXClienteFirebaseBD(AgendaXEmpleado agendaXCliente){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(getUrlInsercionAgendaXCliente(agendaXCliente));
+        databaseReference.setValue(agendaXCliente);
     }
 }

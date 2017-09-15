@@ -71,7 +71,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
-                android:text="@string/str_agenda"
+                android:text="@string/str_configurar_agenda"
                 android:layout_gravity="center"
                 />
         </LinearLayout>

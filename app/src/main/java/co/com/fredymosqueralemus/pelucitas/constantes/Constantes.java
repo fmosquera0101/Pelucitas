@@ -20,6 +20,7 @@ public interface Constantes {
     public static final String DIRECCIONES_X_NEGOCIO_FIREBASE_BD = "direccionesXNegocio";
     public static final String HORARIOS_X_NEGOCIO_FIREBASE_BD = "horariosXNegocio";
     public static final String AGENDA_X_EMPLEADOS = "agendaxEmpleado";
+    public static final String TURNOS_X_CLIENTE = "turnosXCliente";
 
     public static final String MINEGOCIO_FIREBASE_BD = "negocios";
     public static final String TIPOS_NEGOCIOS_FIREBASE_BD = "tiposnegocios";

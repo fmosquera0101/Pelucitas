@@ -157,7 +157,15 @@ public class InicioActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(getString(R.string.str_inicio));
                 }
                 break;
-
+            case R.id.menuitem_agenda:
+                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
+                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    mFragment = new AgendaRerservasClienteFragment();
+                    getSupportActionBar().setTitle(getString(R.string.str_turnos));
+                }
+                break;
             case R.id.menuitem_micuenta:
                 Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
                 intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
