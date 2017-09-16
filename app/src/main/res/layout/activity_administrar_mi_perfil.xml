@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,151 +6,174 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="co.com.fredymosqueralemus.pelucitas.AdministrarMiPerfilActivity">
-    <ProgressBar
-        android:id="@+id/progressbar_activity_administrarmiperfil"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:id="@+id/linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone"
-        >
-    <ImageView
-        android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
-        android:adjustViewBounds="true"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_add_a_photo_black_24dp"
-        />
-    <TextView
-        android:id="@+id/nombreusuario_activity_administrarmiperfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mi nombre"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textSize="25dp" />
-    <TextView
-        android:id="@+id/correo_activity_administrarmiperfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/str_correo"
-        android:textAlignment="center"
-         />
 
-    <include layout="@layout/linea_separador"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="editarInformacionPersonal"
-        >
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageninfoperfil_activity_administrarmiperfil"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_person_outline_black_24dp"
-            />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/informacion_activity_administrarmiperfil"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            android:text="@string/str_informacion_personal"
-            android:layout_gravity="center"
-            />
+            <ImageView
+                android:id="@+id/imagenmiperfil_activity_administrarmiperfil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_add_a_photo_black_24dp" />
+        </ScrollView>
     </LinearLayout>
-    <include layout="@layout/linea_separador"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="abrirEditarDireccionUsuario"
-        >
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imagendireccion_activity_administrarmiperfil"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_direccion_black_24dp"
-            />
-
-        <TextView
-            android:id="@+id/direccion_activity_administrarmiperfil"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            android:text="@string/str_direccion"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-    <include layout="@layout/linea_separador"/>
-
-    <LinearLayout
-        android:id="@+id/layout_editar_perfil_AdministrarMiPerfilActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="editarPerfiles"
-        >
-
-        <ImageView
-            android:id="@+id/imagenperfiles_activity_administrarmiperfil"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_empleados_black_24dp"
-            />
-
-        <TextView
-            android:id="@+id/perfiles_activity_administrarmiperfil"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            android:text="@string/str_perfiles"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-    <include layout="@layout/linea_separador"/>
+        <ProgressBar
+            android:id="@+id/progressbar_activity_administrarmiperfil"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/layout_veragenda_empleado_activity_administrarmiperfil"
+            android:id="@+id/linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="16dp"
-            android:onClick="verAgendaEmpleado"
+            android:visibility="gone"
             >
-            <ImageView
-                android:id="@+id/imagen_agenda_activity_administrarmiperfil"
-                android:layout_width="20dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_event_black_24dp"
-                />
 
             <TextView
-                android:id="@+id/textview_agenda_empleado_activity_administrarmiperfil"
+                android:id="@+id/nombreusuario_activity_administrarmiperfil"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:text="Mi nombre"
                 android:textStyle="bold"
-                android:text="@string/str_agenda"
-                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="25dp" />
+            <TextView
+                android:id="@+id/correo_activity_administrarmiperfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_correo"
+                android:textAlignment="center"
                 />
+
+            <include layout="@layout/linea_separador"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="editarInformacionPersonal"
+                >
+
+                <ImageView
+                    android:id="@+id/imageninfoperfil_activity_administrarmiperfil"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_person_outline_black_24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/informacion_activity_administrarmiperfil"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/str_informacion_personal"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+            <include layout="@layout/linea_separador"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="abrirEditarDireccionUsuario"
+                >
+
+                <ImageView
+                    android:id="@+id/imagendireccion_activity_administrarmiperfil"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_direccion_black_24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/direccion_activity_administrarmiperfil"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/str_direccion"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+            <include layout="@layout/linea_separador"/>
+
+            <LinearLayout
+                android:id="@+id/layout_editar_perfil_AdministrarMiPerfilActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="editarPerfiles"
+                >
+
+                <ImageView
+                    android:id="@+id/imagenperfiles_activity_administrarmiperfil"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_empleados_black_24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/perfiles_activity_administrarmiperfil"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/str_perfiles"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+            <include layout="@layout/linea_separador"/>
+            <LinearLayout
+                android:id="@+id/layout_veragenda_empleado_activity_administrarmiperfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:onClick="verAgendaEmpleado"
+                >
+                <ImageView
+                    android:id="@+id/imagen_agenda_activity_administrarmiperfil"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_event_black_24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textview_agenda_empleado_activity_administrarmiperfil"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/str_agenda"
+                    android:layout_gravity="center"
+                    />
             </LinearLayout>
 
-        <include layout="@layout/linea_separador"/>
-</LinearLayout>
-</LinearLayout>
-</ScrollView>
+            <include layout="@layout/linea_separador"/>
+        </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    </LinearLayout>

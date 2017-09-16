@@ -29,8 +29,6 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.imagenes.SeleccionarImagen;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.services.TaskCargarImagenMiNegocio;
-import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
-import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
 import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
@@ -61,7 +59,6 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         seleccionarImagenMiNegocio = new SeleccionarImagen(context, this);
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
-        SharedPreferencesSeguro sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         imgvMiNegocio = (ImageView) findViewById(R.id.imagen_minegocio_activity_administrarminegocio);
         txvNombreMiNegocio = (TextView) findViewById(R.id.nombrenegocio_activity_administrarminegocio);
         txvNitMiNegocio = (TextView) findViewById(R.id.nitnegocio_activity_administrarminegocio);

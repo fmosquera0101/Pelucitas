@@ -242,7 +242,7 @@ public class InicioActivity extends AppCompatActivity {
     }
 
     private void settearMenuXPerfilUsuario() {
-        if (null == firebaseUser) {
+        if (null != firebaseUser) {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(firebaseUser.getUid()));
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

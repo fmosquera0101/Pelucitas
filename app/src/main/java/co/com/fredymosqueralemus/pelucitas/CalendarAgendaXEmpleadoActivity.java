@@ -59,6 +59,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
     private long childreCount = 0;
     private long cantidadChildren = 0;
     private FirebaseAuth firebaseAuth;
+    private String strFechaAgenda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +79,12 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         progressbarListaAgendaXDiaActivity = (ProgressBar) findViewById(R.id.progressbar_ListaAgendaXDiaActivity);
         txtvMensajeNoagenda = (TextView) findViewById(R.id.txtv_mensaje_noagenda_ListaAgendaXDiaActivity);
         listviewFragmentListaAgendaXDiaActivity = (ListView) findViewById(R.id.listview_fragment_ListaAgendaXDiaActivity);
-        String strFechaReserva = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
+        strFechaAgenda = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
         if (callToAdministrarAgenda()) {
-            getAgendaXEmpleadoParaAdministrar(strFechaReserva);
+            getAgendaXEmpleadoParaAdministrar(strFechaAgenda);
             setOnItemLongClickListenerLisView();
         } else if (callToReservaAgenda()) {
-            getAgendaXEmpleadoParaReservar(strFechaReserva);
+            getAgendaXEmpleadoParaReservar(strFechaAgenda);
             addOnclickListenerLisViewAgenda();
         }
 
@@ -96,12 +97,12 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                 //Intent intentAgendaXdia = getIntentAgendaXdia(intent);
                 //startActivity(intentAgendaXdia);
 
-                String strFechaReserva = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
+                strFechaAgenda = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
                 if (callToAdministrarAgenda()) {
-                    getAgendaXEmpleadoParaAdministrar(strFechaReserva);
+                    getAgendaXEmpleadoParaAdministrar(strFechaAgenda);
                     setOnItemLongClickListenerLisView();
                 } else if (callToReservaAgenda()) {
-                    getAgendaXEmpleadoParaReservar(strFechaReserva);
+                    getAgendaXEmpleadoParaReservar(strFechaAgenda);
                     addOnclickListenerLisViewAgenda();
                 }
             }
@@ -329,7 +330,6 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
             final Calendar calendar = Calendar.getInstance();
             final int hora = calendar.get(Calendar.HOUR_OF_DAY);
             final int minutos = calendar.get(Calendar.MINUTE);
-            String strFechaAgenda = String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA));
             Date dateFechaAgenda = UtilidadesFecha.convertirStringADate(strFechaAgenda, Constantes.FORMAT_YYYYMMDD);
             Date dateFechaHoy = UtilidadesFecha.formatearDate(calendar.getTime(), Constantes.FORMAT_DDMMYYYY);
 
@@ -411,7 +411,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
 
     private AgendaXEmpleado getAgendaXEmpleadoFromDatePicker(int hourOfDay, int minute, Calendar calendar) {
         AgendaXEmpleado agendaXEmpleado = new AgendaXEmpleado();
-        agendaXEmpleado.setFechaAgenda(String.valueOf(intent.getStringExtra(Constantes.STR_FECHA_AGENDA)));
+        agendaXEmpleado.setFechaAgenda(strFechaAgenda);
         agendaXEmpleado.setHoraReserva(getHoraReserva(hourOfDay, minute));
         agendaXEmpleado.setSnReservado(Constantes.NO);
         agendaXEmpleado.setUidEmpleado(empleado.getUid());
