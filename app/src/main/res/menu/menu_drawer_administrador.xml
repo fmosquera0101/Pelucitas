@@ -63,14 +63,14 @@
       <menu xmlns:android="http://schemas.android.com/apk/res/android">
           <group android:checkableBehavior="single">
               <item
-                  android:id="@+id/menuitem_perfiladministrador_registrarminegocio"
-                  android:icon="@drawable/ic_store_add_black_24dp"
-                  android:title="@string/title_menu_administrar_registrarnegocio">
-              </item>
-              <item
                   android:id="@+id/menuitem_perfiladministrador_administrarnegocios"
                   android:icon="@drawable/ic_store_mall_directory_black_24dp"
                   android:title="@string/title_menu_administrar_negocios">
+              </item>
+              <item
+                  android:id="@+id/menuitem_perfiladministrador_registrarminegocio"
+                  android:icon="@drawable/ic_store_add_black_24dp"
+                  android:title="@string/title_menu_administrar_registrarnegocio">
               </item>
           </group>
 

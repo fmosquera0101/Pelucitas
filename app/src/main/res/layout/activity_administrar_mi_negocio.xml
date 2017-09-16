@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_administrar_mi_negocio"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,165 +12,183 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imagen_minegocio_activity_administrarminegocio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="seleccionarImagenMiNegocio"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_add_a_photo_black_24dp" />
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_weight=".5">
 
-        android:onClick="editarInformacionMiNegocio"
-        >
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imagen_minegocio_activity_administrarminegocio"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                android:scaleType="centerCrop"
-
-                android:onClick="seleccionarImagenMiNegocio"/>
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardCornerRadius="2dp"
-            card_view:cardUseCompatPadding="true">
-            <RelativeLayout
-                android:id="@+id/editar_informacionminegocio_activity_editar_informacion_minegocio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:onClick="editarInformacionBasicaMiNegocio">
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:rowCount="1"
-                    android:columnCount="2">
+                    android:layout_height="match_parent"
+                    android:onClick="editarInformacionMiNegocio"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/nombrenegocio_activity_administrarminegocio"
-                            android:layout_height="20dp"
-                            android:text="@string/str_minegocio"
-                            android:layout_width="220dp"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/nitnegocio_activity_administrarminegocio"
-                            android:layout_height="20dp"
-                            android:text="@string/str_nit"
-                            android:layout_width="220dp" />
-                        <TextView
-                            android:id="@+id/tipo_negocio_activity_administrarminegocio"
-                            android:layout_height="20dp"
-                            android:text="@string/str_telefono"
-                            android:layout_width="220dp" />
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardUseCompatPadding="true">
 
-                        <TextView
-                            android:id="@+id/telefono_negocio_activity_administrarminegocio"
-                            android:layout_height="20dp"
-                            android:text="@string/str_tiponegocio"
-                            android:layout_width="220dp" />
+                        <RelativeLayout
+                            android:id="@+id/editar_informacionminegocio_activity_editar_informacion_minegocio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="editarInformacionBasicaMiNegocio"
+                            android:orientation="horizontal"
+                            android:padding="16dp">
 
-                    </LinearLayout>
-                </GridLayout>
+                            <GridLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:columnCount="2"
+                                android:rowCount="1">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/nombrenegocio_activity_administrarminegocio"
+                                        android:layout_width="220dp"
+                                        android:layout_height="20dp"
+                                        android:text="@string/str_minegocio"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/nitnegocio_activity_administrarminegocio"
+                                        android:layout_width="220dp"
+                                        android:layout_height="20dp"
+                                        android:text="@string/str_nit" />
+
+                                    <TextView
+                                        android:id="@+id/tipo_negocio_activity_administrarminegocio"
+                                        android:layout_width="220dp"
+                                        android:layout_height="20dp"
+                                        android:text="@string/str_telefono" />
+
+                                    <TextView
+                                        android:id="@+id/telefono_negocio_activity_administrarminegocio"
+                                        android:layout_width="220dp"
+                                        android:layout_height="20dp"
+                                        android:text="@string/str_tiponegocio" />
+
+                                </LinearLayout>
+                            </GridLayout>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_editar_black_24dp" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+                <include layout="@layout/linea_separador" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_editar_black_24dp"
-                    />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+                    android:onClick="abrirEditarDireccionMiNegocio"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
+                    <ImageView
+                        android:id="@+id/imagendireccion_activity_administrarminegocio"
+                        android:layout_width="20dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_direccion_black_24dp" />
 
-    <include layout="@layout/linea_separador"/>
+                    <TextView
+                        android:id="@+id/direccion_activity_administrarminegocio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/str_direccion"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="abrirEditarDireccionMiNegocio">
+                <include layout="@layout/linea_separador" />
 
-            <ImageView
-                android:id="@+id/imagendireccion_activity_administrarminegocio"
-                android:layout_width="20dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_direccion_black_24dp"
-                />
-
-                <TextView
-                    android:id="@+id/direccion_activity_administrarminegocio"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textStyle="bold"
-                    android:text="@string/str_direccion"
-                    android:layout_gravity="center"
-                    />
+                    android:onClick="editarHoararioMiNegocio"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/imagenhorario_activity_administrarminegocio"
+                        android:layout_width="20dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_horario_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/horario_activity_administrarminegocio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/str_horario"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <include layout="@layout/linea_separador" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="listarEmpleados"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/imagenempleado_activity_administrarminegocio"
+                        android:layout_width="20dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_empleados_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/empleados_activity_administrarminegocio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/str_empleados"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-    <include layout="@layout/linea_separador"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="editarHoararioMiNegocio"
-        >
-
-        <ImageView
-            android:id="@+id/imagenhorario_activity_administrarminegocio"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_horario_black_24dp"
-            />
-
-        <TextView
-            android:id="@+id/horario_activity_administrarminegocio"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            android:text="@string/str_horario"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-    <include layout="@layout/linea_separador"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:onClick="listarEmpleados"
-        >
-
-        <ImageView
-            android:id="@+id/imagenempleado_activity_administrarminegocio"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_empleados_black_24dp"
-            />
-
-        <TextView
-            android:id="@+id/empleados_activity_administrarminegocio"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            android:text="@string/str_empleados"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
 </LinearLayout>
-</ScrollView>
+
