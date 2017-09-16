@@ -14,13 +14,14 @@
                     android:title="@string/title_menu_inicio"
                     >
                 </item>
+                <!--
                 <item
                     android:id="@+id/menuitem_inicio_localizar"
                     android:icon="@drawable/ic_place_black_24dp"
                     android:title="@string/title_menu_localizar"
                     >
                 </item>
-
+                -->
             </group>
 
         </menu>
@@ -32,6 +33,12 @@
         >
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menuitem_turnos"
+                    android:icon="@drawable/ic_event_black_24dp"
+                    android:title="@string/title_menu_turnos"
+                    >
+                </item>
                 <item
                     android:id="@+id/menuitem_micuenta"
                     android:icon="@drawable/ic_person_outline_black_24dp"

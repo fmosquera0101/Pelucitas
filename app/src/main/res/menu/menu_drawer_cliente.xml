@@ -33,9 +33,9 @@
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menuitem_agenda"
+                    android:id="@+id/menuitem_turnos"
                     android:icon="@drawable/ic_event_black_24dp"
-                    android:title="@string/title_menu_agenda"
+                    android:title="@string/title_menu_turnos"
                     >
                 </item>
                 <item

@@ -157,7 +157,7 @@ public class InicioActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(getString(R.string.str_inicio));
                 }
                 break;
-            case R.id.menuitem_agenda:
+            case R.id.menuitem_turnos:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
                     Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT).show();
@@ -167,9 +167,14 @@ public class InicioActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.menuitem_micuenta:
-                Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
-                intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
-                startActivity(intent);
+                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
+                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
+                    intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.menuitem_crearcuenta:
@@ -238,7 +243,11 @@ public class InicioActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         navigationView.getMenu().clear();
-        settearMenuXPerfilUsuario();
+        if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
+            settearMenuXPerfilUsuario();
+        } else {
+            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+        }
     }
 
     private void settearMenuXPerfilUsuario() {

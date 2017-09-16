@@ -8,7 +8,7 @@
 
 
 
-    <!--Logo misCitas-->
+    <!--Logo misCitas
     <ImageView
         android:id="@+id/logo_misCitas"
         android:layout_width="200dp"
@@ -16,5 +16,6 @@
         android:layout_marginTop="15dp"
         android:src="@mipmap/ic_launcher"
         />
+        -->
 
 </LinearLayout>

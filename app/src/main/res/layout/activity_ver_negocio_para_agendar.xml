@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,154 +9,165 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="co.com.fredymosqueralemus.pelucitas.VerNegocioParaAgendarActivity">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight=".6">
+            <ImageView
+                android:id="@+id/imagen_minegocio_VerNegocioParaAgendarActivity"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
-
-                <ImageView
-                    android:id="@+id/imagen_minegocio_VerNegocioParaAgendarActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="centerCrop"
-
-                    android:src="@drawable/ic_add_a_photo_black_24dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/nombrenegocio_VerNegocioParaAgendarActivity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/str_minegocio"
-                android:textSize="30dp"
-                android:textStyle="bold" />
-
-
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_add_a_photo_black_24dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight=".5">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    card_view:cardCornerRadius="2dp"
-                    card_view:cardUseCompatPadding="true">
-
-                    <GridLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:columnCount="2"
-                        android:rowCount="1">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/descripcionnegocio_VerNegocioParaAgendarActivity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="15dp" />
-
-
-                        </LinearLayout>
-                    </GridLayout>
-
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-
-
-            <include layout="@layout/linea_separador" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_phone_black_24dp" />
-
                 <TextView
-                    android:id="@+id/telefono_negocio_VerNegocioParaAgendarActivity"
+                    android:id="@+id/nombrenegocio_VerNegocioParaAgendarActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/str_telefono"
-                    android:textSize="15dp" />
-            </LinearLayout>
-
-            <include layout="@layout/linea_separador" />
+                    android:text="@string/str_minegocio"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <ImageView
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardUseCompatPadding="true">
 
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_direccion_black_24dp" />
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="2"
+                            android:rowCount="1">
 
-                <TextView
-                    android:id="@+id/direccionnegocio_VerNegocioParaAgendarActivity"
-                    android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/descripcionnegocio_VerNegocioParaAgendarActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15dp" />
+
+
+                            </LinearLayout>
+                        </GridLayout>
+
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+                <include layout="@layout/linea_separador" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/str_direccion"
-                    android:textSize="15dp" />
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_phone_black_24dp" />
 
-            <include layout="@layout/linea_separador" />
+                    <TextView
+                        android:id="@+id/telefono_negocio_VerNegocioParaAgendarActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/str_telefono"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <include layout="@layout/linea_separador" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_horario_black_24dp" />
-
-                <TextView
-                    android:id="@+id/horario_negocio_VerNegocioParaAgendarActivity"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/str_horario"
-                    android:textSize="15dp" />
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_direccion_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/direccionnegocio_VerNegocioParaAgendarActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_direccion"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+                <include layout="@layout/linea_separador" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_horario_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/horario_negocio_VerNegocioParaAgendarActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_horario"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <include layout="@layout/linea_separador" />
+
+
             </LinearLayout>
-
-            <include layout="@layout/linea_separador" />
-
-
+            </ScrollView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight=".9">
+            <Button
+                android:id="@+id/button_reservar_VerNegocioParaAgendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="reservarCita"
+                android:text="@string/str_reservar" />
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/button_reservar_VerNegocioParaAgendarActivity"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:onClick="reservarCita"
-            android:text="@string/str_reservar" />
-
     </LinearLayout>
-</ScrollView>
