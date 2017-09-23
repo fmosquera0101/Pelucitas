@@ -3,9 +3,9 @@ package co.com.fredymosqueralemus.pelucitas;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterMisEmpleados;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.EmpleadosXNegocio;
@@ -115,20 +114,50 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
                             builder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Usuario usuario = listUsuarios.get(position);
-                                    DatabaseReference databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
-                                    usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                    usuario.setNitNegocioEmpleador(miNegocio.getNitNegocio());
-                                    databaseReferenceEmpleado.setValue(usuario);
-                                    databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
-                                    EmpleadosXNegocio empleadosXNegocio = new EmpleadosXNegocio();
-                                    empleadosXNegocio.setCedulaUsuario(usuario.getCedulaIdentificacion());
-                                    empleadosXNegocio.setUidUsario(usuario.getUid());
-                                    empleadosXNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                    databaseReferenceEmpleado.push().setValue(empleadosXNegocio);
-                                    Toast.makeText(context, "Se agrego empleado a tu negocio",
-                                            Toast.LENGTH_SHORT).show();
-                                    finish();
+                                   final  Usuario usuario = listUsuarios.get(position);
+
+                                    DatabaseReference databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
+                                    databaseReferenceEmpleado.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                          boolean empleadoExisteEnNegocio = false;
+                                            for (DataSnapshot child: dataSnapshot.getChildren()) {
+                                                EmpleadosXNegocio empleadosXNegocioFromBD = (EmpleadosXNegocio) child.getValue(EmpleadosXNegocio.class);
+                                                if(usuario.getUid().equals(empleadosXNegocioFromBD.getUidUsario())){
+                                                    Toast.makeText(context, "Este emplado ya esta agregado a tu negocio, intenta con otro",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    empleadoExisteEnNegocio = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!empleadoExisteEnNegocio){
+
+                                                DatabaseReference databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(usuario.getUid()));
+                                                usuario.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                                usuario.setNitNegocioEmpleador(miNegocio.getNitNegocio());
+
+                                                databaseReferenceEmpleado.setValue(usuario);
+                                                databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
+
+                                                EmpleadosXNegocio empleadosXNegocio = new EmpleadosXNegocio();
+                                                empleadosXNegocio.setCedulaUsuario(usuario.getCedulaIdentificacion());
+                                                empleadosXNegocio.setUidUsario(usuario.getUid());
+                                                empleadosXNegocio.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+
+                                                databaseReferenceEmpleado = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
+                                                databaseReferenceEmpleado.push().setValue(empleadosXNegocio);
+                                                Toast.makeText(context, "Se agregó empleado a tu negocio",
+                                                        Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                                 }
                             });
 
