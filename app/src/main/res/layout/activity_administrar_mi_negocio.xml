@@ -21,7 +21,7 @@
             android:onClick="seleccionarImagenMiNegocio"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_add_a_photo_black_24dp" />
+             />
     </LinearLayout>
 
     <LinearLayout

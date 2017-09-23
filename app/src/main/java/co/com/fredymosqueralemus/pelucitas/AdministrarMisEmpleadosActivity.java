@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -35,15 +36,18 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
     private MiNegocio miNegocio;
     private long childrenCount = 0;
     private long cantidadChildren = 0;
+    private ImageView imvImageneAgregarEmpleado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_empleados);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        context = this;
         listView = (ListView) findViewById(R.id.listview_fragment_MisEmpleadosActivity);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_MisEmpleadosActivity);
-        context = this;
+        imvImageneAgregarEmpleado = (ImageView) findViewById(R.id.imagen_agenda_activity_administrarmiperfil);
+
         Intent intent = getIntent();
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         getEmpleadosXNegocio();

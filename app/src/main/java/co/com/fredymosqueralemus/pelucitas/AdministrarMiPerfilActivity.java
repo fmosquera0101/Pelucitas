@@ -64,9 +64,10 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         if(AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
             getSupportActionBar().setTitle("Informacion Empleado");
             usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+            layoutVeragendaEmpleadoActivityAdministrarmiperfil.setVisibility(View.GONE);
             settearInformacionUsuario();
-            linearLayoutEditarPerfilAdministrarMiPerfilActivity.setVisibility(View.GONE);
             strReadOnlyInformacionUsuario = "S";
+
         }else{
             sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
             obtenerInformacionUsuarioFromFirebase();

@@ -92,7 +92,7 @@ public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
                 Date fechahoy = new Date();
                 if (null == imagenModelo) {
                     imagenModelo = new ImagenModelo();
-                    imagenModelo.setNombreImagen("usuario" + usuario.getCedulaIdentificacion());
+                    imagenModelo.setNombreImagen(Constantes.MI_PERFIL + usuario.getCedulaIdentificacion());
                     imagenModelo.setFechaCreacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
                     imagenModelo.setFechaUltimaModificacion(UtilidadesFecha.convertirDateAString(fechahoy, Constantes.FORMAT_DDMMYYYYHHMMSS));
                 } else {

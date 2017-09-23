@@ -7,6 +7,7 @@ package co.com.fredymosqueralemus.pelucitas.constantes;
 public interface Constantes {
 
     String URL_STORAGE_FIREBASE = "gs://pelucitas-bb90f.appspot.com";
+    String MI_PERFIL = "MiPerfil";
     String USUARIO_FIREBASE_BD = "usuarios";
 
     String PELUCITAS_SETTINGS = "pelucitas_settings";

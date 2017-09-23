@@ -159,7 +159,7 @@ public class UtilidadesFirebaseBD {
     }
     public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, Usuario usuario){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.USUARIO_FIREBASE_BD).
-                child(usuario.getCedulaIdentificacion()).child("MiPerfil" + usuario.getCedulaIdentificacion());
+                child(usuario.getCedulaIdentificacion()).child(Constantes.MI_PERFIL + usuario.getCedulaIdentificacion());
     }
     public static void insertarAgendaXEmpleadoFirebaseBD(AgendaXEmpleado agendaXEmpleado){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
