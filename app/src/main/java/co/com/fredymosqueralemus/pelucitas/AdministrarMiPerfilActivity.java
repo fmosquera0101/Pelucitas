@@ -42,7 +42,6 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private LinearLayout linearLayoutOpcionesAdministrarMiPerfil;
     private LinearLayout layoutVeragendaEmpleadoActivityAdministrarmiperfil;
-    private LinearLayout linearLayoutEditarPerfilAdministrarMiPerfilActivity;
     private DatabaseReference databaseReference;
     private SharedPreferencesSeguro sharedPreferencesSeguro;
     private Usuario usuario;
@@ -64,21 +63,21 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         if(AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
             getSupportActionBar().setTitle("Informacion Empleado");
             usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
-            layoutVeragendaEmpleadoActivityAdministrarmiperfil.setVisibility(View.GONE);
-            settearInformacionUsuario();
+            obtenerInformacionUsuarioFromFirebase(usuario.getUid());
             strReadOnlyInformacionUsuario = "S";
 
         }else{
             sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-            obtenerInformacionUsuarioFromFirebase();
+            String useruid = sharedPreferencesSeguro.getString(Constantes.USERUID);
+            obtenerInformacionUsuarioFromFirebase(useruid);
             seleccionarImagenPerfil();
 
 
         }
 
     }
-    private void obtenerInformacionUsuarioFromFirebase(){
-        databaseReference.child(Constantes.USUARIO_FIREBASE_BD).child(sharedPreferencesSeguro.getString(Constantes.USERUID)).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void obtenerInformacionUsuarioFromFirebase(String useruid){
+        databaseReference.child(Constantes.USUARIO_FIREBASE_BD).child(useruid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 usuario = dataSnapshot.getValue(Usuario.class);
@@ -113,14 +112,12 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         txtvCorreoUsuario = (TextView) findViewById(R.id.correo_activity_administrarmiperfil);
         progressBar = (ProgressBar) findViewById(R.id.progressbar_activity_administrarmiperfil);
         linearLayoutOpcionesAdministrarMiPerfil = (LinearLayout) findViewById(R.id.linear_layout_opciones_administrarmiperfil_activity_administrarmiperfil);
-        linearLayoutEditarPerfilAdministrarMiPerfilActivity = (LinearLayout) findViewById(R.id.layout_editar_perfil_AdministrarMiPerfilActivity);
         layoutVeragendaEmpleadoActivityAdministrarmiperfil = (LinearLayout) findViewById(R.id.layout_veragenda_empleado_activity_administrarmiperfil);
     }
 
     private void settearViewsInfoUsuario(Usuario miUsuario) {
         txtvNombreUsuario.setText(miUsuario.getNombre() + " " + miUsuario.getApellidos());
         txtvCorreoUsuario.setText(miUsuario.getEmail());
-
     }
 
     @Override
@@ -220,9 +217,9 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     @Override
     public void  onStart(){
         super.onStart();
-        if(!AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
-            obtenerInformacionUsuarioFromFirebase();
-        }
+//        if(!AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
+//            obtenerInformacionUsuarioFromFirebase();
+//        }
     }
     public void verAgendaEmpleado(View view){
         Intent intentAgenda = new Intent(this, CalendarAgendaXEmpleadoActivity.class);
