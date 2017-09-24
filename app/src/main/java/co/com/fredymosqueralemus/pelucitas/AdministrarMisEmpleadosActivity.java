@@ -55,15 +55,17 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
 
     private void getEmpleadosXNegocio() {
         DatabaseReference databaseReferenceNegoXEmpleados = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionEmpleadosXNegocio(miNegocio.getNitNegocio()));
-        databaseReferenceNegoXEmpleados.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        databaseReferenceNegoXEmpleados.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listUsuarios = new ArrayList<Usuario>();
+                cantidadChildren = 0;
                 childrenCount = dataSnapshot.getChildrenCount();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     EmpleadosXNegocio empleadosXNegocio = child.getValue(EmpleadosXNegocio.class);
                     DatabaseReference databaseReferenceEmpleados = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(empleadosXNegocio.getUidUsario()));
-                    databaseReferenceEmpleados.addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReferenceEmpleados.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Usuario usuario = dataSnapshot.getValue(Usuario.class);
@@ -99,6 +101,11 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
 
             }
         });
+
+        seleccionarEmpleadoParaAdministrar();
+    }
+
+    private void seleccionarEmpleadoParaAdministrar(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,12 +113,10 @@ public class AdministrarMisEmpleadosActivity extends AppCompatActivity {
                 Intent intentEmpleado = new Intent(context, AdministrarMiPerfilActivity.class);
                 intentEmpleado.putExtra(Constantes.USUARIO_OBJECT, usuario);
                 intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, AdministrarMisEmpleadosActivity.class.getName());
-
                 startActivity(intentEmpleado);
             }
         });
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int item = menuItem.getItemId();
