@@ -150,6 +150,15 @@ public class UtilidadesFirebaseBD {
 
         return strbNotificaciones.toString();
     }
+
+    public static String getUrlInserccionTurnosXCliente(String userUID){
+        StringBuilder strbNotificaciones = new StringBuilder();
+        strbNotificaciones.append(Constantes.TURNOS_X_CLIENTE);
+        strbNotificaciones.append("/");
+        strbNotificaciones.append(userUID);
+
+        return strbNotificaciones.toString();
+    }
     public static StorageReference getFirebaseStorageFromUrl(){
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage.getReferenceFromUrl(Constantes.URL_STORAGE_FIREBASE);

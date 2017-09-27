@@ -71,8 +71,6 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
             String useruid = sharedPreferencesSeguro.getString(Constantes.USERUID);
             obtenerInformacionUsuarioFromFirebase(useruid);
             seleccionarImagenPerfil();
-
-
         }
 
     }
