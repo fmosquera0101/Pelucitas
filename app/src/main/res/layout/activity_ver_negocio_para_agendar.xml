@@ -71,6 +71,7 @@
                                     android:id="@+id/descripcionnegocio_VerNegocioParaAgendarActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textAlignment="textStart"
                                     android:textSize="15dp" />
 
 
@@ -86,6 +87,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/cardview_shadow_end_color"
                     android:orientation="horizontal"
                     android:padding="16dp">
 
@@ -133,6 +135,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/cardview_shadow_end_color"
                     android:orientation="horizontal"
                     android:padding="16dp">
 
