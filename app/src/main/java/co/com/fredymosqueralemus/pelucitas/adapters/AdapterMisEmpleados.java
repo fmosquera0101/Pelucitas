@@ -14,6 +14,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
@@ -57,11 +58,11 @@ public class AdapterMisEmpleados extends ArrayAdapter<Usuario> {
             itemHolderMisEmpleados = (ItemHolderMisEmpleados) view.getTag();
         }
         Usuario empleado = listEmpleados.get(position);
-
+        ImagenModelo imagenModelo = empleado.getImagenModelo();
         itemHolderMisEmpleados.txtvNombreEmpleado.setText(empleado.getNombre());
         itemHolderMisEmpleados.txtvTelefono.setText(empleado.getTelefono());
         itemHolderMisEmpleados.txtvEmail.setText(empleado.getEmail());
-        UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderMisEmpleados.imageView, empleado, context, storageReference);
+        UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderMisEmpleados.imageView, imagenModelo.getFechaUltimaModificacion(), empleado.getCedulaIdentificacion(), context, storageReference);
         return  view;
     }
 

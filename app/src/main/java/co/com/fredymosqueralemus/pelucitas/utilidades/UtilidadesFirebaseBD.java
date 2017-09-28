@@ -9,7 +9,6 @@ import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.settings.TiposDeNegocio;
-import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 
 /**
  * Created by Fredy Mosquera Lemus on 4/02/17.
@@ -166,9 +165,9 @@ public class UtilidadesFirebaseBD {
     public static StorageReference getReferenceImagenMiNegocio(StorageReference storageReference, MiNegocio miNegocio){
         return storageReference.child(Constantes.CONST_IMAGENES).child("negocios").child(miNegocio.getNitNegocio()).child("Minegocio" + miNegocio.getNitNegocio());
     }
-    public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, Usuario usuario){
+    public static StorageReference getReferenceImagenMiPerfil(StorageReference storageReference, String cedulaIdentificacionUsuario){
         return storageReference.child(Constantes.CONST_IMAGENES).child(Constantes.USUARIO_FIREBASE_BD).
-                child(usuario.getCedulaIdentificacion()).child(Constantes.MI_PERFIL + usuario.getCedulaIdentificacion());
+                child(cedulaIdentificacionUsuario).child(Constantes.MI_PERFIL + cedulaIdentificacionUsuario);
     }
     public static void insertarAgendaXEmpleadoFirebaseBD(AgendaXEmpleado agendaXEmpleado){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(getUrlInsercionAgendaXEmpleado(agendaXEmpleado));

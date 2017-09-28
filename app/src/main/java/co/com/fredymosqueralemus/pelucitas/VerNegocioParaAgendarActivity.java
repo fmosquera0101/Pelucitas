@@ -64,7 +64,7 @@ public class VerNegocioParaAgendarActivity extends AppCompatActivity {
         textvDescripcionNegocio.setText(miNegocio.getDescripcionNegocio());
 
     }
-    private void settearInfoDireccionFromFB(MiNegocio miNegocio){
+    private void settearInfoDireccionFromFB(final MiNegocio miNegocio){
         Direccion direccion = miNegocio.getDireccion();
         if(null == direccion){
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionDireccionesXNegocio(miNegocio.getNitNegocio()));
@@ -73,6 +73,7 @@ public class VerNegocioParaAgendarActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Direccion direccion = dataSnapshot.getValue(Direccion.class);
                     textvDireccion.setText(Utilidades.getStrDireccion(direccion)+", "+direccion.getDatosAdicionales());
+                    miNegocio.setDireccion(direccion);
                 }
 
                 @Override

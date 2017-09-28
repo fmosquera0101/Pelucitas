@@ -73,8 +73,7 @@ public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
 
         mBuilder.setProgress(0, 0, true);
         notificationManager.notify(id, mBuilder.build());
-
-        final UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario).putBytes(dataImage);
+        final UploadTask uploadTask = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario.getCedulaIdentificacion()).putBytes(dataImage);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

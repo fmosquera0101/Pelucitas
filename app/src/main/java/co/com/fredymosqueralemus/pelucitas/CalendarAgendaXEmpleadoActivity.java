@@ -39,9 +39,11 @@ import co.com.fredymosqueralemus.pelucitas.adapters.AdapterAgendaXDia;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.TurnosXCliente;
+import co.com.fredymosqueralemus.pelucitas.modelo.minegocio.MiNegocio;
 import co.com.fredymosqueralemus.pelucitas.modelo.reserva.NotificacionReservaXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.services.NotificadorReservaAgendaService;
+import co.com.fredymosqueralemus.pelucitas.utilidades.Utilidades;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -61,6 +63,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
     private long cantidadChildren = 0;
     private FirebaseAuth firebaseAuth;
     private String strFechaAgenda;
+    private MiNegocio miNegocio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         intent = getIntent();
         context = this;
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
+        miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
         CalendarView calendarViewAgenda = (CalendarView) findViewById(R.id.calendar_agenda_CalendarAgendaXEmpleadoActivity);
         calendar = Calendar.getInstance();
 
@@ -227,11 +231,13 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                                     TurnosXCliente turnosXCliente = new TurnosXCliente();
                                     turnosXCliente.setNombreEmpleado(empleado.getNombre());
                                     turnosXCliente.setUidEmpleado(empleado.getUid());
+                                    turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda());
                                     turnosXCliente.setHoraTurno(agendaReserva.getHoraReserva());
 
-                                    turnosXCliente.setNombreNegocio("");
-                                    turnosXCliente.setDireccionNegocio("");
-                                    turnosXCliente.setTelefonoNegocio("");
+                                    turnosXCliente.setNombreNegocio(miNegocio.getNombreNegocio());
+                                    turnosXCliente.setDireccionNegocio(Utilidades.getStrDireccion(miNegocio.getDireccion()) + ", " + miNegocio.getDireccion().getDatosAdicionales());
+                                    turnosXCliente.setTelefonoNegocioEmpleado(miNegocio.getTelefonoNegocio());
+
                                     DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
                                     databaseReferenceInsertarTurno.push().setValue(turnosXCliente);
 

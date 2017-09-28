@@ -12,17 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
+import co.com.fredymosqueralemus.pelucitas.imagenes.ImagenModelo;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.AgendaXEmpleado;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
@@ -67,7 +63,10 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
         if (Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
             if(agendaXEmpleado.isPuedeVerimagenReservaAgenda()) {
                 StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
-                UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imvIconAgendaXdia, agendaXEmpleado.getUsuario(), context, storageReference);
+                Usuario usuario = agendaXEmpleado.getUsuario();
+                String cedulaIdentificcacoin =usuario.getCedulaIdentificacion();
+                ImagenModelo imagenModelo = usuario.getImagenModelo();
+                UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imvIconAgendaXdia, imagenModelo.getFechaUltimaModificacion(), cedulaIdentificcacoin, context, storageReference);
             }else{
                 itemHolderAgendaXEmpleado.imvIconAgendaXdia.setImageResource(R.drawable.ic_event_available_black_24dp);
             }

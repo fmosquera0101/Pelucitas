@@ -10,9 +10,12 @@ public class TurnosXCliente implements Serializable{
     private String nombreNegocio;
     private String nombreEmpleado;
     private String uidEmpleado;
+    private String fechaTurno;
     private String horaTurno;
     private String direccionNegocio;
-    private String telefonoNegocio;
+    private String telefonoNegocioEmpleado;
+    private String snTurnoCancelado;
+    private String snEjecutado;
 
     public String getNombreNegocio() {
         return nombreNegocio;
@@ -38,6 +41,14 @@ public class TurnosXCliente implements Serializable{
         this.uidEmpleado = uidEmpleado;
     }
 
+    public String getFechaTurno() {
+        return fechaTurno;
+    }
+
+    public void setFechaTurno(String fechaTurno) {
+        this.fechaTurno = fechaTurno;
+    }
+
     public String getHoraTurno() {
         return horaTurno;
     }
@@ -54,11 +65,27 @@ public class TurnosXCliente implements Serializable{
         this.direccionNegocio = direccionNegocio;
     }
 
-    public String getTelefonoNegocio() {
-        return telefonoNegocio;
+    public String getTelefonoNegocioEmpleado() {
+        return telefonoNegocioEmpleado;
     }
 
-    public void setTelefonoNegocio(String telefonoNegocio) {
-        this.telefonoNegocio = telefonoNegocio;
+    public void setTelefonoNegocioEmpleado(String telefonoNegocioEmpleado) {
+        this.telefonoNegocioEmpleado = telefonoNegocioEmpleado;
+    }
+
+    public String getSnTurnoCancelado() {
+        return snTurnoCancelado;
+    }
+
+    public void setSnTurnoCancelado(String snTurnoCancelado) {
+        this.snTurnoCancelado = snTurnoCancelado;
+    }
+
+    public String getSnEjecutado() {
+        return snEjecutado;
+    }
+
+    public void setSnEjecutado(String snEjecutado) {
+        this.snEjecutado = snEjecutado;
     }
 }

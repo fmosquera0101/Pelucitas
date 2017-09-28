@@ -195,6 +195,8 @@ public class VerListaEmpleadosParaReservarActivity extends AppCompatActivity {
                 Usuario usuario = listUsuarios.get(position);
                 Intent intentEmpleado = new Intent(context, CalendarAgendaXEmpleadoActivity.class);
                 intentEmpleado.putExtra(Constantes.USUARIO_OBJECT, usuario);
+                intentEmpleado.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
+
                 intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS, AdministrarMisEmpleadosActivity.class.getName());
                 intentEmpleado.putExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR, VerListaEmpleadosParaReservarActivity.class.getName());
 

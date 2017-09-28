@@ -122,7 +122,7 @@ public class BuscarEmpleadoActivity extends AppCompatActivity {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                           boolean empleadoExisteEnNegocio = false;
                                             for (DataSnapshot child: dataSnapshot.getChildren()) {
-                                                EmpleadosXNegocio empleadosXNegocioFromBD = (EmpleadosXNegocio) child.getValue(EmpleadosXNegocio.class);
+                                                EmpleadosXNegocio empleadosXNegocioFromBD = child.getValue(EmpleadosXNegocio.class);
                                                 if(usuario.getUid().equals(empleadosXNegocioFromBD.getUidUsario())){
                                                     Toast.makeText(context, "Este emplado ya esta agregado a tu negocio, intenta con otro",
                                                             Toast.LENGTH_SHORT).show();

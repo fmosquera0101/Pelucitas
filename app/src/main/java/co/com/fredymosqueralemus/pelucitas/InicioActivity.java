@@ -162,7 +162,7 @@ public class InicioActivity extends AppCompatActivity {
                     Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    mFragment = new AgendaRerservasClienteFragment();
+                    mFragment = new TurnosXClienteFragment();
                     getSupportActionBar().setTitle(getString(R.string.str_turnos));
                 }
                 break;
