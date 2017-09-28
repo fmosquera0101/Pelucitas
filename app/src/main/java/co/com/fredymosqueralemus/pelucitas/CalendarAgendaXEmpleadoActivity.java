@@ -233,7 +233,8 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                                     turnosXCliente.setUidEmpleado(empleado.getUid());
                                     turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda());
                                     turnosXCliente.setHoraTurno(agendaReserva.getHoraReserva());
-
+                                    turnosXCliente.setSnEjecutado("N");
+                                    turnosXCliente.setSnTurnoCancelado("N");
                                     turnosXCliente.setNombreNegocio(miNegocio.getNombreNegocio());
                                     turnosXCliente.setDireccionNegocio(Utilidades.getStrDireccion(miNegocio.getDireccion()) + ", " + miNegocio.getDireccion().getDatosAdicionales());
                                     turnosXCliente.setTelefonoNegocioEmpleado(miNegocio.getTelefonoNegocio());
