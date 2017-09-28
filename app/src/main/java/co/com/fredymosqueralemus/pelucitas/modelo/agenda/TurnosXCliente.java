@@ -10,6 +10,8 @@ public class TurnosXCliente implements Serializable{
     private String nombreNegocio;
     private String nombreEmpleado;
     private String uidEmpleado;
+    private String fechaActualizacionImagenUsuario;
+    private String cedulaIdentificacionEmpleado;
     private String fechaTurno;
     private String horaTurno;
     private String direccionNegocio;
@@ -39,6 +41,22 @@ public class TurnosXCliente implements Serializable{
 
     public void setUidEmpleado(String uidEmpleado) {
         this.uidEmpleado = uidEmpleado;
+    }
+
+    public String getFechaActualizacionImagenUsuario() {
+        return fechaActualizacionImagenUsuario;
+    }
+
+    public void setFechaActualizacionImagenUsuario(String fechaActualizacionImagenUsuario) {
+        this.fechaActualizacionImagenUsuario = fechaActualizacionImagenUsuario;
+    }
+
+    public String getCedulaIdentificacionEmpleado() {
+        return cedulaIdentificacionEmpleado;
+    }
+
+    public void setCedulaIdentificacionEmpleado(String cedulaIdentificacionEmpleado) {
+        this.cedulaIdentificacionEmpleado = cedulaIdentificacionEmpleado;
     }
 
     public String getFechaTurno() {

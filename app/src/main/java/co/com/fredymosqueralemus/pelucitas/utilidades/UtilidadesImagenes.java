@@ -29,16 +29,16 @@ import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
 public class UtilidadesImagenes {
 
     public static void cargarImagenMiNegocioNoCircular(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
-        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+        StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
         ImagenModelo imagenModelo = miNegocio.getImagenModelo();
         if(null != imagenModelo) {
-            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
+            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo.getFechaUltimaModificacion(), imageView);
         }
 
     }
 
     public static void cargarImagenMiNegocioCircular(final ImageView imageView, MiNegocio miNegocio, final Context context, StorageReference storageReference) {
-        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
+        StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiNegocio(storageReference, miNegocio);
         ImagenModelo imagenModelo = miNegocio.getImagenModelo();
         if(null != imagenModelo) {
             cargarImagenConGlideCircular(context, storageReferenceImagenes, imagenModelo.getFechaUltimaModificacion(), imageView);
@@ -46,17 +46,15 @@ public class UtilidadesImagenes {
 
     }
 
-    public static void cargarImagenPerfilUsuario(ImageView imageView, Usuario usuario, Context context, StorageReference storageReference) {
-        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, usuario.getCedulaIdentificacion());
-        ImagenModelo imagenModelo = usuario.getImagenModelo();
-        if(null != imagenModelo) {
-            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
-        }
+    public static void cargarImagenPerfilUsuario(ImageView imageView, String fechaUltimaModificacion, String cedulaIdentificacion, Context context, StorageReference storageReference) {
+        StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, cedulaIdentificacion);
+        cargarImagenConGlideNoCircular(context, storageReferenceImagenes, fechaUltimaModificacion, imageView);
+
 
     }
 
     public static void cargarImagenPerfilUsuarioCircular(ImageView imageView, String fechaActualizacionImagen,String cedulaIdentificacion, Context context, StorageReference storageReference) {
-        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, cedulaIdentificacion);
+         StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenMiPerfil(storageReference, cedulaIdentificacion);
 
 
             cargarImagenConGlideCircular(context, storageReferenceImagenes, fechaActualizacionImagen, imageView);
@@ -64,10 +62,10 @@ public class UtilidadesImagenes {
 
     }
     public static void cargarImagenTiposNegocios(ImageView imageView, TiposDeNegocio tiposDeNegocio, Context context, StorageReference storageReference){
-        final StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenTiposNegocios(storageReference, tiposDeNegocio);
+         StorageReference storageReferenceImagenes = UtilidadesFirebaseBD.getReferenceImagenTiposNegocios(storageReference, tiposDeNegocio);
         ImagenModelo imagenModelo = tiposDeNegocio.getImagenModelo();
         if(null != imagenModelo) {
-            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo, imageView);
+            cargarImagenConGlideNoCircular(context, storageReferenceImagenes, imagenModelo.getFechaUltimaModificacion(), imageView);
         }
     }
     private static void cargarImagenConGlideCircular(final Context context, StorageReference storageReferenceImagenes, String fechaActualizacionImagen, final ImageView imageView){
@@ -83,9 +81,9 @@ public class UtilidadesImagenes {
                 });
     }
 
-    private static void cargarImagenConGlideNoCircular(final Context context, StorageReference storageReferenceImagenes, ImagenModelo imagenModelo, final ImageView imageView){
+    private static void cargarImagenConGlideNoCircular(final Context context, StorageReference storageReferenceImagenes, String fechaUltimaModificacion, final ImageView imageView){
         Glide.with(context).using(new FirebaseImageLoader()).load(storageReferenceImagenes).asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(imagenModelo.getFechaUltimaModificacion()))).
+                .diskCacheStrategy(DiskCacheStrategy.RESULT).signature(new StringSignature(String.valueOf(fechaUltimaModificacion))).
                 into(imageView);
     }
 

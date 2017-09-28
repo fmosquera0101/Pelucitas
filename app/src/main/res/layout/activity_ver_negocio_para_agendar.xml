@@ -160,13 +160,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight=".9">
+            android:layout_weight=".88">
+
             <Button
                 android:id="@+id/button_reservar_VerNegocioParaAgendarActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"
                 android:onClick="reservarCita"
-                android:text="@string/str_reservar" />
+                android:text="@string/str_reservar"
+                android:textColor="@color/cast_expanded_controller_text_color" />
         </LinearLayout>
 
 

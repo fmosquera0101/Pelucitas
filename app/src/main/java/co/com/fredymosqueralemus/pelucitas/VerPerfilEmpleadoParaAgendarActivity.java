@@ -29,7 +29,7 @@ public class VerPerfilEmpleadoParaAgendarActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
-        UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilEmpleado, usuario, this, UtilidadesFirebaseBD.getFirebaseStorageFromUrl());
+        UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilEmpleado, usuario.getImagenModelo().getFechaUltimaModificacion(), usuario.getCedulaIdentificacion(), this, UtilidadesFirebaseBD.getFirebaseStorageFromUrl());
         txtvNombreEmpleado.setText(usuario.getNombre());
         txtvTelefonoEmpleado.setText(usuario.getTelefono());
         txtvCorreoEmpleado.setText(usuario.getEmail());

@@ -110,7 +110,7 @@ public class TaskCargarImagenMiPerfil extends AsyncTask<Void, Void, Void> {
                 notificationManager.notify(id, mBuilder.build());
 
                 try {
-                    UtilidadesImagenes.cargarImagenPerfilUsuario(imageView, usuario, context, storageReference);
+                    UtilidadesImagenes.cargarImagenPerfilUsuario(imageView, usuario.getImagenModelo().getFechaUltimaModificacion(), usuario.getCedulaIdentificacion(), context, storageReference);
                 } catch (Exception e) {
 
                 }

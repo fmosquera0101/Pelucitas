@@ -155,5 +155,6 @@
     <string name="str_configurar_agenda">Configurar Agenda</string>
     <string name="str_turnos">Turnos</string>
     <string name="title_menu_turnos">Turnos</string>
+    <string name="str_cancelarturno">Cancelar Turno</string>
 
 </resources>

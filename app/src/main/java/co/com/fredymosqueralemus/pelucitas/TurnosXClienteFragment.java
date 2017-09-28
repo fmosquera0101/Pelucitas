@@ -1,11 +1,13 @@
 package co.com.fredymosqueralemus.pelucitas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterTurnosXCliente;
+import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.TurnosXCliente;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -76,6 +79,16 @@ public class TurnosXClienteFragment extends Fragment {
 
             }
         });
+        listViewProximosTurnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, TurnosActivity.class);
+                TurnosXCliente turnosXCliente = lstTurnosxClienteProximos.get(position);
+                intent.putExtra(Constantes.TURNOSXCLIENTE_OBJ, turnosXCliente);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 

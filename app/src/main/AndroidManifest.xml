@@ -81,7 +81,9 @@
 
         <service
             android:name=".services.NotificadorReservaAgendaService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".TurnosActivity"></activity>
     </application>
 
 </manifest>

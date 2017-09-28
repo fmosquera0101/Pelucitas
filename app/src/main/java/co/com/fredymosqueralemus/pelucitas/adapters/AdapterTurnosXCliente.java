@@ -18,6 +18,7 @@ import java.util.List;
 import co.com.fredymosqueralemus.pelucitas.R;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.TurnosXCliente;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesImagenes;
 
 /**
  * Created by fredymosqueralemus on 29/06/17.
@@ -59,7 +60,7 @@ public class AdapterTurnosXCliente extends ArrayAdapter<TurnosXCliente> {
             itemHolderAgendaXEmpleado = (ItemHolderTurnosXCliente) view.getTag();
         }
         TurnosXCliente turnosXCliente = lstTurnosXCliente.get(position);
-       // UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderMisEmpleados.imageView, imagenModelo.getFechaUltimaModificacion(), empleado.getCedulaIdentificacion(), context, storageReference);
+        UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imgvImagenEmpleado, turnosXCliente.getFechaActualizacionImagenUsuario(), turnosXCliente.getCedulaIdentificacionEmpleado(), context, storageReference);
 
         itemHolderAgendaXEmpleado.txtvNombreNegocio.setText(turnosXCliente.getNombreNegocio());
         itemHolderAgendaXEmpleado.txtvNombreEmpleado.setText(turnosXCliente.getNombreEmpleado());

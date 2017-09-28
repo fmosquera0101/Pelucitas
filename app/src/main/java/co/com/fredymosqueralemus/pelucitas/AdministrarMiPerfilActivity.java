@@ -99,7 +99,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     private void settearInformacionUsuario(){
 
         settearViewsInfoUsuario(usuario);
-        UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilUsuario, usuario, context, storageReference);
+        UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenPerfilUsuario, usuario.getImagenModelo().getFechaUltimaModificacion(),  usuario.getCedulaIdentificacion(), context, storageReference);
         progressBar.setVisibility(View.GONE);
         linearLayoutOpcionesAdministrarMiPerfil.setVisibility(View.VISIBLE);
     }

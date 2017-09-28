@@ -16,12 +16,12 @@
             android:layout_height="wrap_content"
             android:rowCount="1"
             android:columnCount="2">
+
             <ImageView
                 android:id="@+id/imagen_empleado_layout_turnosxcliente"
-                android:layout_width="70dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp"
-                />
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_add_a_photo_black_24dp" />
 
             <GridLayout
                 android:layout_width="wrap_content"
