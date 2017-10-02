@@ -28,6 +28,7 @@ public class TurnosActivity extends AppCompatActivity {
     private TextView txtNombreEmpleado;
     private TextView txtTelefonoEmpleado;
     private TextView txtDireccionEmpleado;
+    private TextView txtFechaTurno;
     private StorageReference storageReference;
     private Context context;
     @Override
@@ -39,6 +40,7 @@ public class TurnosActivity extends AppCompatActivity {
         txtNombreEmpleado = (TextView) findViewById(R.id.nombreempleado_TurnosActivity);
         txtTelefonoEmpleado = (TextView) findViewById(R.id.telefono_empleado_TurnosActivity);
         txtDireccionEmpleado = (TextView) findViewById(R.id.direccion_empleado_TurnosActivity);
+        txtFechaTurno = (TextView) findViewById(R.id.fechaturno_empleado_TurnosActivity);
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         Intent intent = getIntent();
         context = this;
@@ -51,6 +53,7 @@ public class TurnosActivity extends AppCompatActivity {
                 txtNombreEmpleado.setText(usuario.getNombre() +" "+usuario.getApellidos());
                 txtTelefonoEmpleado.setText(usuario.getTelefono());
                 txtDireccionEmpleado.setText(Utilidades.getStrDireccion(usuario.getDireccion()) + " "+ usuario.getDireccion().getDatosAdicionales());
+                txtFechaTurno.setText(context.getString(R.string.str_fechaturno)+": "+turnosXCliente.getFechaTurno());
                 UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenEmpleado, turnosXCliente.getFechaActualizacionImagenUsuario(), turnosXCliente.getCedulaIdentificacionEmpleado(), context, storageReference);
 
             }

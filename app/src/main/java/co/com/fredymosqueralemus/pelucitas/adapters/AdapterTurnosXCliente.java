@@ -51,7 +51,7 @@ public class AdapterTurnosXCliente extends ArrayAdapter<TurnosXCliente> {
             view = layoutInflater.inflate(idLayout, parent, false);
             itemHolderAgendaXEmpleado = new ItemHolderTurnosXCliente();
             itemHolderAgendaXEmpleado.imgvImagenEmpleado = (ImageView) view.findViewById(R.id.imagen_empleado_layout_turnosxcliente);
-            itemHolderAgendaXEmpleado.txtvNombreNegocio = (TextView) view.findViewById(R.id.nombre_negocio_layout_turnosxcliente);
+            itemHolderAgendaXEmpleado.txtvFechaTurno = (TextView) view.findViewById(R.id.fechaturno_negocio_layout_turnosxcliente);
             itemHolderAgendaXEmpleado.txtvNombreEmpleado = (TextView) view.findViewById(R.id.nombre_empleado_layout_listview_misnegocios);
             itemHolderAgendaXEmpleado.txtvTelefonoEmpleado = (TextView) view.findViewById(R.id.telefono_empleado_layout_listview_misnegocios);
             itemHolderAgendaXEmpleado.txtvDirecionNegocio = (TextView) view.findViewById(R.id.direccion_negocio_layout_turnosxcliente);
@@ -61,8 +61,7 @@ public class AdapterTurnosXCliente extends ArrayAdapter<TurnosXCliente> {
         }
         TurnosXCliente turnosXCliente = lstTurnosXCliente.get(position);
         UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imgvImagenEmpleado, turnosXCliente.getFechaActualizacionImagenUsuario(), turnosXCliente.getCedulaIdentificacionEmpleado(), context, storageReference);
-
-        itemHolderAgendaXEmpleado.txtvNombreNegocio.setText(turnosXCliente.getNombreNegocio());
+        itemHolderAgendaXEmpleado.txtvFechaTurno.setText(context.getString(R.string.str_fechaturno)+": "+turnosXCliente.getFechaTurno());
         itemHolderAgendaXEmpleado.txtvNombreEmpleado.setText(turnosXCliente.getNombreEmpleado());
         itemHolderAgendaXEmpleado.txtvTelefonoEmpleado.setText(turnosXCliente.getTelefonoNegocioEmpleado());
         itemHolderAgendaXEmpleado.txtvDirecionNegocio.setText(turnosXCliente.getDireccionNegocio());
@@ -72,7 +71,7 @@ public class AdapterTurnosXCliente extends ArrayAdapter<TurnosXCliente> {
 
     private class ItemHolderTurnosXCliente {
         ImageView imgvImagenEmpleado;
-        TextView txtvNombreNegocio;
+        TextView txtvFechaTurno;
         TextView txtvNombreEmpleado;
         TextView txtvTelefonoEmpleado;
         TextView txtvDirecionNegocio;

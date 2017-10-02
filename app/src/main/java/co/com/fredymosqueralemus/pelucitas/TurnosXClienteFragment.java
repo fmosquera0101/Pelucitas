@@ -18,11 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterTurnosXCliente;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.TurnosXCliente;
+import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 
@@ -61,7 +63,10 @@ public class TurnosXClienteFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     TurnosXCliente turnosxCliente = child.getValue(TurnosXCliente.class);
-                    if("S".equals(turnosxCliente.getSnEjecutado())){
+                    Date fechahoy = UtilidadesFecha.formatearDate(new Date(), "yyyy/MM/dd HH:mm");
+                    Date fechaTurno = UtilidadesFecha.convertirStringADate(turnosxCliente.getFechaTurno()+" "+ turnosxCliente.getHoraTurno(), "yyyy/MM/dd HH:mm");
+
+                    if("S".equals(turnosxCliente.getSnEjecutado()) || fechaTurno.before(fechahoy)){
                         lstTurnosxClientePasados.add(turnosxCliente);
                     }else{
                         lstTurnosxClienteProximos.add(turnosxCliente);

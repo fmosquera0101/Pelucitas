@@ -30,11 +30,11 @@
                 android:columnCount="1"
                 android:layout_marginLeft="10dp">
                 <TextView
-                    android:id="@+id/nombre_negocio_layout_turnosxcliente"
+                    android:id="@+id/fechaturno_negocio_layout_turnosxcliente"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
-                    android:text="@string/str_nombre"
+                    android:text="@string/str_fechaturno"
                     />
                 <TextView
                     android:id="@+id/nombre_empleado_layout_listview_misnegocios"
