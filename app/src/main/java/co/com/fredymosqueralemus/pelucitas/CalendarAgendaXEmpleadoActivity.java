@@ -228,23 +228,36 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
                                     getAgendaXEmpleadoParaReservar(agendaReserva.getFechaAgenda());
 
+
+
+                                    DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
+                                    String pushKeyTurnosXCliente = databaseReferenceInsertarTurno.push().getKey();
+
                                     TurnosXCliente turnosXCliente = new TurnosXCliente();
                                     turnosXCliente.setNombreEmpleado(empleado.getNombre()+ " " +empleado.getApellidos());
                                     turnosXCliente.setUidEmpleado(empleado.getUid());
                                     turnosXCliente.setFechaActualizacionImagenUsuario(empleado.getImagenModelo().getFechaUltimaModificacion());
                                     turnosXCliente.setCedulaIdentificacionEmpleado(empleado.getCedulaIdentificacion());
-                                    turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda());
+                                    turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda()+" "+agendaReserva.getHoraReserva());
                                     turnosXCliente.setHoraTurno(agendaReserva.getHoraReserva());
                                     turnosXCliente.setSnEjecutado("N");
                                     turnosXCliente.setSnTurnoCancelado("N");
                                     turnosXCliente.setNombreNegocio(miNegocio.getNombreNegocio());
                                     turnosXCliente.setDireccionNegocio(Utilidades.getStrDireccion(miNegocio.getDireccion()) + ", " + miNegocio.getDireccion().getDatosAdicionales());
                                     turnosXCliente.setTelefonoNegocioEmpleado(miNegocio.getTelefonoNegocio());
+                                    turnosXCliente.setPushKey(pushKeyTurnosXCliente);
+                                    Map<String, Object> mapTurnosXCliente = turnosXCliente.toMap();
+                                    Map<String, Object> childActuaTurnosXcliente = new  HashMap<String, Object>();
+                                    childActuaTurnosXcliente.put(pushKeyTurnosXCliente, mapTurnosXCliente);
+                                    databaseReferenceInsertarTurno.setPriority(ServerValue.TIMESTAMP);
+                                    databaseReferenceInsertarTurno.updateChildren(childActuaTurnosXcliente, new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                            if (null == databaseError) {
 
-                                    DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
-                                    databaseReferenceInsertarTurno.push().setValue(turnosXCliente);
-
-
+                                            }
+                                        }
+                                    });
 
 
                                     DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));

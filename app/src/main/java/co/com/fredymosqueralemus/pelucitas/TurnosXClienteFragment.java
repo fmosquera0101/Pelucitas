@@ -58,8 +58,7 @@ public class TurnosXClienteFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_agenda_rerservas_cliente, container, false);
         context = getContext();
         firebaseAuth = FirebaseAuth.getInstance();
-        lstTurnosxClienteProximos = new ArrayList<TurnosXCliente>();
-        lstTurnosxClienteVencidos = new ArrayList<TurnosXCliente>();
+
         listViewProximosTurnos = (ListView) view.findViewById(R.id.listView_proximosTurnos_AgendaRerservasClienteFragment);
         listViewTurnosPasados = (ListView) view.findViewById(R.id.listView_TurnosPasados_AgendaRerservasClienteFragment);
 
@@ -67,10 +66,12 @@ public class TurnosXClienteFragment extends Fragment {
         databaseReferenceTurnoxCliente.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                lstTurnosxClienteProximos = new ArrayList<TurnosXCliente>();
+                lstTurnosxClienteVencidos = new ArrayList<TurnosXCliente>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     TurnosXCliente turnosxCliente = child.getValue(TurnosXCliente.class);
                     Date fechahoy = UtilidadesFecha.formatearDate(new Date(), "yyyy/MM/dd HH:mm");
-                    Date fechaTurno = UtilidadesFecha.convertirStringADate(turnosxCliente.getFechaTurno()+" "+ turnosxCliente.getHoraTurno(), "yyyy/MM/dd HH:mm");
+                    Date fechaTurno = UtilidadesFecha.convertirStringADate(turnosxCliente.getFechaTurno(), "yyyy/MM/dd HH:mm");
 
                     if("S".equals(turnosxCliente.getSnEjecutado()) || fechaTurno.before(fechahoy)){
                         lstTurnosxClienteVencidos.add(turnosxCliente);
@@ -99,6 +100,36 @@ public class TurnosXClienteFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        listViewTurnosPasados.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final int posicion = position;
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("¿Desea eliminar este turno?");
+                builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TurnosXCliente turnosXClienteVencido = lstTurnosxClienteVencidos.get(posicion);
+                        DatabaseReference databaseReferenceTurnoxCliente = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
+                        databaseReferenceTurnoxCliente.child(turnosXClienteVencido.getPushKey()).setValue(null);
+                        lstTurnosxClienteVencidos.remove(posicion);
+                    }
+                });
+
+                builder.setNegativeButton(getString(R.string.str_cancelar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                return false;
+            }
+        });
+
+
 
         return view;
     }
@@ -112,7 +143,7 @@ public class TurnosXClienteFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menuitem_eliminar_proximos_turnos:
+            case R.id.menuitem_cancelar_proximos_turnos:
                 break;
             case R.id.menuitem_eliminar_turnos_vencidos:
                 eliminarTurnosVencidos();
@@ -129,8 +160,9 @@ public class TurnosXClienteFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference databaseReferenceTurnoxCliente = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
                 for (TurnosXCliente turnosXClientesVencidos:lstTurnosxClienteVencidos) {
-
+                    databaseReferenceTurnoxCliente.child(turnosXClientesVencidos.getPushKey()).setValue(null);
                 }
+                lstTurnosxClienteVencidos.clear();
             }
         });
 

@@ -1,6 +1,8 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.agenda;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by fredymosqueralemus on 14/09/17.
@@ -18,6 +20,7 @@ public class TurnosXCliente implements Serializable{
     private String telefonoNegocioEmpleado;
     private String snTurnoCancelado;
     private String snEjecutado;
+    private String pushKey;
 
     public String getNombreNegocio() {
         return nombreNegocio;
@@ -105,5 +108,32 @@ public class TurnosXCliente implements Serializable{
 
     public void setSnEjecutado(String snEjecutado) {
         this.snEjecutado = snEjecutado;
+    }
+
+    public String getPushKey() {
+        return pushKey;
+    }
+
+    public void setPushKey(String pushKey) {
+        this.pushKey = pushKey;
+    }
+
+    public Map<String, Object> toMap(){
+
+       Map<String, Object> mapTurnosXCliente = new HashMap<String, Object>();
+        mapTurnosXCliente.put("nombreNegocio", nombreNegocio);
+        mapTurnosXCliente.put("nombreEmpleado", nombreEmpleado);
+        mapTurnosXCliente.put("uidEmpleado", uidEmpleado);
+        mapTurnosXCliente.put("fechaActualizacionImagenUsuario", fechaActualizacionImagenUsuario);
+        mapTurnosXCliente.put("cedulaIdentificacionEmpleado", cedulaIdentificacionEmpleado);
+        mapTurnosXCliente.put("fechaTurno", fechaTurno);
+        mapTurnosXCliente.put("horaTurno", horaTurno);
+        mapTurnosXCliente.put("direccionNegocio", direccionNegocio);
+        mapTurnosXCliente.put("telefonoNegocioEmpleado", telefonoNegocioEmpleado);
+        mapTurnosXCliente.put("snTurnoCancelado", snTurnoCancelado);
+        mapTurnosXCliente.put("snEjecutado", snEjecutado);
+        mapTurnosXCliente.put("pushKey", pushKey);
+
+        return  mapTurnosXCliente;
     }
 }

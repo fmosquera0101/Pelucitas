@@ -118,7 +118,8 @@
             android:layout_height="match_parent"
             android:background="?attr/colorPrimaryDark"
             android:text="@string/str_cancelarturno"
-            android:textColor="@color/cast_expanded_controller_text_color" />
+            android:textColor="@color/cast_expanded_controller_text_color"
+            android:onClick="cancelarTurno"/>
     </LinearLayout>
 
 </LinearLayout>
