@@ -157,5 +157,7 @@
     <string name="title_menu_turnos">Turnos</string>
     <string name="str_cancelarturno">Cancelar Turno</string>
     <string name="str_fechaturno">Fecha Turno</string>
+    <string name="title_menu_eliminar_turnos_vencidos">Eliminar Turnos Vencidos</string>
+    <string name="title_menu_eliminar_proximos_turnos">Eliminar proximos Turnos</string>
 
 </resources>

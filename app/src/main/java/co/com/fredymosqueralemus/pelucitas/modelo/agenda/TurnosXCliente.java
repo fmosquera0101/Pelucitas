@@ -1,9 +1,6 @@
 package co.com.fredymosqueralemus.pelucitas.modelo.agenda;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 
 /**
  * Created by fredymosqueralemus on 14/09/17.
@@ -63,8 +60,7 @@ public class TurnosXCliente implements Serializable{
     }
 
     public String getFechaTurno() {
-        Date dtFechaTurno = UtilidadesFecha.convertirStringADate(fechaTurno+" "+ getHoraTurno(), "yyyy/MM/dd HH:mm");
-        return UtilidadesFecha.convertirDateAString(dtFechaTurno, "dd/MM/yyyy HH:mm");
+        return fechaTurno;
     }
 
     public void setFechaTurno(String fechaTurno) {

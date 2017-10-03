@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuitem_eliminar_proximos_turnos"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_menu_eliminar_proximos_turnos"
+        >
+    </item>
+    <item
+        android:id="@+id/menuitem_eliminar_turnos_vencidos"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_menu_eliminar_turnos_vencidos"
+        >
+    </item>
+
+</menu>
