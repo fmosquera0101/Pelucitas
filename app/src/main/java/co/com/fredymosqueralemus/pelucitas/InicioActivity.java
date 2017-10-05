@@ -54,48 +54,25 @@ public class InicioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        startNotificadorReservaAgendaService();
         new InicializarTrueTimeTask().execute();
         Intent mItent = getIntent();
-        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
-        Intent intentService = new Intent(this, NotificadorReservaAgendaService.class);
-        startService(intentService);
-        firebaseAuth = FirebaseAuth.getInstance();
         context = this;
+        sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
+
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
         if (null == firebaseUser) {
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
-            if (!LoginActivity.class.getName().equals(mItent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_HOME)) && Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
-                firebaseAuth.signInWithEmailAndPassword(sharedPreferencesSeguro.getString(Constantes.CORREO), sharedPreferencesSeguro.getString(Constantes.CONTRASENA)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Intent intent = new Intent(context, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-            }
+            iniciarSesionConEmailPassword(mItent);
+            inicializarAuthStateListener();
+            inicializarViewsNavigationView();
 
-            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                }
-            };
-
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layouthome);
-            actionBarDrawerToggle = getActionBarDrawerToggle();
-            actionBarDrawerToggle.syncState();
-            navigationView = getNavigationView();
-
-            if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                settearMenuXPerfilUsuario();
-            } else {
-                navigationView.inflateMenu(R.menu.menu_drawer_cliente);
-            }
+            settearMenuNavigationView();
 
             FragmentManager mFragmentManager = getSupportFragmentManager();
             Fragment mFragment = new InicioTiposDeNegociosFragment();
@@ -103,6 +80,49 @@ public class InicioActivity extends AppCompatActivity {
             mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
 
         }
+    }
+
+    private void settearMenuNavigationView() {
+        if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
+            settearMenuXPerfilUsuario();
+        } else {
+            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+        }
+    }
+
+    private void inicializarViewsNavigationView() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layouthome);
+        actionBarDrawerToggle = getActionBarDrawerToggle();
+        actionBarDrawerToggle.syncState();
+        navigationView = getNavigationView();
+    }
+
+    private void inicializarAuthStateListener() {
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        };
+    }
+
+    private void iniciarSesionConEmailPassword(Intent mItent) {
+        if (!LoginActivity.class.getName().equals(mItent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_HOME)) && Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
+            firebaseAuth.signInWithEmailAndPassword(sharedPreferencesSeguro.getString(Constantes.CORREO), sharedPreferencesSeguro.getString(Constantes.CONTRASENA)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (!task.isSuccessful()) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+    }
+
+    private void startNotificadorReservaAgendaService() {
+        Intent intentService = new Intent(this, NotificadorReservaAgendaService.class);
+        startService(intentService);
     }
 
     @Override
@@ -155,8 +175,7 @@ public class InicioActivity extends AppCompatActivity {
         switch (item) {
             case R.id.menuitem_inicio:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                            Toast.LENGTH_SHORT).show();
+                    showToastMensajeErrorInicioSesion();
                 } else {
                     mFragment = new InicioTiposDeNegociosFragment();
                     getSupportActionBar().setTitle(getString(R.string.str_inicio));
@@ -164,8 +183,7 @@ public class InicioActivity extends AppCompatActivity {
                 break;
             case R.id.menuitem_turnos:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                            Toast.LENGTH_SHORT).show();
+                    showToastMensajeErrorInicioSesion();
                 } else {
                     mFragment = new TurnosXClienteFragment();
                     getSupportActionBar().setTitle(getString(R.string.str_turnos));
@@ -173,8 +191,7 @@ public class InicioActivity extends AppCompatActivity {
                 break;
             case R.id.menuitem_micuenta:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                            Toast.LENGTH_SHORT).show();
+                    showToastMensajeErrorInicioSesion();
                 } else {
                     Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
                     intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
@@ -199,8 +216,7 @@ public class InicioActivity extends AppCompatActivity {
 
             case R.id.menuitem_perfiladministrador_registrarminegocio:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                            Toast.LENGTH_SHORT).show();
+                    showToastMensajeErrorInicioSesion();
                 } else {
                     mIntent = new Intent(this, RegistrarMiNegocioActivity.class);
                     startActivity(mIntent);
@@ -209,8 +225,7 @@ public class InicioActivity extends AppCompatActivity {
 
             case R.id.menuitem_perfiladministrador_administrarnegocios:
                 if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
-                            Toast.LENGTH_SHORT).show();
+                    showToastMensajeErrorInicioSesion();
                 } else {
                     mFragment = new AdministrarMisNegociosFragment();
                     getSupportActionBar().setTitle(getString(R.string.str_misnegocios));
@@ -228,6 +243,11 @@ public class InicioActivity extends AppCompatActivity {
             mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
         }
 
+    }
+
+    private void showToastMensajeErrorInicioSesion() {
+        Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -248,11 +268,7 @@ public class InicioActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         navigationView.getMenu().clear();
-        if (sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-            settearMenuXPerfilUsuario();
-        } else {
-            navigationView.inflateMenu(R.menu.menu_drawer_cliente);
-        }
+        settearMenuNavigationView();
     }
 
     private void settearMenuXPerfilUsuario() {
