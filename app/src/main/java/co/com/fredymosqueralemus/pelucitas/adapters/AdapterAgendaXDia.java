@@ -64,7 +64,7 @@ public class AdapterAgendaXDia extends ArrayAdapter<AgendaXEmpleado> {
             if(agendaXEmpleado.isPuedeVerimagenReservaAgenda()) {
                 StorageReference storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
                 Usuario usuario = agendaXEmpleado.getUsuario();
-                String cedulaIdentificcacoin =usuario.getCedulaIdentificacion();
+                String cedulaIdentificcacoin = usuario.getCedulaIdentificacion();
                 ImagenModelo imagenModelo = usuario.getImagenModelo();
                 UtilidadesImagenes.cargarImagenPerfilUsuarioCircular(itemHolderAgendaXEmpleado.imvIconAgendaXdia, imagenModelo.getFechaUltimaModificacion(), cedulaIdentificcacoin, context, storageReference);
             }else{

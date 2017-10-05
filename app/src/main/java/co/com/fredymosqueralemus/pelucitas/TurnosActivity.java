@@ -48,36 +48,45 @@ public class TurnosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_turnos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        imgvImagenEmpleado = (ImageView) findViewById(R.id.imagen_empleado_TurnosActivity);
-        txtNombreEmpleado = (TextView) findViewById(R.id.nombreempleado_TurnosActivity);
-        txtTelefonoEmpleado = (TextView) findViewById(R.id.telefono_empleado_TurnosActivity);
-        txtDireccionEmpleado = (TextView) findViewById(R.id.direccion_empleado_TurnosActivity);
-        txtFechaTurno = (TextView) findViewById(R.id.fechaturno_empleado_TurnosActivity);
+        inicializarViewsActivityTurnos();
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         Intent intent = getIntent();
         context = this;
         firebaseAuth = FirebaseAuth.getInstance();
         turnosXCliente = (TurnosXCliente) intent.getSerializableExtra(Constantes.TURNOSXCLIENTE_OBJ);
+        consultarInformacionTurnoUsuario();
+    }
+
+    private void consultarInformacionTurnoUsuario() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionUsuario(turnosXCliente.getUidEmpleado()));
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                txtNombreEmpleado.setText(usuario.getNombre() + " " + usuario.getApellidos());
-                txtTelefonoEmpleado.setText(usuario.getTelefono());
-                txtDireccionEmpleado.setText(Utilidades.getStrDireccion(usuario.getDireccion()) + " " + usuario.getDireccion().getDatosAdicionales());
-                txtFechaTurno.setText(context.getString(R.string.str_fechaturno) + ": " + turnosXCliente.getFechaTurno());
-                UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenEmpleado, turnosXCliente.getFechaActualizacionImagenUsuario(), turnosXCliente.getCedulaIdentificacionEmpleado(), context, storageReference);
+                settearInfoUsuarioViewsTurnosActivity(usuario);
 
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+    }
 
+    private void settearInfoUsuarioViewsTurnosActivity(Usuario usuario) {
+        txtNombreEmpleado.setText(usuario.getNombre() + " " + usuario.getApellidos());
+        txtTelefonoEmpleado.setText(usuario.getTelefono());
+        txtDireccionEmpleado.setText(Utilidades.getStrDireccion(usuario.getDireccion()) + " " + usuario.getDireccion().getDatosAdicionales());
+        txtFechaTurno.setText(context.getString(R.string.str_fechaturno) + ": " + turnosXCliente.getFechaTurno());
+        UtilidadesImagenes.cargarImagenPerfilUsuario(imgvImagenEmpleado, turnosXCliente.getFechaActualizacionImagenUsuario(), turnosXCliente.getCedulaIdentificacionEmpleado(), context, storageReference);
+    }
 
+    private void inicializarViewsActivityTurnos() {
+        imgvImagenEmpleado = (ImageView) findViewById(R.id.imagen_empleado_TurnosActivity);
+        txtNombreEmpleado = (TextView) findViewById(R.id.nombreempleado_TurnosActivity);
+        txtTelefonoEmpleado = (TextView) findViewById(R.id.telefono_empleado_TurnosActivity);
+        txtDireccionEmpleado = (TextView) findViewById(R.id.direccion_empleado_TurnosActivity);
+        txtFechaTurno = (TextView) findViewById(R.id.fechaturno_empleado_TurnosActivity);
     }
 
     @Override
@@ -90,7 +99,6 @@ public class TurnosActivity extends AppCompatActivity {
     }
 
     public void cancelarTurno(View view) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("¿Desea cancelar este turno?");
         builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {

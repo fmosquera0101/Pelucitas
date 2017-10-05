@@ -3,6 +3,7 @@ package co.com.fredymosqueralemus.pelucitas;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.instacart.library.truetime.TrueTime;
+
+import java.io.IOException;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
@@ -50,6 +54,7 @@ public class InicioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        new InicializarTrueTimeTask().execute();
         Intent mItent = getIntent();
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(this, Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         Intent intentService = new Intent(this, NotificadorReservaAgendaService.class);
@@ -272,6 +277,19 @@ public class InicioActivity extends AppCompatActivity {
             });
         } else {
             navigationView.inflateMenu(R.menu.menu_drawer_cliente);
+        }
+    }
+
+    private class InicializarTrueTimeTask extends AsyncTask<Void, Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                TrueTime.build().initialize();
+            } catch (IOException e) {
+                e.printStackTrace();//TODO:Remover
+            }
+            return null;
         }
     }
 }

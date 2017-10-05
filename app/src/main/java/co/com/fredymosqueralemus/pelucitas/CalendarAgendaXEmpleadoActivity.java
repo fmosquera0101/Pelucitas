@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.instacart.library.truetime.TrueTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +54,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
     private Usuario usuario;
     private Calendar calendar;
 
+    private CalendarView calendarViewAgenda;
     private ProgressBar progressbarListaAgendaXDiaActivity;
     private TextView txtvMensajeNoagenda;
     private ListView listviewFragmentListaAgendaXDiaActivity;
@@ -74,42 +76,47 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         context = this;
         usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
-        CalendarView calendarViewAgenda = (CalendarView) findViewById(R.id.calendar_agenda_CalendarAgendaXEmpleadoActivity);
+
         calendar = Calendar.getInstance();
-
-
+        calendar.setTimeInMillis(TrueTime.now().getTime());
         firebaseAuth = FirebaseAuth.getInstance();
         empleado = usuario;
-        //getSupportActionBar().setTitle(getString(R.string.str_tituloactivitylistagenda) + " " + String.valueOf(intent.getSerializableExtra(Constantes.STR_DIA_AGENDA)));
+        inicializarViewsAgendaXEmpleado();
+        strFechaAgenda = getFechaAgendaFormateada();
+        consultarAgendaXEmpleado();
+        calendarViewAgendaSetOnDateChangeListener(calendarViewAgenda);
+    }
+
+    private String getFechaAgendaFormateada() {
+        return UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
+    }
+
+    private void consultarAgendaXEmpleado() {
+        if (callToAdministrarAgenda()) {
+            consultarAgendaXEmpleadoFromFireBase(strFechaAgenda, true);
+            setOnItemLongClickListenerLisView();
+        } else if (callToReservaAgenda()) {
+            consultarAgendaXEmpleadoFromFireBase(strFechaAgenda, false);
+            addOnclickListenerLisViewAgenda();
+        }
+    }
+
+    private void inicializarViewsAgendaXEmpleado() {
+        calendarViewAgenda = (CalendarView) findViewById(R.id.calendar_agenda_CalendarAgendaXEmpleadoActivity);
         progressbarListaAgendaXDiaActivity = (ProgressBar) findViewById(R.id.progressbar_ListaAgendaXDiaActivity);
         txtvMensajeNoagenda = (TextView) findViewById(R.id.txtv_mensaje_noagenda_ListaAgendaXDiaActivity);
         listviewFragmentListaAgendaXDiaActivity = (ListView) findViewById(R.id.listview_fragment_ListaAgendaXDiaActivity);
-        strFechaAgenda = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
-        if (callToAdministrarAgenda()) {
-            getAgendaXEmpleadoParaAdministrar(strFechaAgenda);
-            setOnItemLongClickListenerLisView();
-        } else if (callToReservaAgenda()) {
-            getAgendaXEmpleadoParaReservar(strFechaAgenda);
-            addOnclickListenerLisViewAgenda();
-        }
+    }
 
+    private void calendarViewAgendaSetOnDateChangeListener(CalendarView calendarViewAgenda) {
         calendarViewAgenda.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                //Intent intentAgendaXdia = getIntentAgendaXdia(intent);
-                //startActivity(intentAgendaXdia);
-
-                strFechaAgenda = UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD);
-                if (callToAdministrarAgenda()) {
-                    getAgendaXEmpleadoParaAdministrar(strFechaAgenda);
-                    setOnItemLongClickListenerLisView();
-                } else if (callToReservaAgenda()) {
-                    getAgendaXEmpleadoParaReservar(strFechaAgenda);
-                    addOnclickListenerLisViewAgenda();
-                }
+                strFechaAgenda = getFechaAgendaFormateada();
+                consultarAgendaXEmpleado();
             }
         });
     }
@@ -117,7 +124,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
     private Intent getIntentAgendaXdia(Intent intent) {
         Intent intentAgendaXdia = new Intent(context, ListaAgendaXDiaActivity.class);
         intentAgendaXdia.putExtra(Constantes.STR_DIA_AGENDA, UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_DDMMYYYY));
-        intentAgendaXdia.putExtra(Constantes.STR_FECHA_AGENDA, UtilidadesFecha.convertirDateAString(calendar.getTime(), Constantes.FORMAT_YYYYMMDD));
+        intentAgendaXdia.putExtra(Constantes.STR_FECHA_AGENDA, getFechaAgendaFormateada());
         intentAgendaXdia.putExtra(Constantes.USUARIO_OBJECT, usuario);
         intentAgendaXdia.putExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO, intent.getStringExtra(Constantes.CALL_TO_AGREGAR_AGENDA_XEMPLEADO));
         intentAgendaXdia.putExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR, intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_VER_PERFIL_PARA_AGENDAR));
@@ -125,63 +132,18 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         return intentAgendaXdia;
 
     }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem menuItem) {
-//        int item = menuItem.getItemId();
-//        if(item == android.R.id.home){
-//            onBackPressed();
-//        }
-//        return super.onOptionsItemSelected(menuItem);
-//    }
 
-
-    //
-    private void getAgendaXEmpleadoParaReservar(String strFechaReserva) {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(empleado.getUid()).child(strFechaReserva).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
-                childreCount = dataSnapshot.getChildrenCount();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
-                    agendaXEmpleado.setPuedeVerimagenReservaAgenda(false);
-                    lstAgendaXEmpleado.add(agendaXEmpleado);
-
-                }
-
-                if (lstAgendaXEmpleado.isEmpty()) {
-                    txtvMensajeNoagenda.setVisibility(View.VISIBLE);
-                    progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
-                    listviewFragmentListaAgendaXDiaActivity.setVisibility(View.GONE);
-                } else {
-                    addAdapterAgendaXDia(lstAgendaXEmpleado);
-                    txtvMensajeNoagenda.setVisibility(View.GONE);
-                    progressbarListaAgendaXDiaActivity.setVisibility(View.GONE);
-                    listviewFragmentListaAgendaXDiaActivity.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
-
-    private void getAgendaXEmpleadoParaAdministrar(String strFechaReserva) {
+    private void consultarAgendaXEmpleadoFromFireBase(String strFechaReserva, final boolean puederVerImagenAgenda) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(Constantes.AGENDA_X_EMPLEADOS).child(empleado.getUid()).child(strFechaReserva).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstAgendaXEmpleado = new ArrayList<AgendaXEmpleado>();
                 childreCount = dataSnapshot.getChildrenCount();
+                cantidadChildren = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     AgendaXEmpleado agendaXEmpleado = child.getValue(AgendaXEmpleado.class);
-                    agendaXEmpleado.setPuedeVerimagenReservaAgenda(true);
+                    agendaXEmpleado.setPuedeVerimagenReservaAgenda(puederVerImagenAgenda);
                     getReservadoPorAgendaEmpleado(agendaXEmpleado);
                 }
                 if (childreCount == 0) {
@@ -224,28 +186,16 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                                     agendaReserva.setSnReservado(Constantes.SI);
                                     agendaReserva.setCedulaUsuarioReserva(empleado.getCedulaIdentificacion());
                                     agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
-                                    agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+                                    agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(TrueTime.now(), Constantes.FORMAT_DDMMYYYYHHMMSS));
                                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
-                                    getAgendaXEmpleadoParaReservar(agendaReserva.getFechaAgenda());
 
-
+                                    consultarAgendaXEmpleadoFromFireBase(agendaReserva.getFechaAgenda(), false);
 
                                     DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
                                     String pushKeyTurnosXCliente = databaseReferenceInsertarTurno.push().getKey();
 
-                                    TurnosXCliente turnosXCliente = new TurnosXCliente();
-                                    turnosXCliente.setNombreEmpleado(empleado.getNombre()+ " " +empleado.getApellidos());
-                                    turnosXCliente.setUidEmpleado(empleado.getUid());
-                                    turnosXCliente.setFechaActualizacionImagenUsuario(empleado.getImagenModelo().getFechaUltimaModificacion());
-                                    turnosXCliente.setCedulaIdentificacionEmpleado(empleado.getCedulaIdentificacion());
-                                    turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda()+" "+agendaReserva.getHoraReserva());
-                                    turnosXCliente.setHoraTurno(agendaReserva.getHoraReserva());
-                                    turnosXCliente.setSnEjecutado("N");
-                                    turnosXCliente.setSnTurnoCancelado("N");
-                                    turnosXCliente.setNombreNegocio(miNegocio.getNombreNegocio());
-                                    turnosXCliente.setDireccionNegocio(Utilidades.getStrDireccion(miNegocio.getDireccion()) + ", " + miNegocio.getDireccion().getDatosAdicionales());
-                                    turnosXCliente.setTelefonoNegocioEmpleado(miNegocio.getTelefonoNegocio());
-                                    turnosXCliente.setPushKey(pushKeyTurnosXCliente);
+                                    TurnosXCliente turnosXCliente = getTurnosXCliente(agendaReserva, pushKeyTurnosXCliente);
+
                                     Map<String, Object> mapTurnosXCliente = turnosXCliente.toMap();
                                     Map<String, Object> childActuaTurnosXcliente = new  HashMap<String, Object>();
                                     childActuaTurnosXcliente.put(pushKeyTurnosXCliente, mapTurnosXCliente);
@@ -263,12 +213,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                                     DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
                                     String pushKey = dbr.push().getKey();
 
-                                    NotificacionReservaXUsuario notificacionReservaXUsuario = new NotificacionReservaXUsuario();
-                                    notificacionReservaXUsuario.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
-                                    notificacionReservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
-                                    notificacionReservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                    notificacionReservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
-                                    notificacionReservaXUsuario.setKeyUidEmpleadoDuenoAgenda(agendaXEmpleado.getUidEmpleado());
+                                    NotificacionReservaXUsuario notificacionReservaXUsuario = getNotificacionReservaXUsuario(agendaReserva, agendaXEmpleado);
 
                                     Map<String, Object> mapNotificaciones = notificacionReservaXUsuario.toMap();
                                     Map<String, Object> childActualizaciones = new HashMap<String, Object>();
@@ -307,6 +252,35 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @NonNull
+    private NotificacionReservaXUsuario getNotificacionReservaXUsuario(AgendaXEmpleado agendaReserva, AgendaXEmpleado agendaXEmpleado) {
+        NotificacionReservaXUsuario notificacionReservaXUsuario = new NotificacionReservaXUsuario();
+        notificacionReservaXUsuario.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
+        notificacionReservaXUsuario.setFechaAgenda(agendaReserva.getFechaAgenda());
+        notificacionReservaXUsuario.setFechaInsercion(UtilidadesFecha.convertirDateAString(new Date(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+        notificacionReservaXUsuario.setKeyUidHoraAgenda(agendaReserva.getHoraReserva());
+        notificacionReservaXUsuario.setKeyUidEmpleadoDuenoAgenda(agendaXEmpleado.getUidEmpleado());
+        return notificacionReservaXUsuario;
+    }
+
+    @NonNull
+    private TurnosXCliente getTurnosXCliente(AgendaXEmpleado agendaReserva, String pushKeyTurnosXCliente) {
+        TurnosXCliente turnosXCliente = new TurnosXCliente();
+        turnosXCliente.setNombreEmpleado(empleado.getNombre()+ " " +empleado.getApellidos());
+        turnosXCliente.setUidEmpleado(empleado.getUid());
+        turnosXCliente.setFechaActualizacionImagenUsuario(empleado.getImagenModelo().getFechaUltimaModificacion());
+        turnosXCliente.setCedulaIdentificacionEmpleado(empleado.getCedulaIdentificacion());
+        turnosXCliente.setFechaTurno(agendaReserva.getFechaAgenda()+" "+agendaReserva.getHoraReserva());
+        turnosXCliente.setHoraTurno(agendaReserva.getHoraReserva());
+        turnosXCliente.setSnEjecutado("N");
+        turnosXCliente.setSnTurnoCancelado("N");
+        turnosXCliente.setNombreNegocio(miNegocio.getNombreNegocio());
+        turnosXCliente.setDireccionNegocio(Utilidades.getStrDireccion(miNegocio.getDireccion()) + ", " + miNegocio.getDireccion().getDatosAdicionales());
+        turnosXCliente.setTelefonoNegocioEmpleado(miNegocio.getTelefonoNegocio());
+        turnosXCliente.setPushKey(pushKeyTurnosXCliente);
+        return turnosXCliente;
     }
 
     private void setOnItemLongClickListenerLisView() {
@@ -362,8 +336,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
         if (item == android.R.id.home) {
             onBackPressed();
         } else if (item == R.id.menuitem_agregar_agenda_xdia) {
-
-            final Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(TrueTime.now().getTime());
             final int hora = calendar.get(Calendar.HOUR_OF_DAY);
             final int minutos = calendar.get(Calendar.MINUTE);
             Date dateFechaAgenda = UtilidadesFecha.convertirStringADate(strFechaAgenda, Constantes.FORMAT_YYYYMMDD);
@@ -396,7 +369,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
                 AgendaXEmpleado agendaFromFB = dataSnapshot.getValue(AgendaXEmpleado.class);
                 if (null == agendaFromFB) {
                     UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaXEmpleado);
-                    getAgendaXEmpleadoParaAdministrar(agendaXEmpleado.getFechaAgenda());
+                    consultarAgendaXEmpleadoFromFireBase(agendaXEmpleado.getFechaAgenda(), false);
                     txtvMensajeNoagenda.setVisibility(View.GONE);
                     lstAgendaXEmpleado.add(agendaXEmpleado);
                     addAdapterAgendaXDia(lstAgendaXEmpleado);

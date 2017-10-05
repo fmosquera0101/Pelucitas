@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.instacart.library.truetime.TrueTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,15 +54,19 @@ public class TurnosXClienteFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_agenda_rerservas_cliente, container, false);
         context = getContext();
         firebaseAuth = FirebaseAuth.getInstance();
-
         listViewProximosTurnos = (ListView) view.findViewById(R.id.listView_proximosTurnos_AgendaRerservasClienteFragment);
         listViewTurnosPasados = (ListView) view.findViewById(R.id.listView_TurnosPasados_AgendaRerservasClienteFragment);
+        consultarTurnosXCliente();
+        listViewProximosTurnosSetOnItemClickListener();
+        listViewTurnosPasadosSetOnItemLongClickListener();
+        return view;
+    }
 
+    private void consultarTurnosXCliente() {
         DatabaseReference databaseReferenceTurnoxCliente = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
         databaseReferenceTurnoxCliente.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,20 +75,16 @@ public class TurnosXClienteFragment extends Fragment {
                 lstTurnosxClienteVencidos = new ArrayList<TurnosXCliente>();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     TurnosXCliente turnosxCliente = child.getValue(TurnosXCliente.class);
-                    Date fechahoy = UtilidadesFecha.formatearDate(new Date(), "yyyy/MM/dd HH:mm");
+                    Date fechahoy = UtilidadesFecha.formatearDate(TrueTime.now(), "yyyy/MM/dd HH:mm");
                     Date fechaTurno = UtilidadesFecha.convertirStringADate(turnosxCliente.getFechaTurno(), "yyyy/MM/dd HH:mm");
-
                     if("S".equals(turnosxCliente.getSnEjecutado()) || fechaTurno.before(fechahoy)){
                         lstTurnosxClienteVencidos.add(turnosxCliente);
                     }else{
                         lstTurnosxClienteProximos.add(turnosxCliente);
                     }
                 }
-                AdapterTurnosXCliente adapterTurnosXClientePasados = new AdapterTurnosXCliente(context, R.layout.layout_listview_turnosxcliente, lstTurnosxClienteVencidos);
-                listViewTurnosPasados.setAdapter(adapterTurnosXClientePasados);
-                AdapterTurnosXCliente adapterTurnosXClienteProximos = new AdapterTurnosXCliente(context, R.layout.layout_listview_turnosxcliente, lstTurnosxClienteProximos);
-                listViewProximosTurnos.setAdapter(adapterTurnosXClienteProximos);
-
+                setAdapterTurnosXClienteProximosTurnos();
+                setAdapterTurnosXClienteVencidos();
             }
 
             @Override
@@ -91,6 +92,19 @@ public class TurnosXClienteFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setAdapterTurnosXClienteProximosTurnos() {
+        AdapterTurnosXCliente adapterTurnosXClienteProximos = new AdapterTurnosXCliente(context, R.layout.layout_listview_turnosxcliente, lstTurnosxClienteProximos);
+        listViewProximosTurnos.setAdapter(adapterTurnosXClienteProximos);
+    }
+
+    private void setAdapterTurnosXClienteVencidos() {
+        AdapterTurnosXCliente adapterTurnosXClientePasados = new AdapterTurnosXCliente(context, R.layout.layout_listview_turnosxcliente, lstTurnosxClienteVencidos);
+        listViewTurnosPasados.setAdapter(adapterTurnosXClientePasados);
+    }
+
+    private void listViewProximosTurnosSetOnItemClickListener() {
         listViewProximosTurnos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,6 +114,9 @@ public class TurnosXClienteFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void listViewTurnosPasadosSetOnItemLongClickListener() {
         listViewTurnosPasados.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -128,10 +145,6 @@ public class TurnosXClienteFragment extends Fragment {
                 return false;
             }
         });
-
-
-
-        return view;
     }
 
     @Override
