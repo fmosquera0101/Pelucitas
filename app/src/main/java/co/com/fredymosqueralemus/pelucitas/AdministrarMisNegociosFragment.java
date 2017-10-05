@@ -41,11 +41,11 @@ public class AdministrarMisNegociosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.fragment_listview_misnegocios, container, false);
+
         listView = (ListView) view.findViewById(R.id.listview_fragment_listview_misnegocios);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_fragmentListviewMisnegocios);
         sharedPreferencesSeguro = SharedPreferencesSeguroSingleton.getInstance(getContext(), Constantes.SHARED_PREFERENCES_INFOUSUARIO, Constantes.SECURE_KEY_SHARED_PREFERENCES);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
         poblarListViewMisNegocios();
 
         return view;
@@ -58,8 +58,10 @@ public class AdministrarMisNegociosFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lstMisNegocios = new ArrayList<MiNegocio>();
                 childreCount = dataSnapshot.getChildrenCount();
+                cantidadChildren = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     final NegocioXAdministrador negocioXAdministrador = child.getValue(NegocioXAdministrador.class);
+
                     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference();
                     databaseReference1.child(Constantes.MINEGOCIO_FIREBASE_BD).child(negocioXAdministrador.getNitNegocio()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

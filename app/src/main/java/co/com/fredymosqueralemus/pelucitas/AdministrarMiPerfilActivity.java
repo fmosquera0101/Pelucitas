@@ -61,7 +61,7 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
         context = this;
         inicializarViews();
         if(AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
-            getSupportActionBar().setTitle("Informacion Empleado");
+            getSupportActionBar().setTitle(getString(R.string.str_informacion_empleado));
             usuario = (Usuario) intent.getSerializableExtra(Constantes.USUARIO_OBJECT);
             obtenerInformacionUsuarioFromFirebase(usuario.getUid());
             strReadOnlyInformacionUsuario = "S";
@@ -215,9 +215,6 @@ public class AdministrarMiPerfilActivity extends AppCompatActivity {
     @Override
     public void  onStart(){
         super.onStart();
-//        if(!AdministrarMisEmpleadosActivity.class.getName().equals(intent.getStringExtra(Constantes.CALL_FROM_ACTIVITY_MISEMPLEADOS))){
-//            obtenerInformacionUsuarioFromFirebase();
-//        }
     }
     public void verAgendaEmpleado(View view){
         Intent intentAgenda = new Intent(this, CalendarAgendaXEmpleadoActivity.class);
