@@ -160,5 +160,6 @@
     <string name="title_menu_eliminar_turnos_vencidos">Eliminar Turnos Vencidos</string>
     <string name="title_menu_cancelar_proximos_turnos">Cancelar proximos Turnos</string>
     <string name="str_mensaje_turno_cancelado">El turno se ha cancelado satisfactoriamente</string>
+    <string name="str_msj_subir_imagen_negocio">Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones</string>
 
 </resources>

@@ -59,13 +59,17 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
         storageReference = UtilidadesFirebaseBD.getFirebaseStorageFromUrl();
         seleccionarImagenMiNegocio = new SeleccionarImagen(context, this);
         miNegocio = (MiNegocio) intent.getSerializableExtra(Constantes.MINEGOCIO_OBJECT);
+
+        inicializarViewsAdministrarMisNegocios();
+        getInformacionNegocio();
+
+    }
+
+    private void inicializarViewsAdministrarMisNegocios() {
         imgvMiNegocio = (ImageView) findViewById(R.id.imagen_minegocio_activity_administrarminegocio);
         txvNombreMiNegocio = (TextView) findViewById(R.id.nombrenegocio_activity_administrarminegocio);
         txvNitMiNegocio = (TextView) findViewById(R.id.nitnegocio_activity_administrarminegocio);
         txvTipoNegocio = (TextView) findViewById(R.id.tipo_negocio_activity_administrarminegocio);
-
-        getInformacionNegocio();
-
     }
 
     private void settearInforamcioEnViesMiNegocio(MiNegocio miNegocio) {
@@ -187,7 +191,7 @@ public class AdministrarMiNegocioActivity extends AppCompatActivity {
     }
 
     private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
-        Toast.makeText(context, "Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones",
+        Toast.makeText(context, getString(R.string.str_msj_subir_imagen_negocio),
                 Toast.LENGTH_SHORT).show();
         new TaskCargarImagenMiNegocio(context, dataImage, miNegocio, imgvMiNegocio).execute();
 

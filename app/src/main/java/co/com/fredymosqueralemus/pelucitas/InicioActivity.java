@@ -3,7 +3,6 @@ package co.com.fredymosqueralemus.pelucitas;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -25,13 +24,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.instacart.library.truetime.TrueTime;
-
-import java.io.IOException;
 
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.PerfilesXUsuario;
 import co.com.fredymosqueralemus.pelucitas.modelo.usuario.Usuario;
+import co.com.fredymosqueralemus.pelucitas.services.InicializarTrueTimeTask;
 import co.com.fredymosqueralemus.pelucitas.services.NotificadorReservaAgendaService;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguro;
 import co.com.fredymosqueralemus.pelucitas.sharedpreference.SharedPreferencesSeguroSingleton;
@@ -40,6 +37,7 @@ import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
 public class InicioActivity extends AppCompatActivity {
 
+    private final SeleccionarFragmentMenuNavigationView seleccionarFragmentMenuNavigationView = new SeleccionarFragmentMenuNavigationView(this);
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
@@ -159,7 +157,7 @@ public class InicioActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                seleccionarItem(item);
+                seleccionarFragmentMenuNavigationView.seleccionarItem(item);
                 drawerLayout.closeDrawers();
                 return false;
             }
@@ -168,84 +166,10 @@ public class InicioActivity extends AppCompatActivity {
     }
 
     private void seleccionarItem(MenuItem menuItem) {
-        Fragment mFragment = null;
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        int item = menuItem.getItemId();
-        Intent mIntent;
-        switch (item) {
-            case R.id.menuitem_inicio:
-                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    showToastMensajeErrorInicioSesion();
-                } else {
-                    mFragment = new InicioTiposDeNegociosFragment();
-                    getSupportActionBar().setTitle(getString(R.string.str_inicio));
-                }
-                break;
-            case R.id.menuitem_turnos:
-                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    showToastMensajeErrorInicioSesion();
-                } else {
-                    mFragment = new TurnosXClienteFragment();
-                    getSupportActionBar().setTitle(getString(R.string.str_turnos));
-                }
-                break;
-            case R.id.menuitem_micuenta:
-                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    showToastMensajeErrorInicioSesion();
-                } else {
-                    Intent intent = new Intent(this, AdministrarMiPerfilActivity.class);
-                    intent.putExtra(Constantes.CALL_FROM_ACTIVITY_CONFIGURACIONACTIVITY, ConfiguracionActivity.class.getName());
-                    startActivity(intent);
-                }
-                break;
-
-            case R.id.menuitem_crearcuenta:
-                mIntent = new Intent(this, RegistrarCorreoContrasenaActivity.class);
-                startActivity(mIntent);
-                break;
-
-            case R.id.menuitem_iniciarsesion:
-                if (!Constantes.SI.equals(sharedPreferencesSeguro.getString(Constantes.ISLOGGED))) {
-                    mIntent = new Intent(this, LoginActivity.class);
-                    startActivity(mIntent);
-                } else {
-                    Toast.makeText(InicioActivity.this, R.string.str_hasiniciadosesion,
-                            Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.menuitem_perfiladministrador_registrarminegocio:
-                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    showToastMensajeErrorInicioSesion();
-                } else {
-                    mIntent = new Intent(this, RegistrarMiNegocioActivity.class);
-                    startActivity(mIntent);
-                }
-                break;
-
-            case R.id.menuitem_perfiladministrador_administrarnegocios:
-                if (!sharedPreferencesSeguro.containsKey(Constantes.ISLOGGED)) {
-                    showToastMensajeErrorInicioSesion();
-                } else {
-                    mFragment = new AdministrarMisNegociosFragment();
-                    getSupportActionBar().setTitle(getString(R.string.str_misnegocios));
-                }
-                break;
-
-
-            case R.id.menuitem_configuracion:
-                mIntent = new Intent(this, ConfiguracionActivity.class);
-                startActivity(mIntent);
-                break;
-
-        }
-        if (null != mFragment) {
-            mFragmentManager.beginTransaction().replace(R.id.contenedor_activityhome, mFragment).commit();
-        }
-
+        seleccionarFragmentMenuNavigationView.seleccionarItem(menuItem);
     }
 
-    private void showToastMensajeErrorInicioSesion() {
+    protected void showToastMensajeErrorInicioSesion() {
         Toast.makeText(InicioActivity.this, R.string.str_debesiniciarsesion,
                 Toast.LENGTH_SHORT).show();
     }
@@ -296,16 +220,7 @@ public class InicioActivity extends AppCompatActivity {
         }
     }
 
-    private class InicializarTrueTimeTask extends AsyncTask<Void, Void,Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                TrueTime.build().initialize();
-            } catch (IOException e) {
-                e.printStackTrace();//TODO:Remover
-            }
-            return null;
-        }
+    public SharedPreferencesSeguro getSharedPreferencesSeguro() {
+        return sharedPreferencesSeguro;
     }
 }

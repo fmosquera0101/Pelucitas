@@ -30,6 +30,7 @@ import java.util.List;
 import co.com.fredymosqueralemus.pelucitas.adapters.AdapterTurnosXCliente;
 import co.com.fredymosqueralemus.pelucitas.constantes.Constantes;
 import co.com.fredymosqueralemus.pelucitas.modelo.agenda.TurnosXCliente;
+import co.com.fredymosqueralemus.pelucitas.services.InicializarTrueTimeTask;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFecha;
 import co.com.fredymosqueralemus.pelucitas.utilidades.UtilidadesFirebaseBD;
 
@@ -50,6 +51,7 @@ public class TurnosXClienteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        new InicializarTrueTimeTask().execute();
 
     }
 
