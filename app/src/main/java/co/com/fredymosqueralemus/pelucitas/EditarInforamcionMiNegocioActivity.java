@@ -183,12 +183,8 @@ public class EditarInforamcionMiNegocioActivity extends AppCompatActivity {
     }
 
     private void subirImagenAFireBaseStorage(byte[] dataImage) throws FileNotFoundException {
-        Toast.makeText(context, "Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones",
+        Toast.makeText(context, getString(R.string.str_msj_subir_imagen_negocio),
                 Toast.LENGTH_SHORT).show();
-        /*Intent intenCargarImgagen = new Intent(this, CargarImagenMiNegocioIntentService.class);
-        intenCargarImgagen.putExtra(Constantes.BYTE_ARRAY_IMAGEN_MI_NEGOCIO, dataImage);
-        intenCargarImgagen.putExtra(Constantes.MINEGOCIO_OBJECT, miNegocio);
-        startService(intenCargarImgagen);*/
         new TaskCargarImagenMiNegocio(context, dataImage, miNegocio, imgvImagenMiNegocio).execute();
 
     }
