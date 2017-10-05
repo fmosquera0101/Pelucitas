@@ -162,5 +162,8 @@
     <string name="str_mensaje_turno_cancelado">El turno se ha cancelado satisfactoriamente</string>
     <string name="str_msj_subir_imagen_negocio">Se subira la foto de tu negocio, verifica el progreso en la ventana de notificaciones</string>
     <string name="str_informacion_empleado">Informacion Empleado</string>
+    <string name="str_msj_empleado_ya_agregado">Este empleado ya esta agregado a tu negocio, intenta con otro</string>
+    <string name="str_msj_empleado_agregado">Se agregó empleado a tu negocio</string>
+    <string name="str_agregar">Agregar</string>
 
 </resources>
