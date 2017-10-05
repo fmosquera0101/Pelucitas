@@ -166,76 +166,18 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
     }
 
     private void addOnclickListenerLisViewAgenda() {
-
         listviewFragmentListaAgendaXDiaActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final AgendaXEmpleado agendaXEmpleado = lstAgendaXEmpleado.get(position);
                 if (!Constantes.SI.equals(agendaXEmpleado.getSnReservado())) {
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage("Desea Reservar agenda para " + agendaXEmpleado.getHoraReserva() + "?");
+
                     builder.setPositiveButton(getString(R.string.str_aceptar), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
-                            databaseReferenceReservar.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    AgendaXEmpleado agendaReserva = dataSnapshot.getValue(AgendaXEmpleado.class);
-                                    agendaReserva.setSnReservado(Constantes.SI);
-                                    agendaReserva.setCedulaUsuarioReserva(empleado.getCedulaIdentificacion());
-                                    agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
-                                    agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(TrueTime.now(), Constantes.FORMAT_DDMMYYYYHHMMSS));
-                                    UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
-
-                                    consultarAgendaXEmpleadoFromFireBase(agendaReserva.getFechaAgenda(), false);
-
-                                    DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
-                                    String pushKeyTurnosXCliente = databaseReferenceInsertarTurno.push().getKey();
-
-                                    TurnosXCliente turnosXCliente = getTurnosXCliente(agendaReserva, pushKeyTurnosXCliente);
-
-                                    Map<String, Object> mapTurnosXCliente = turnosXCliente.toMap();
-                                    Map<String, Object> childActuaTurnosXcliente = new  HashMap<String, Object>();
-                                    childActuaTurnosXcliente.put(pushKeyTurnosXCliente, mapTurnosXCliente);
-                                    databaseReferenceInsertarTurno.setPriority(ServerValue.TIMESTAMP);
-                                    databaseReferenceInsertarTurno.updateChildren(childActuaTurnosXcliente, new DatabaseReference.CompletionListener() {
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                            if (null == databaseError) {
-
-                                            }
-                                        }
-                                    });
-
-
-                                    DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
-                                    String pushKey = dbr.push().getKey();
-
-                                    NotificacionReservaXUsuario notificacionReservaXUsuario = getNotificacionReservaXUsuario(agendaReserva, agendaXEmpleado);
-
-                                    Map<String, Object> mapNotificaciones = notificacionReservaXUsuario.toMap();
-                                    Map<String, Object> childActualizaciones = new HashMap<String, Object>();
-                                    childActualizaciones.put(pushKey, mapNotificaciones);
-                                    dbr.setPriority(ServerValue.TIMESTAMP);
-                                    dbr.updateChildren(childActualizaciones, new DatabaseReference.CompletionListener() {
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                            if (null == databaseError) {
-
-                                            }
-                                        }
-                                    });
-
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
+                            consultarAgendaXEmpleadoFirebase(agendaXEmpleado);
                         }
                     });
 
@@ -245,6 +187,7 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
 
                         }
                     });
+
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
 
@@ -252,6 +195,80 @@ public class CalendarAgendaXEmpleadoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void consultarAgendaXEmpleadoFirebase(final AgendaXEmpleado agendaXEmpleado) {
+        DatabaseReference databaseReferenceReservar = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInsercionAgendaXEmpleado(agendaXEmpleado));
+        databaseReferenceReservar.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                AgendaXEmpleado agendaReserva = getAgendaXEmpleado(dataSnapshot);
+                UtilidadesFirebaseBD.insertarAgendaXEmpleadoFirebaseBD(agendaReserva);
+                consultarAgendaXEmpleadoFromFireBase(agendaReserva.getFechaAgenda(), false);
+                insertarTurnosXClienteFirebase(agendaReserva);
+                insertarNotificacionReservaXUsuarioFirebase(agendaReserva, agendaXEmpleado);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @NonNull
+    private AgendaXEmpleado getAgendaXEmpleado(DataSnapshot dataSnapshot) {
+        AgendaXEmpleado agendaReserva = dataSnapshot.getValue(AgendaXEmpleado.class);
+        agendaReserva.setSnReservado(Constantes.SI);
+        agendaReserva.setCedulaUsuarioReserva(empleado.getCedulaIdentificacion());
+        agendaReserva.setUidUsuarioReserva(firebaseAuth.getCurrentUser().getUid());
+        agendaReserva.setFechaModificacion(UtilidadesFecha.convertirDateAString(TrueTime.now(), Constantes.FORMAT_DDMMYYYYHHMMSS));
+        return agendaReserva;
+    }
+
+    private void insertarNotificacionReservaXUsuarioFirebase(AgendaXEmpleado agendaReserva, AgendaXEmpleado agendaXEmpleado) {
+        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionNofiticaciones(agendaReserva.getUidEmpleado()));
+        String pushKey = dbr.push().getKey();
+        NotificacionReservaXUsuario notificacionReservaXUsuario = getNotificacionReservaXUsuario(agendaReserva, agendaXEmpleado);
+        actualizarNotificacionReservaXUsuarioFirebase(dbr, pushKey, notificacionReservaXUsuario);
+    }
+
+    private void insertarTurnosXClienteFirebase(AgendaXEmpleado agendaReserva) {
+        DatabaseReference databaseReferenceInsertarTurno = FirebaseDatabase.getInstance().getReference(UtilidadesFirebaseBD.getUrlInserccionTurnosXCliente(firebaseAuth.getCurrentUser().getUid()));
+        String pushKeyTurnosXCliente = databaseReferenceInsertarTurno.push().getKey();
+        TurnosXCliente turnosXCliente = getTurnosXCliente(agendaReserva, pushKeyTurnosXCliente);
+        actualizarTurnosXClienteFirebase(databaseReferenceInsertarTurno, pushKeyTurnosXCliente, turnosXCliente);
+    }
+
+    private void actualizarNotificacionReservaXUsuarioFirebase(DatabaseReference dbr, String pushKey, NotificacionReservaXUsuario notificacionReservaXUsuario) {
+        Map<String, Object> mapNotificaciones = notificacionReservaXUsuario.toMap();
+        Map<String, Object> childActualizaciones = new HashMap<String, Object>();
+        childActualizaciones.put(pushKey, mapNotificaciones);
+        dbr.setPriority(ServerValue.TIMESTAMP);
+        dbr.updateChildren(childActualizaciones, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (null == databaseError) {
+
+                }
+            }
+        });
+    }
+
+    private void actualizarTurnosXClienteFirebase(DatabaseReference databaseReferenceInsertarTurno, String pushKeyTurnosXCliente, TurnosXCliente turnosXCliente) {
+        Map<String, Object> mapTurnosXCliente = turnosXCliente.toMap();
+        Map<String, Object> childActuaTurnosXcliente = new HashMap<String, Object>();
+        childActuaTurnosXcliente.put(pushKeyTurnosXCliente, mapTurnosXCliente);
+        databaseReferenceInsertarTurno.setPriority(ServerValue.TIMESTAMP);
+        databaseReferenceInsertarTurno.updateChildren(childActuaTurnosXcliente, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (null == databaseError) {
+
+                }
+            }
+        });
     }
 
     @NonNull
